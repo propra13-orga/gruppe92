@@ -24,11 +24,11 @@ super(title);
 setSize(500,500);
 setLocationRelativeTo(null);															// zentriert das Fenster
 setDefaultCloseOperation(EXIT_ON_CLOSE);
-setVisible(true);
 setLayout(new BorderLayout());
 setContentPane(new JLabel(new ImageIcon("src/Resources/Start Screen.png")));			// setzt die Groesse des Fensters, den Hintergrund, sowie die Operation zum Schliessen fest
-setLayout(null);
 l1=new JLabel();
+pack();
+setVisible(true);
 
 JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum shieﬂen<br>Benutzen Sie die Pfeiltasten um sich zu bewegen<br></body></html>");
 optionen = new JButton("Optionen");
