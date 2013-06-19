@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class frame extends JFrame implements ActionListener{
 
-
+private JButton optionen; 
 private JButton starten; 																// fuegt der Klasse die Buttons und das Label hinzu
 private JButton beenden;
 private JLabel l1;
@@ -30,6 +30,12 @@ setContentPane(new JLabel(new ImageIcon("src/Resources/Start Screen.png")));			/
 setLayout(null);
 l1=new JLabel();
 
+JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum shieﬂen<br>Benutzen Sie die Pfeiltasten um sich zu bewegen<br></body></html>");
+optionen = new JButton("Optionen");
+//optionen.setBounds(170,365,150,80);
+//optionen.setIcon(new ImageIcon("src/Resources/Start Screen optionen.png"));
+optionen.addActionListener(this);
+
 starten = new JButton("Spiel Starten");
 starten.setBounds(170,95,150,80);
 starten.setFocusPainted(false);
@@ -42,6 +48,7 @@ beenden.setIcon(new ImageIcon("src/Resources/Start Screen end.png"));					// gle
 beenden.addActionListener(this);
 
 add(l1);
+add(optionen);
 add(starten);
 add(beenden);																			// fuegt dem Frame die noetigen Buttons hinzu
 setSize(499,499);

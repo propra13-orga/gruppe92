@@ -564,7 +564,7 @@ public class Board extends JPanel implements ActionListener{
 			movemonster();
 		}
 		if (raum.contains("w")){
-			if (lr=="l1r1") Geist_speed=2;
+			if (lr=="l1r1") Geist_speed=1;
 			else Geist_speed=1;
 			movegeist();
 		}
