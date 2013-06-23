@@ -43,6 +43,8 @@ public class Board extends JPanel implements ActionListener{
 	private int ruban=0,xruban;
 	private int life=3, xlife;
 	private int magic=0;
+	private int manapoints=0;
+	private int schwertchen = 0;
 	private int k,z,posX,posY;
 	boolean ingame,mana,failed,get_sword;
 	private checkpoint check;
@@ -66,6 +68,10 @@ public class Board extends JPanel implements ActionListener{
 	ImageIcon db = new ImageIcon("src/Resources/digb.png");
 	ImageIcon sw = new ImageIcon("src/Resources/sword.png");
 	ImageIcon co = new ImageIcon("src/Resources/Coin.png");
+	ImageIcon sr = new ImageIcon("src/Resources/missile1.png");
+	ImageIcon sl = new ImageIcon("src/Resources/missile1l.png");
+	ImageIcon su = new ImageIcon("src/Resources/missile1t.png");
+	ImageIcon sd = new ImageIcon("src/Resources/missile1d.png");
 	
 	
 	
@@ -80,6 +86,7 @@ public class Board extends JPanel implements ActionListener{
 	java.util.List<Movement> manas = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> Jays = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> herzen = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> schwerter = new java.util.ArrayList<Movement>();
 	
 			
 	Image image1 = image = r.getImage();												// fuer das aktualisieren nach Kollision
@@ -93,6 +100,10 @@ public class Board extends JPanel implements ActionListener{
 	Image image6 = image = dl.getImage();
 	Image image7 = image = du.getImage();
 	Image image8 = image = db.getImage();
+	Image image9 = image = sr.getImage();
+	Image image10 = image = sl.getImage();
+	Image image11 = image = su.getImage();
+	Image image12 = image = sd.getImage();
 	Image sword = image = sw.getImage();
 	Image coin = image = co.getImage();
 	
@@ -106,6 +117,8 @@ public class Board extends JPanel implements ActionListener{
 		initWorld(image4);																//Status des Spielers bei Start, z.B. ohne Mana
 		ingame = true;
 		mana = false;
+		schwertchen = 0;
+		manapoints = 100;
 	    shots = new ArrayList<Shot>();
 		swords = new ArrayList<Sword>();
 	    timer = new Timer(5, this);														//zeichnet alle  5ms das Board (Schuesse)
@@ -121,6 +134,7 @@ public class Board extends JPanel implements ActionListener{
 		manas.clear();
 		herzen.clear();
 		shopkeepers.clear();
+		schwerter.clear();
 		if (b) raum="";
 		if (failed) {
 			if (lr==lrs){
@@ -128,7 +142,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 			ruban=0;
 			life=3;
-			magic=3;																	// wenn im ganzen Spiel 3 Manas verbraucht sind, soll nach Niederlage auch verbraucht bleiben
+			magic=3;																	
 		}
 	}
 
@@ -176,6 +190,10 @@ public class Board extends JPanel implements ActionListener{
 		}
 		if (raum.charAt(yy*20+xx)=='s'){    														//startet bei Kollision den Dialog des Ladenbesitzers
 			DialogueShop();
+		}
+		if (raum.charAt(yy*20+xx)=='o'){    														//nimmt das Schwert auf
+			schwertchen = 5;
+			spend_herzen();
 		}
 		if (raum.charAt(yy*20+xx)=='h'){															//Nimmt bei Kollision das Herz/Heiltank auf und gibt 30 Gold aus
 				if((ruban>= 30)||(xruban>=30)){
@@ -302,9 +320,9 @@ public class Board extends JPanel implements ActionListener{
 	
 	private void kollision_ball_spieler() {
 		if ((Math.abs(Jay.getX()-ball.getX())<50)&&(Math.abs(Jay.getY()-ball.getY())<50)){
-			if(life==1){
+			if(life==0){
 				
-				Game_over();
+				//Game_over();
 				
 				failed=true;
 				try {
@@ -323,9 +341,9 @@ public class Board extends JPanel implements ActionListener{
 	
 	private void kollision_boss_spieler() {
 		if ((Math.abs(Jay.getX()-Monster.getX())<50)&&(Math.abs(Jay.getY()-Monster.getY())<50)){
-			if(life==1){
+			if(life==0){
 				
-				Game_over();
+				//Game_over();
 				
 				failed=true;
 				try {
@@ -376,6 +394,7 @@ public class Board extends JPanel implements ActionListener{
 		Mana mana;
 		Mana shopmana;
 		Heiltrank heiltrank;
+		Swordicon schwert;
 		
 
 		for(int i = 0; i < raum.length(); i++){																		// level variable Buchstabe fuer Buchstabe durchgehen.
@@ -423,6 +442,7 @@ public class Board extends JPanel implements ActionListener{
 						image =	db.getImage();
 						Jay.setImage(image);}
 
+
 				x = x + BLOCK;}
 			}
 			else if(obj == ' '){																	//x erhoeht sich um einen Block(' ':Bereich wo sich der Spieler bewegen kann)
@@ -448,6 +468,11 @@ public class Board extends JPanel implements ActionListener{
 					wizards.add(wizard);
 					x = x + BLOCK;
 			}
+			else if(obj == 'o'){																	//stellt den NPC in den Levels als ein ~ dar
+				schwert = new Swordicon(x,y);
+				schwerter.add(schwert);
+				x = x + BLOCK;
+		}
 			else if(obj == 's'){																	//stellt den Ladenbesitzer in den Levels als ein s dar
 					shopkeeper = new Shopkeeper(x,y);
 					shopkeepers.add(shopkeeper);
@@ -508,6 +533,7 @@ public class Board extends JPanel implements ActionListener{
 		world.addAll(shopkeepers);
 		world.addAll(manas);
 		world.addAll(herzen);
+		world.addAll(schwerter);
 
 		for(int i = 0; i < world.size(); i++){														// Array world durchgehen um objekte zu zeichnen.
 
@@ -585,7 +611,7 @@ public class Board extends JPanel implements ActionListener{
 				moveBall();
 			} 
 		int countsmoney= ruban + xruban;
-	        String s,w,l,k;
+	        String s,w,l,k,p;
 
 	        g.setFont(smallfont);																// Geldanzeige
 	        g.setColor(new Color(98,150,255));
@@ -600,9 +626,22 @@ public class Board extends JPanel implements ActionListener{
 			t = "Leben: " + (lifebar);
 			g.drawString(t,970,40);
 			
+			String m;
+			
+			m = "Mana: " + (manapoints);
+			g.drawString(m,970,280);
+			
 			if(life > 3){
 				life = 3;
 			}
+			
+			if (schwertchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
+	    		g.drawImage(sword,1020, 480, this);
+	    		p = "Du hast ein Schwert!";
+	    		g.drawString(p,970,450);
+	    		get_sword=true;
+			}
+			
 			if(life==3){																		// zeichnet 3 Herzchen fuer 3 Leben
 			g.drawImage(herz1,970,60,this);
 			g.drawImage(herz1,1020, 60, this);
@@ -621,41 +660,24 @@ public class Board extends JPanel implements ActionListener{
 			   String mes;
    		        g.setFont(smallfont);																// Manaanzeige
    		        g.setColor(new Color(98,150,255));
-   		        mes = "Mana: " + (magic)+ " von 3 verbraucht";
-   		        g.drawString(mes,970,280);
+   		        mes = "Manatraenke: " + (magic);
+   		        g.drawString(mes,970,350);
    		 
 	        	if(mana==true){
 	        		
-	        		if(magic==1){																	// Beim Aufnehmen des ersten Manatrankes erhaelt Diggy 100 Gold
-	        			g.drawImage(trank, 970, 300, this);
-	        			g.drawImage(coin,970,400,this);
-						xruban = + 30;
-					    w = " Du hast + 30 $ ! ";
-				        g.drawString(w,970,380);
+	        		if(magic==1){																	
+	        			g.drawImage(trank, 970, 370, this);
 	        		}
-	        			if(magic==2){																// Beim Aufnehmen des zweiten Manatrankes erhaelt Diggy volles Leben
-	        				g.drawImage(trank,970,300,this);
-	        				g.drawImage(trank,1020,300, this);
-	        				g.drawImage(coin,970,400,this);
-	        				g.drawImage(sword,1020, 400, this);
-	        				  k = " Du hast ein Schwert!";
-	        				  g.drawString(k,970,380);
-	        				  get_sword = true;
+	        			if(magic==2){																
+	        				g.drawImage(trank,970,370,this);
+	        				g.drawImage(trank,1020,370, this);
+	        				
 	        				
 	        			}
-	        	 if(magic==3){																	// beim 3 mana soll er eine Waffe kriegen ??
-	        			g.drawImage(trank,970,300,this);
-	        			g.drawImage(trank,1020, 300, this);
-	        			g.drawImage(trank,1070, 300, this);
-	        			g.drawImage(coin,970,400,this);
-	        			g.drawImage(sword,1020,400, this);
-	        			g.drawImage(herz1,1070, 400, this);
-	        			   l = " Du erhaeltst volles Leben ! ";
-	        			   g.drawString(l,970,380);
-					   	if(need_life==1){
-    						life = 3;
-    					}
-	        			
+	        	 if(magic==3){																	
+	        			g.drawImage(trank,970,370,this);
+	        			g.drawImage(trank,1020, 370, this);
+	        			g.drawImage(trank,1070, 370, this);				  			
 	        	 }
 	        	 if (magic > 3){			
 	        		 magic = 3;
@@ -664,8 +686,9 @@ public class Board extends JPanel implements ActionListener{
 	}else{																					 	// was bei Niederlage passieren soll..
 	}    
     Toolkit.getDefaultToolkit().sync();
-    g.dispose();
-}
+    g.dispose();}
+
+
 
     public ArrayList<Shot> getShots() {																// gibt die Schuesse  wieder
 	        return shots;
@@ -710,9 +733,28 @@ public class Board extends JPanel implements ActionListener{
 				position = 4;
 				collision(0,BLOCK, image4);
 
-			}else if (key == KeyEvent.VK_SPACE) {													// Taste -Space ruft die Funktion fire auf
+			}
+			else if(key == KeyEvent.VK_B){															// Taste B verbraucht einen Manatrank und fuellt das Mana wieder auf
+
+				if (magic == 3){
+					magic = 2;
+					manapoints = 100;
+				}
+				if (magic == 2){
+					magic = 1;
+					manapoints = 100;
+				}
+				if (magic == 1){
+					magic = 0;
+					manapoints = 100;
+				}
+
+			}else if (key == KeyEvent.VK_SPACE) {	
+				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
 				fire();
-			}else if (key == KeyEvent.VK_V && get_sword==true) {														// 2 te Waffe = Schwertkampf in versch Richtungen
+				manapoints = manapoints - 5;
+				}
+			}else if (key == KeyEvent.VK_V && get_sword==true) {									// 2 te Waffe = Schwertkampf in versch Richtungen
 				sword_play();
 			}
 
@@ -722,7 +764,7 @@ public class Board extends JPanel implements ActionListener{
 				if (lr.charAt(3)=='1') lr=lr.substring(0,3)+"2";									//Wenn der Spieler am Ausgang des 1. Raums ist dann ueberwechseln
 				else if (lr.charAt(3)=='2') lr=lr.substring(0,3)+'3';								//Wenn der Spieler am Ausgang des 2. Raums ist dann ueberwechseln
 				else if (lr.charAt(3)=='3') lr=lr.substring(0,3)+'4';								//Wenn der Spieler am Ausgang des 3. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';//Wenn der Spieler am Ausgang des 4. Raums ist dann ueberwechseln
+				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';								//Wenn der Spieler am Ausgang des 4. Raums ist dann ueberwechseln
 				
 				xruban=xruban+ruban;
 				xlife=xlife+life;
@@ -1063,7 +1105,7 @@ public class Board extends JPanel implements ActionListener{
 			int xx = (int) ((Jay.getX())/BLOCK);											//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
 	        int yy=(int)(Jay.getY())/BLOCK;
 
-	        	if (raum.charAt(yy*20+xx)=='h') {											// wenn herzen eingesammelt werden, werden herzen durch ' ' ersetzt, Diggy bleibt dort wo er war															
+	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')) {											// wenn herzen eingesammelt werden, werden herzen durch ' ' ersetzt, Diggy bleibt dort wo er war															
 		        		int xxx = ((Jay.getX())/BLOCK);																
 		        		int yyy=(Jay.getY())/BLOCK;	
 
@@ -1079,7 +1121,7 @@ public class Board extends JPanel implements ActionListener{
 	        	}
 		}
 
-public void Game_over(){
+/*public void Game_over(){
 	
 	 JFrame Game_over = new JFrame();
 
@@ -1089,7 +1131,7 @@ public void Game_over(){
 	 Game_over.setFocusable(true);
 	 Game_over.setLocationRelativeTo(null);   																			// Fenster in der Mitte 
 	 Game_over.add(new Game_over());
-	}
+	}*/
 }
 
  

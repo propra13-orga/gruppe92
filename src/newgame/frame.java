@@ -30,7 +30,7 @@ l1=new JLabel();
 pack();
 setVisible(true);
 
-JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum shieﬂen<br>Benutzen Sie die Pfeiltasten um sich zu bewegen<br></body></html>");
+JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen<br>Benutzen Sie die Pfeiltasten um sich zu bewegen<br></body></html>");
 optionen = new JButton("Optionen");
 //optionen.setBounds(170,365,150,80);
 //optionen.setIcon(new ImageIcon("src/Resources/Start Screen optionen.png"));

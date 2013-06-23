@@ -15,7 +15,7 @@ public class Shot{
 	private int shot_speed = 50;
 	
 	public Shot(int x, int y){
-		ImageIcon newShoot = new ImageIcon("src/Resources/ball.png");
+		ImageIcon newShoot = new ImageIcon("src/Resources/missile1.png");
 		img = newShoot.getImage();
 		visible = true;
 		this.x = x;
