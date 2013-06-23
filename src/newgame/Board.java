@@ -41,7 +41,7 @@ public class Board extends JPanel implements ActionListener{
 	private int position;
 	private int need_life;
 	private int ruban=0,xruban;
-	private int life=3, xlife;
+	private double life=3.0, xlife;
 	private int magic=0;
 	private int manapoints=0;
 	private int schwertchen = 0;
@@ -149,7 +149,8 @@ public class Board extends JPanel implements ActionListener{
 	public void collision(int movx,int movy,Image image){																				// char pos mit image geaendert um statt mit  t,v Bild festzulegen man abfragt wo er guckt 
 		
 		int xx = ((Jay.getX()+movx)/BLOCK);																	 							//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
-		int yy=(Jay.getY()+movy)/BLOCK;																									//xx und yy werden dafuer gerechnet um zu erkennen, ob an der Stelle wohin sich die Spielfigur bewegen will, kein # im variable level bzw kein Stueck Mauer im Spielfeld gibt
+		int yy=(Jay.getY()+movy)/BLOCK;	
+																																		//xx und yy werden dafuer gerechnet um zu erkennen, ob an der Stelle wohin sich die Spielfigur bewegen will, kein # im variable level bzw kein Stueck Mauer im Spielfeld gibt
 		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))		    //yy wird mal 20 multipliziert da es in jeder linie des Spielfelds 20 Bloecke gibt(also in jeder linie des strings level gibt es 20 zeichen)
 		{																							        							//Wandkollision
 			Jay.move(movx,movy);																		    							//erst wenn es kein Stueck Mauer, keinen NPC/Ladenbesitzer oder einen Ein-Ausgang gibt(entweder xx oder yy <0 ist) darf/kann sich die Spielfigur bewegen
@@ -169,7 +170,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 		if (raum.charAt(yy*20+xx)=='*'){    														// Kollision mit dem Gegner, Neustart des Spiels
-			life=life-1;
+			life=life-0.5;
 			if(life==0){
 				failed=true;
 				try {
@@ -408,6 +409,7 @@ public class Board extends JPanel implements ActionListener{
 				wall = new Wall(x,y, "wand"+ lr.charAt(1));
 				walls.add(wall);
 				x = x + BLOCK;
+				
 			}
 			else if(obj == '@'){																					// Legt die Position des Charakters beim Levelstart fest
 				if (lr!="l3r4"){	
@@ -619,7 +621,7 @@ public class Board extends JPanel implements ActionListener{
 	        g.drawString(s,970,160);
 	    	g.drawImage(schatz,970,180,this);													// zeichnet Welt mit Punktestand..
 		
-	    	int lifebar= life;
+	    	double lifebar= life;
 	    	
 			String t;
 																								// Lebensanzeige
@@ -642,20 +644,30 @@ public class Board extends JPanel implements ActionListener{
 	    		get_sword=true;
 			}
 			
-			if(life==3){																		// zeichnet 3 Herzchen fuer 3 Leben
+			if(life==3.0){																		// zeichnet 3 Herzchen fuer 3 Leben
 			g.drawImage(herz1,970,60,this);
 			g.drawImage(herz1,1020, 60, this);
 			g.drawImage(herz1,1070, 60, this);
 			}
-			if(life==2){						
+			if(life==2.5){
+				g.drawImage(herz1,970,60,this);
+				g.drawImage(herz1,1020, 60, this);
+				g.drawImage(schatz,1070, 60, this);}
+			
+			if(life==2.0){						
 				g.drawImage(herz1,970,60,this);
 				g.drawImage(herz1,1020, 60, this);
 			}
-			need_life = 1;																		// need_life flag fuer das 2te Mana gibt volles Leben und zeichnet Herzchen
-			if(life==1){
+			if(life==1.5){
+				g.drawImage(herz1,970,60,this);
+				g.drawImage(schatz,1020, 60, this);}
+			
+			if(life==1.0){
 				g.drawImage(herz1,970,60,this);
 			}
-			need_life = 1;
+			if(life==0.5){
+				g.drawImage(schatz,970,60,this);}
+			
 		
 			   String mes;
    		        g.setFont(smallfont);																// Manaanzeige
@@ -686,7 +698,8 @@ public class Board extends JPanel implements ActionListener{
 	}else{																					 	// was bei Niederlage passieren soll..
 	}    
     Toolkit.getDefaultToolkit().sync();
-    g.dispose();}
+    g.dispose();
+    }
 
 
 
@@ -719,7 +732,8 @@ public class Board extends JPanel implements ActionListener{
 				position = 2;
 				collision(-BLOCK,0, image2);
 
-			}else if(key == KeyEvent.VK_UP){
+			}
+			else if(key == KeyEvent.VK_UP){
 
 				Image image3= image = t.getImage() ;
 				Jay.setImage(image);
@@ -824,12 +838,12 @@ public class Board extends JPanel implements ActionListener{
 		 	if(position==2){			
 		 		image = dl.getImage();
 				Jay.setImage(image);																	
-			 	swords.add(new Sword(Jay.getX() - 2, Jay.getY()));									// z als Flag fuer die Richtungen des Angriffs
+			 	swords.add(new Sword(Jay.getX(), Jay.getY()));									// z als Flag fuer die Richtungen des Angriffs
 			 	z = 01;}
 		 	if(position==3){
 		 		image = du.getImage();
 				Jay.setImage(image);
-				swords.add(new Sword(Jay.getX(), Jay.getY() - 2));
+				swords.add(new Sword(Jay.getX(), Jay.getY()));
 		 		z = 10;}
 			if(position==4){
 		 		image = db.getImage();
@@ -1121,17 +1135,6 @@ public class Board extends JPanel implements ActionListener{
 	        	}
 		}
 
-/*public void Game_over(){
-	
-	 JFrame Game_over = new JFrame();
-
-	 Game_over.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 Game_over.setSize(500,500);
-	 Game_over.setVisible(true);
-	 Game_over.setFocusable(true);
-	 Game_over.setLocationRelativeTo(null);   																			// Fenster in der Mitte 
-	 Game_over.add(new Game_over());
-	}*/
 }
 
  
