@@ -61,6 +61,7 @@ public class Board extends JPanel implements ActionListener{
 	ImageIcon b = new ImageIcon("src/Resources/Character.png");
 	ImageIcon tr = new ImageIcon("src/Resources/trankk.png");							//Bilder fuer Traenke, Herzen und Geld an der rechten Seite
 	ImageIcon h1 = new ImageIcon("src/Resources/herz.png");
+	ImageIcon h2 = new ImageIcon("src/Resources/halbherz.png");
 	ImageIcon s = new ImageIcon("src/Resources/schatz.png");
 	ImageIcon dr = new ImageIcon("src/Resources/digright.png");							//Bilder fuer den Schlag mit dem Schwert
 	ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
@@ -95,6 +96,7 @@ public class Board extends JPanel implements ActionListener{
 	Image image4 = image = b.getImage();
 	Image trank = image = tr.getImage();
 	Image herz1 = image = h1.getImage();
+	Image herz2 = image = h2.getImage();
 	Image schatz = image = s.getImage();
 	Image image5 = image = dr.getImage();
 	Image image6 = image = dl.getImage();
@@ -652,7 +654,7 @@ public class Board extends JPanel implements ActionListener{
 			if(life==2.5){
 				g.drawImage(herz1,970,60,this);
 				g.drawImage(herz1,1020, 60, this);
-				g.drawImage(schatz,1070, 60, this);}
+				g.drawImage(herz2,1070, 60, this);}
 			
 			if(life==2.0){						
 				g.drawImage(herz1,970,60,this);
@@ -660,13 +662,13 @@ public class Board extends JPanel implements ActionListener{
 			}
 			if(life==1.5){
 				g.drawImage(herz1,970,60,this);
-				g.drawImage(schatz,1020, 60, this);}
+				g.drawImage(herz2,1020, 60, this);}
 			
 			if(life==1.0){
 				g.drawImage(herz1,970,60,this);
 			}
 			if(life==0.5){
-				g.drawImage(schatz,970,60,this);}
+				g.drawImage(herz2,970,60,this);}
 			
 		
 			   String mes;
