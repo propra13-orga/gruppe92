@@ -1,5 +1,6 @@
 package newgame;
 import java.awt.event.*;
+import java.awt.Dimension;
 
 import javax.swing.*; //JButton, JFrame..
 
@@ -90,7 +91,8 @@ System.exit(0);
 public static void game() throws IOException{											// Fenster fuer's Spiel
 	JFrame game = new JFrame("PLAY DUNGEON CRAWLER");
 	game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
-	game.setSize(1200,720);
+	Dimension aufloesung = Toolkit.getDefaultToolkit().getScreenSize();
+    game.setSize(aufloesung);
 	game.setVisible(true);
 	//game.getContentPane().setBackground(Color.LIGHT_GRAY);
 	game.setLocationRelativeTo(null);
