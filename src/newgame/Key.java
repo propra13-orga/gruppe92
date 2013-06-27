@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Schluessels fest
+ * @author Tobias
+ *
+ */
 public class Key extends Movement {
 
 private Image image;

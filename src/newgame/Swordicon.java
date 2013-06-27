@@ -4,6 +4,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Schwertes fest
+ * @author Tobias
+ *
+ */
 public class Swordicon extends Movement {
 
 private Image image;

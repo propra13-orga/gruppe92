@@ -3,6 +3,11 @@ package newgame;
 import java.awt.Image;
 import java.awt.Rectangle;
 
+/**
+ * Setzt die Bedingungen fuer die Bewegung fest
+ * @author Tobias
+ *
+ */
 public class Movement {
 
 	private Image image;

@@ -5,7 +5,11 @@ import javax.swing.*; //JButton, JFrame..
 
 import java.awt.*;
 import java.io.IOException;
-
+/**
+ * Das Hauptfenster was als erstes erscheint
+ * @author Tobias
+ *
+ */
 public class frame extends JFrame implements ActionListener{
 
 private JButton optionen; 
@@ -13,11 +17,16 @@ private JButton starten; 																// fuegt der Klasse die Buttons und das
 private JButton beenden;
 private JLabel l1;
 
+
 public static void main(String[] args){ 
 
 frame frame = new frame ("DUNGEON CRAWLER");									// Menuetitel
 }
 
+/**
+ * Erstellt das Fenster mit den dazugehoerigen Parametern
+ * @param title Erstellt den Titeltext des Fensters
+ */
 public frame(String title){
 super(title);
 
@@ -30,7 +39,10 @@ l1=new JLabel();
 pack();
 setVisible(true);
 
-JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen<br>Benutzen Sie die Pfeiltasten um sich zu bewegen<br></body></html>");
+JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen<br>" +
+"Benutzen Sie die Pfeiltasten um sich zu bewegen<br>" +
+"Benutzen sie die Taste 'V' um mit ihrem Schwert zu schlagen<br>" +
+"Wenn sie einen Manatrank haben koennen sie mit 'B' ihr Mana wieder auffrischen<br></body></html>");
 optionen = new JButton("Optionen");
 //optionen.setBounds(170,365,150,80);
 //optionen.setIcon(new ImageIcon("src/Resources/Start Screen optionen.png"));
@@ -71,8 +83,11 @@ if (e.getSource()==beenden)																// schliesst Menue
 System.exit(0);
 }
 
-
-public static void game() throws IOException{																// Fenster fuer's Spiel
+/**
+ * Startet das Hauptspiel auf Tastendruck
+ * @throws IOException
+ */
+public static void game() throws IOException{											// Fenster fuer's Spiel
 	JFrame game = new JFrame("PLAY DUNGEON CRAWLER");
 	game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	game.setSize(1200,720);

@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des NPC's fest
+ * @author Tobias
+ *
+ */
 public class Wizard extends Movement {
 
 private Image image;

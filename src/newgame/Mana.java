@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Manatrankes fest
+ * @author Tobias
+ *
+ */
 public class Mana extends Movement {
 
 private Image image;

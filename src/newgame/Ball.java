@@ -5,12 +5,17 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des gegnerischen Schusses fest
+ * @author Tobias
+ *
+ */
 public class Ball extends Movement  {
 	Image image;
 	private int width;
 	private int height;
 	private int x, y;
-	ImageIcon u = new ImageIcon("src/Resources/ball1.png");			// holt sich die noetigen Grafiken fuer den Checkpoint
+	ImageIcon u = new ImageIcon("src/Resources/ball1.png");
 	
 	public Ball(int x, int y){
 		super(x,y);

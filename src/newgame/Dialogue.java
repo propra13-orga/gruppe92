@@ -8,6 +8,12 @@ import java.awt.*;
 
 import java.io.IOException;
 
+/**
+ * Erstellt einen Dialog fuer den NPC
+ * Im Frame existieren Text und Buttons
+ * @author Tobias
+ *
+ */
 public class Dialogue extends JFrame implements ActionListener{
 	
 private JButton weiter;																										//definiert 3 JButtons und 1 JLabel
@@ -15,6 +21,10 @@ private JButton schliessen;
 private JLabel text;
 private JButton weiter2;
 
+/**
+ * Bedingungen und Positionen der Bestandteile
+ * @param Title Legt den Titeltext fest
+ */
 public Dialogue(String Title){
 	super(Title);
 	

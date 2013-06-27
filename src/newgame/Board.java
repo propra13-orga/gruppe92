@@ -2,7 +2,6 @@ package newgame;
 
 
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -25,19 +24,26 @@ import javax.swing.Timer;
 
 
 
-
+/**
+ * Diese Klasse stellt das Hauptspiel dar
+ * @author Tobias
+ *
+ */
 public class Board extends JPanel implements ActionListener{
 
+	/**
+	 * Fuegt angegebene Variablen zum Board hinzu, darunter fallen beispielsweise die Gegner, das Mana oder das Geld
+	 */
 	private static final long serialVersionUID = 1L;
 	Image image;
-	Image img;  																		//Bild fuer den Hintergrund (WEG)
+	Image img;
 	private Character Jay;
 	private String raum="";
 	private String lr,rooms,lrs; 														//lr fuer den Namen der Raumdatei, w:wandbild , h:hintergrundsbild
-	private ArrayList<Shot> shots;														//Array fuer die Zeichnung der Schuesse
+	private ArrayList<Shot> shots;
 	private ArrayList<Sword> swords;
 	private Timer timer;
-	private int BLOCK = 50;																// 50* 50 Pixel
+	private int BLOCK = 50;
 	private int position;
 	private int need_life;
 	private int ruban=0,xruban;
@@ -54,16 +60,18 @@ public class Board extends JPanel implements ActionListener{
 	Font smallfont = new Font("Helvetica", Font.BOLD, 17);
 
 
-
-	ImageIcon r = new ImageIcon("src/Resources/r1.png");								//fuer versch. Positionen rechts, links, oben, unten
+	/**
+	 * Fuegt angegebene Images zum Board hinzu
+	 */
+	ImageIcon r = new ImageIcon("src/Resources/r1.png");
 	ImageIcon l = new ImageIcon("src/Resources/l1.png");
 	ImageIcon t = new ImageIcon("src/Resources/Character top.png");
 	ImageIcon b = new ImageIcon("src/Resources/Character.png");
-	ImageIcon tr = new ImageIcon("src/Resources/trankk.png");							//Bilder fuer Traenke, Herzen und Geld an der rechten Seite
+	ImageIcon tr = new ImageIcon("src/Resources/trankk.png");
 	ImageIcon h1 = new ImageIcon("src/Resources/herz.png");
 	ImageIcon h2 = new ImageIcon("src/Resources/halbherz.png");
 	ImageIcon s = new ImageIcon("src/Resources/schatz.png");
-	ImageIcon dr = new ImageIcon("src/Resources/digright.png");							//Bilder fuer den Schlag mit dem Schwert
+	ImageIcon dr = new ImageIcon("src/Resources/digright.png");	
 	ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
 	ImageIcon du = new ImageIcon("src/Resources/digup.png");
 	ImageIcon db = new ImageIcon("src/Resources/digb.png");
@@ -77,9 +85,11 @@ public class Board extends JPanel implements ActionListener{
 	
 	
 	
-
+/**
+ * Fuegt angegebene Arrays zum Board hinzu
+ */
 	java.util.List<Movement> enemys = new java.util.ArrayList<Movement>();
-	java.util.List<Movement> walls = new java.util.ArrayList<Movement>();				// Array fuer Waende, Gegner, Schluessel, NPC, Muenzen, Traenke, Herzen und Ladenbesitzer
+	java.util.List<Movement> walls = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> keys = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> wizards = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> coins = new java.util.ArrayList<Movement>();
@@ -89,9 +99,11 @@ public class Board extends JPanel implements ActionListener{
 	java.util.List<Movement> herzen = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> schwerter = new java.util.ArrayList<Movement>();
 	
-			
-	Image image1 = image = r.getImage();												// fuer das aktualisieren nach Kollision
-	Image image2 = image = l.getImage();												// mit Jay.getImage() Abfrage
+	/**
+	 * Gibt den Images entsprechende Namen		
+	 */
+	Image image1 = image = r.getImage();
+	Image image2 = image = l.getImage();
 	Image image3 = image = t.getImage();	
 	Image image4 = image = b.getImage();
 	Image trank = image = tr.getImage();
@@ -109,25 +121,35 @@ public class Board extends JPanel implements ActionListener{
 	Image sword = image = sw.getImage();
 	Image coin = image = co.getImage();
 	
+/**
+ * Gibt den Status des Spiels zu Beginn an
+ * Der Spieler startet in Level 1 Raum 1 ohne Manatraenke, Schwert und mit vollem Mana
+ * @throws IOException
+ */
 
 	public Board() throws IOException{
 
-		lr="l1r1";																//start des Levels in Level.Raum		
+		lr="l1r1";	
 		addKeyListener(new Ap());
 		setFocusable(true);
 		setDoubleBuffered(true);
-		initWorld(image4);																//Status des Spielers bei Start, z.B. ohne Mana
+		initWorld(image4);
 		ingame = true;
 		mana = false;
 		schwertchen = 0;
 		manapoints = 100;
 	    shots = new ArrayList<Shot>();
 		swords = new ArrayList<Sword>();
-	    timer = new Timer(5, this);														//zeichnet alle  5ms das Board (Schuesse)
+	    timer = new Timer(5, this);
         timer.start();
     }
 
-	public void loeschen(boolean b){													//loescht alle Inhalte 
+	/**
+	 * Die Methode loeschen entfernt alle genannten Elemente aus dem vorigen Level
+	 * Geschieht nur wenn in das nachste Level uebergewechselt wird
+	 * @param b
+	 */
+	public void loeschen(boolean b){
 		coins.clear();
 		walls.clear();
 		enemys.clear();
@@ -148,14 +170,24 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 
-	public void collision(int movx,int movy,Image image){																				// char pos mit image geaendert um statt mit  t,v Bild festzulegen man abfragt wo er guckt 
+	/**
+	 * Diese Methode beschreibt die Kollision des Charakters mit Elementen im Board
+	 * Der Charakter kollidiert beispielsweise mit Waenden, NPC's oder Ladenbesitzern
+	 * Durch den Rest kann der Charakter durchlaufen
+	 * Zudem werden Methoden aufgerufen, wenn der Charakter kollidiert
+	 * So wird beispielsweise ein Dialogfenster geoeffnet oder Geld ins Inventar eingelagert
+	 * @param movx Bewegungsvariable auf der x-Achse
+	 * @param movy Bewegungsvariable auf der y-Achse
+	 * @param image Macht eine Abfrage in welche Richtung der Charakter schaut und gibt das entsprechende Bild aus
+	 */
+	public void collision(int movx,int movy,Image image){ 
 		
-		int xx = ((Jay.getX()+movx)/BLOCK);																	 							//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
+		int xx = ((Jay.getX()+movx)/BLOCK);																	 							
 		int yy=(Jay.getY()+movy)/BLOCK;	
-																																		//xx und yy werden dafuer gerechnet um zu erkennen, ob an der Stelle wohin sich die Spielfigur bewegen will, kein # im variable level bzw kein Stueck Mauer im Spielfeld gibt
-		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))		    //yy wird mal 20 multipliziert da es in jeder linie des Spielfelds 20 Bloecke gibt(also in jeder linie des strings level gibt es 20 zeichen)
-		{																							        							//Wandkollision
-			Jay.move(movx,movy);																		    							//erst wenn es kein Stueck Mauer, keinen NPC/Ladenbesitzer oder einen Ein-Ausgang gibt(entweder xx oder yy <0 ist) darf/kann sich die Spielfigur bewegen
+			
+		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))
+		{																							        							
+			Jay.move(movx,movy);
 			if (raum.charAt(yy*20+xx)=='a'){
 				ruban= ruban+1;
 				if (raum.contains("@") )
@@ -171,34 +203,49 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 		}
-		if (raum.charAt(yy*20+xx)=='*'){    														// Kollision mit dem Gegner, Neustart des Spiels
+		
+		/**
+		 * Lebensverlust bei Gegnerkollision
+		 * Neustart des Spiels bei Tod
+		 */
+		if (raum.charAt(yy*20+xx)=='*'){
 			life=life-0.5;
 			if(life==0){
 				failed=true;
 				try {
 					
 					restartLevel(true,Jay.getImage());
-					//life=life-1;
 				} catch (IOException e1) {
 					
 					e1.printStackTrace();
 				}
 			}
 			else{
-				//Game_over();
 			}
 	   }
-		if (raum.charAt(yy*20+xx)=='~'){    														//startet bei Kollision den Dialog des NPC
+		/**
+		 * Startet den Dialog des NPC
+		 */
+		if (raum.charAt(yy*20+xx)=='~'){
 			Dialogue();
 		}
-		if (raum.charAt(yy*20+xx)=='s'){    														//startet bei Kollision den Dialog des Ladenbesitzers
+		/**
+		 * Startet den Dialog des Ladenbesitzers
+		 */
+		if (raum.charAt(yy*20+xx)=='s'){
 			DialogueShop();
 		}
-		if (raum.charAt(yy*20+xx)=='o'){    														//nimmt das Schwert auf
+		/**
+		 * Nimmt bei Kollision das Schwert auf
+		 */
+		if (raum.charAt(yy*20+xx)=='o'){
 			schwertchen = 5;
 			spend_herzen();
 		}
-		if (raum.charAt(yy*20+xx)=='h'){															//Nimmt bei Kollision das Herz/Heiltank auf und gibt 30 Gold aus
+		/**
+		 * Nimmt bei Kollision ein Leben auf und gibt 30 Gold aus
+		 */
+		if (raum.charAt(yy*20+xx)=='h'){
 				if((ruban>= 30)||(xruban>=30)){
 				life = life+1;
 				xruban = xruban - 30;
@@ -208,10 +255,11 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 
-		
+		/**
+		 * Nimmt bei Kollision im Shop einen Manatrank ins Inventar und gibt 20 Gold aus
+		 */
 		if (raum.charAt(yy*20+xx)=='q'){
 			if ((ruban >= 20)||(xruban>=20)){
-																									//Nimmt bei Kollision den Manatrank auf und gibt 20 Gold aus
 			magic = magic + 1;
 			mana = true;
 			spend_mana();
@@ -220,14 +268,21 @@ public class Board extends JPanel implements ActionListener{
 			else{
 			}
 			}
-		if (raum.charAt(yy*20+xx)=='m'){    														// Bei Einsammeln des Manatranks verschwindet das Bild und er erhaelt auf der rechten Seite ein Mana
+		
+		/**
+		 * Nimmt bei Kollision einen Manatrank ins Inventar
+		 */
+		if (raum.charAt(yy*20+xx)=='m'){
 				magic = magic  + 1;
 				mana = true;
 				spend_mana();
 
 
 		}
-		else if (raum.charAt(yy*20+xx)=='$'){														//startet die naechste Welt wenn ein Schluessel aufgenommen wurde
+		/**
+		 * Sollte ein Schluessel aufgenommen werden startet das naechste Level
+		 */
+		else if (raum.charAt(yy*20+xx)=='$'){
 			if (lr.charAt(1)=='1') lr="l2r1";
 			else if (lr.charAt(1)=='2')lr="l3r1"; 
 			else if (lr.charAt(1)=='3')lr="l3r6";
@@ -239,9 +294,11 @@ public class Board extends JPanel implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		else if (raum.charAt(yy*20+xx)=='b'){														//speichert Status des Raumes mit Muenzen, Gegner und Position
+		/**
+		 * Speichert das Geld, die Position und den Raum, in dem sich der Charakter befindet
+		 */
+		else if (raum.charAt(yy*20+xx)=='b'){
 			xruban=xruban+ruban;															
-			//xlife=xlife+life;
 			ruban=0;
 			posX=Jay.getX();
 			posY=Jay.getY();
@@ -250,8 +307,9 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 
-	
-	
+	/**
+	 * Methode, die die Bewegung des Bosses definiert
+	 */
 	public void movemonster() {
 		
 		if (Jay.getY()<Monster.getY()){
@@ -269,6 +327,10 @@ public class Board extends JPanel implements ActionListener{
 		kollision_boss_spieler();
 	}
 		
+	
+		/**
+		 * Methode, die die Bewegung des Geists definiert
+		 */
 		public void movegeist() {
 			
 		
@@ -286,10 +348,14 @@ public class Board extends JPanel implements ActionListener{
 		}
 		
 	}
-	
+	/**
+	 * Fuegt folgende Integer-Variablen hinzu
+	 */
 	private int mx,my,counter,Monster_speed,Geist_speed,schuss_speed;
 
-	
+	/**
+	 * Methode, die die Bewegung des Schusses vom Boss definiert
+	 */
 	public void moveBall() {
 			
 		if (ball.getX()<mx){
@@ -312,21 +378,17 @@ public class Board extends JPanel implements ActionListener{
 			ball.setY(Monster.getY());
 			mx=0;my=0;
 		}
-		/*if (counter % 150==0){
-			ball.setX(Geist.getX());
-			ball.setY(Geist.getY());
-			mx=0;my=0;
-		}*/
 	}
 	
 			
-	
+	/**
+	 * Definiert die Methode, die den Spielern Leben verlieren laesst
+	 * Nur bei Beruehrung des Schusses vom Boss
+	 */
 	private void kollision_ball_spieler() {
 		if ((Math.abs(Jay.getX()-ball.getX())<50)&&(Math.abs(Jay.getY()-ball.getY())<50)){
 			if(life==0){
 				
-				//Game_over();
-				
 				failed=true;
 				try {
 					restartLevel(true,Jay.getImage());
@@ -341,13 +403,14 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 	
-	
+	/**
+	 * Definiert die Methode, die den Spielern Leben verlieren laesst
+	 * Nur bei Beruehrung des Bosses selbst
+	 */
 	private void kollision_boss_spieler() {
 		if ((Math.abs(Jay.getX()-Monster.getX())<50)&&(Math.abs(Jay.getY()-Monster.getY())<50)){
 			if(life==0){
 				
-				//Game_over();
-				
 				failed=true;
 				try {
 					restartLevel(true,Jay.getImage());
@@ -362,10 +425,15 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 
-	public Image getImage(){																		//laedt Bilder
+	public Image getImage(){
 		return image;
 	}
 
+	/**
+	 * Liest die Textdateien mit den Raeumen ein
+	 * @return Gibt die Zeichnung des Raums wieder
+	 * @throws IOException
+	 */
 	public String raumeinlesen() throws IOException{
 		String room="";
 		FileReader fr = new FileReader("src/Resources/"+lr+".txt");
@@ -380,11 +448,16 @@ public class Board extends JPanel implements ActionListener{
 		return room;
 	}
 
-	public final void initWorld(Image image) throws IOException{										// zeichnet das Level mit Inhalten
+	/**
+	 * Diese Funktion liest alle Variablen ein und fuegt sie dem Board hinzu
+	 * @param image Gibt die Pfade der Bilder an
+	 * @throws IOException
+	 */
+	public final void initWorld(Image image) throws IOException{
 
-		//ImageIcon ii= new ImageIcon ("src/Resources/back"+lr.charAt(1)+".png");						// Den Pfad fuers Hintergrundbild angeben.
+		//ImageIcon ii= new ImageIcon ("src/Resources/back"+lr.charAt(1)+".png");
 		//img=ii.getImage();		//Image importieren.	
-		setBackground(Color.BLACK);																		// dunkler Hintergrund fuer den Kontrast der Schuesse
+		setBackground(Color.BLACK);
 		if (raum=="") raum=raumeinlesen();
 		int x = 0;
 		int y = 0;
@@ -400,21 +473,21 @@ public class Board extends JPanel implements ActionListener{
 		Swordicon schwert;
 		
 
-		for(int i = 0; i < raum.length(); i++){																		// level variable Buchstabe fuer Buchstabe durchgehen.
+		for(int i = 0; i < raum.length(); i++){											// Level durchgehen
 
 			char obj = raum.charAt(i);										
 
-			if(obj == '\n'){																						//y erhoeht sich um ein BLOCK wenn man ein /n im String Level findet.
+			if(obj == '\n'){															//y erhoeht sich um einen BLOCK wenn man ein /n im String Level findet
 				y = y + BLOCK;
 				x = 0;
-			}else if(obj == '#'){																					// # bezeichnet ein Stueck Mauer. eine Mauer im array walls an seine Position speichern.
+			}else if(obj == '#'){	
 				wall = new Wall(x,y, "wand"+ lr.charAt(1));
 				walls.add(wall);
 				x = x + BLOCK;
 				
 			}
-			else if(obj == '@'){																					// Legt die Position des Charakters beim Levelstart fest
-				if (lr!="l3r4"){	
+			else if(obj == '@'){														// Legt die Position des Charakters beim Levelstart fest
+				if (lr!="l3r6"){	
 					if (failed==false)Jay = new Character(x,y);
 					else if (failed){
 						if (lr==lrs) Jay=new Character(posX,posY);
@@ -422,8 +495,8 @@ public class Board extends JPanel implements ActionListener{
 						failed=false;
 					}
 					if (image==image1){
-						image =	r.getImage();																		//Image vom Spieler der nach rechts laeuft
-						Jay.setImage(image);}																		// abspeichern um mit Jay.getImage abzufragen bei Kollision
+						image =	r.getImage();
+						Jay.setImage(image);}
 					if (image==image2){
 						image =	l.getImage();
 						Jay.setImage(image);}
@@ -449,55 +522,55 @@ public class Board extends JPanel implements ActionListener{
 
 				x = x + BLOCK;}
 			}
-			else if(obj == ' '){																	//x erhoeht sich um einen Block(' ':Bereich wo sich der Spieler bewegen kann)
+			else if(obj == ' '){										//x erhoeht sich um einen Block(' ':Bereich wo sich der Spieler bewegen kann)
 					x = x + BLOCK;
 			}
-			else if(obj == '*'){                													// stellt den Enemy in den Levels als * dar
+			else if(obj == '*'){
 					enemy = new Enemy(x,y);
 					enemys.add(enemy);
 					x = x + BLOCK;
 			}
-			else if(obj == '$'){                													// stellt den Schluessel in den Levels als $ dar
+			else if(obj == '$'){
 					key = new Key(x,y);	
 					keys.add(key);
 					x = x + BLOCK;
 			}
-			else if (obj=='a'){																		//stellt die Muenzen in den Levels als ein 'a' dar
+			else if (obj=='a'){
 					coin=new Coin(x,y);
 					coins.add(coin);
 					x=x+BLOCK;
 			}
-			else if(obj == '~'){																	//stellt den NPC in den Levels als ein ~ dar
+			else if(obj == '~'){
 					wizard = new Wizard(x,y);
 					wizards.add(wizard);
 					x = x + BLOCK;
 			}
-			else if(obj == 'o'){																	//stellt den NPC in den Levels als ein ~ dar
+			else if(obj == 'o'){
 				schwert = new Swordicon(x,y);
 				schwerter.add(schwert);
 				x = x + BLOCK;
-		}
-			else if(obj == 's'){																	//stellt den Ladenbesitzer in den Levels als ein s dar
+			}
+			else if(obj == 's'){
 					shopkeeper = new Shopkeeper(x,y);
 					shopkeepers.add(shopkeeper);
 					x = x + BLOCK;
 			}
-			else if(obj == 'b'){																	// Legt die Position des Charakters beim Tod fest
+			else if(obj == 'b'){
 					check = new checkpoint(x,y);
 					x=x+BLOCK;
 			}
-			else if(obj == 'h'){																	//stellt die Heiltraenke/Herzen in den Levels als ein 'h' dar
+			else if(obj == 'h'){
 				heiltrank = new Heiltrank(x,y);
 				herzen.add(heiltrank);
 				x=x+BLOCK;
 				
 			}
-			else if(obj == 'k'){																	// Legt die Position des Bosses beim Tod fest
+			else if(obj == 'k'){
 				Monster = new Boss(x,y);
 				boss_leben=10;
 				x=x+BLOCK;
 			}
-			else if(obj == 'w'){																	// Legt die Position des Bosses beim Tod fest
+			else if(obj == 'w'){
 				Geist = new Ghost(x,y);
 				x=x+BLOCK;
 			}
@@ -506,12 +579,12 @@ public class Board extends JPanel implements ActionListener{
 				x=x+BLOCK;
 
 			}	
-			else if(obj == 'm'){																	// Legt die Position des Manatrankes fest
+			else if(obj == 'm'){
 					mana = new Mana(x,y);
 					manas.add(mana);
 					x=x+BLOCK;
 			}
-			else if(obj == 'q'){																	//Legt die Position des Manatrankes im Shop fest
+			else if(obj == 'q'){
 					shopmana = new Mana(x,y);
 					manas.add(shopmana);
 					x=x+BLOCK;
@@ -520,13 +593,17 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 	}
+	
+	/**
+	 * Zeichnet die Elemente, die der Welt hinzugefuegt wurden ins Board
+	 */
 	ArrayList<Movement> world = new ArrayList<Movement>();
 	public void buildWorld( Graphics g){
 
-		g.drawImage(img, 0, 0, null);																//Background Image zeichnen
+		g.drawImage(img, 0, 0, null);
 		ArrayList<Movement> world = new ArrayList<Movement>();
 
-		if (raum.contains("b")==true)world.add(check);																			//im levelend soll es kein Spielfigur geben
+		if (raum.contains("b")==true)world.add(check);
 		if (lr!="l3r6")world.add(Jay);
 		if (raum.contains("k")) world.add(Monster);
 		if (raum.contains("r")) world.add(ball);
@@ -558,7 +635,7 @@ public class Board extends JPanel implements ActionListener{
 	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 
-	       			for (int i = 0; i < enemys.size(); i++){										// Enemy soll nur gezeichnet werden, wenne es noch nicht tot ist 
+	       			for (int i = 0; i < enemys.size(); i++){										// Gegner soll nur zu sehen sein, wenn er nicht besiegt wurde 
 	       				Enemy e = (Enemy) enemys.get(i);
 	       				if (e.isVisible())
 	       				g.drawImage(e.getImage(), e.getX(), e.getY(), this);
@@ -581,12 +658,14 @@ public class Board extends JPanel implements ActionListener{
 	}
     
 
-
+	/**
+	 * Zeichnet die Inventaranzeige
+	 */
     public void paint(Graphics g){
 	super.paint(g);
 	
-	if(ingame){																					// falls Spiel nicht verloren
-		buildWorld(g);																			// zeichnet Welt mit Punktestand..
+	if(ingame){	
+		buildWorld(g);
 		if (raum.contains("k")){
 			if (lr.charAt(1)=='3') Monster_speed=1;
 			else Monster_speed=1;
@@ -617,16 +696,16 @@ public class Board extends JPanel implements ActionListener{
 		int countsmoney= ruban + xruban;
 	        String s,w,l,k,p;
 
-	        g.setFont(smallfont);																// Geldanzeige
+	        g.setFont(smallfont);															// Geldanzeige
 	        g.setColor(new Color(98,150,255));
 	        s = "Money: " + (countsmoney);
 	        g.drawString(s,970,160);
-	    	g.drawImage(schatz,970,180,this);													// zeichnet Welt mit Punktestand..
+	    	g.drawImage(schatz,970,180,this);												// zeichnet Welt mit Punktestand..
 		
 	    	double lifebar= life;
 	    	
 			String t;
-																								// Lebensanzeige
+																							// Lebensanzeige
 			t = "Leben: " + (lifebar);
 			g.drawString(t,970,40);
 			
@@ -646,7 +725,7 @@ public class Board extends JPanel implements ActionListener{
 	    		get_sword=true;
 			}
 			
-			if(life==3.0){																		// zeichnet 3 Herzchen fuer 3 Leben
+			if(life==3.0){
 			g.drawImage(herz1,970,60,this);
 			g.drawImage(herz1,1020, 60, this);
 			g.drawImage(herz1,1070, 60, this);
@@ -682,22 +761,22 @@ public class Board extends JPanel implements ActionListener{
 	        		if(magic==1){																	
 	        			g.drawImage(trank, 970, 370, this);
 	        		}
-	        			if(magic==2){																
-	        				g.drawImage(trank,970,370,this);
-	        				g.drawImage(trank,1020,370, this);
-	        				
-	        				
-	        			}
-	        	 if(magic==3){																	
+	        		if(magic==2){																
+	        			g.drawImage(trank,970,370,this);
+	        			g.drawImage(trank,1020,370, this);	
+	        		}
+	        	
+	        		if(magic==3){																	
 	        			g.drawImage(trank,970,370,this);
 	        			g.drawImage(trank,1020, 370, this);
 	        			g.drawImage(trank,1070, 370, this);				  			
-	        	 }
-	        	 if (magic > 3){			
-	        		 magic = 3;
-	        	 }
-	       }
-	}else{																					 	// was bei Niederlage passieren soll..
+	        		}
+	        	 
+	        		if (magic > 3){			
+	        			magic = 3;
+	        		}
+	        	}
+	}else{
 	}    
     Toolkit.getDefaultToolkit().sync();
     g.dispose();
@@ -705,24 +784,45 @@ public class Board extends JPanel implements ActionListener{
 
 
 
-    public ArrayList<Shot> getShots() {																// gibt die Schuesse  wieder
+    /**
+     * Giebt die Schuesse wieder
+     * @return Anzeige der Schuesse
+     */
+    public ArrayList<Shot> getShots() {
 	        return shots;
 	    }
    
 
+    /**
+     * Gibt das Schwert wieder
+     * @return Anzeige des Schwertes
+     */
     public ArrayList<Sword> getSwords() {																
 	     return swords;
     }
 
-	private class Ap extends KeyAdapter{															// fuer rechts: holt das Bild mit Position rechts
-																									// durch die class Character bewegt sich Diggy in die entsprechende Richtung
+    /**
+     * Fuegt Tastenbefehle hinzu
+     * Bei rechtem Tastendruck bewegt sich die Figur nach rechts und gibt das entsprechende Bild aus
+     * Bei linken Tastendruck bewegt sich die Figur nach rechts und gibt das entsprechende Bild aus
+     * Bei oberem Tastendruck bewegt sich die Figur nach rechts und gibt das entsprechende Bild aus
+     * Bei unterem Tastendruck bewegt sich die Figur nach rechts und gibt das entsprechende Bild aus
+     * Bei Tastendruck 'V' greift der Spieler mit dem Schwert an und gibt das entsprechende Bild in die richtige Richtung wieder
+     * Bei Tastendruck 'Leertaste' schiesst der Spieler und gibt das entsprechende Bild wieder
+     * Bei Tastendruck 'B' verbraucht der Spieler einen Manatrank, sofern er einen besitzt
+     * @author Tobias
+     *
+     */
+	private class Ap extends KeyAdapter{
+
+
 		public  void keyPressed(KeyEvent e){
 
 			int key = e.getKeyCode();
 
 			if(key == KeyEvent.VK_RIGHT){		
 
-				Image image1 = image = r.getImage();												//Image vom Spieler der nach rechts laeuft usw.
+				Image image1 = image = r.getImage();
 				Jay.setImage(image);
 				position = 1;
 				collision(BLOCK,0, image1);
@@ -750,7 +850,7 @@ public class Board extends JPanel implements ActionListener{
 				collision(0,BLOCK, image4);
 
 			}
-			else if(key == KeyEvent.VK_B){															// Taste B verbraucht einen Manatrank und fuellt das Mana wieder auf
+			else if(key == KeyEvent.VK_B){
 
 				if (magic == 3){
 					magic = 2;
@@ -775,12 +875,16 @@ public class Board extends JPanel implements ActionListener{
 			}
 
 			repaint();
-
+			
+			
+			/**
+			 * Gibt den Wechsel in die naechsten Raeume wieder
+			 */
 			if ((Jay.getY()==-BLOCK)||(Jay.getY()==0))  {	
-				if (lr.charAt(3)=='1') lr=lr.substring(0,3)+"2";									//Wenn der Spieler am Ausgang des 1. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='2') lr=lr.substring(0,3)+'3';								//Wenn der Spieler am Ausgang des 2. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='3') lr=lr.substring(0,3)+'4';								//Wenn der Spieler am Ausgang des 3. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';								//Wenn der Spieler am Ausgang des 4. Raums ist dann ueberwechseln
+				if (lr.charAt(3)=='1') lr=lr.substring(0,3)+"2";
+				else if (lr.charAt(3)=='2') lr=lr.substring(0,3)+'3';
+				else if (lr.charAt(3)=='3') lr=lr.substring(0,3)+'4';
+				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';
 				
 				xruban=xruban+ruban;
 				xlife=xlife+life;
@@ -790,13 +894,13 @@ public class Board extends JPanel implements ActionListener{
 					initWorld(Jay.getImage());
 				} catch (IOException e1) {
 					e1.printStackTrace();
-				}																					//world initialisieren 
+				}
 			}
-			if (Jay.getX() ==950 ){																	//Bedingung erfuellt nur am Ausgang des 2. Raums
-				if (lr.charAt(3)=='1') lr=lr.substring(0,3)+"2";									//Wenn der Spieler am Ausgang des 1. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='2') lr=lr.substring(0,3)+'3';								//Wenn der Spieler am Ausgang des 2. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='3') lr=lr.substring(0,3)+'4';								//Wenn der Spieler am Ausgang des 3. Raums ist dann ueberwechseln
-				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';								//Wenn der Spieler am Ausgang des 4. Raums ist dann ueberwechseln
+			if (Jay.getX() ==950 ){
+				if (lr.charAt(3)=='1') lr=lr.substring(0,3)+"2";
+				else if (lr.charAt(3)=='2') lr=lr.substring(0,3)+'3';
+				else if (lr.charAt(3)=='3') lr=lr.substring(0,3)+'4';
+				else if (lr.charAt(3)=='4') lr=lr.substring(0,3)+'5';
 				xruban=xruban+ruban;
 				xlife=xlife+life;
 				ruban=0;
@@ -810,6 +914,12 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 	
+	/**
+	 * Neustart des Levels
+	 * @param test	Loescht die dagewesenen Elemente
+	 * @param image2 Neue Zeichnung des Levels
+	 * @throws IOException
+	 */
 	public void restartLevel(boolean test,Image image2) throws IOException {			
 		loeschen(test);
 		initWorld(Jay.getImage());
@@ -817,10 +927,10 @@ public class Board extends JPanel implements ActionListener{
 
 	 public void fire() {
 		 	if(position==1){
-		 		shots.add(new Shot(Jay.getX() + BLOCK, Jay.getY()));								// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
+		 		shots.add(new Shot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
 		 		k = 00;}
-		 	if(position==2){																		// der Schuss soll nicht ueber Diggy gehen 
-		 		shots.add(new Shot(Jay.getX() - BLOCK, Jay.getY()));								// k als Flag
+		 	if(position==2){													// der Schuss soll nicht ueber Diggy gehen 
+		 		shots.add(new Shot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
 		 		k = 01;}
 		 	if(position==3){
 		 		shots.add(new Shot(Jay.getX(), Jay.getY() - BLOCK));
@@ -830,17 +940,17 @@ public class Board extends JPanel implements ActionListener{
 		 	    k = 11;}
 	}
 	 
-	 public void sword_play(){																		// Schwertkampf mit 4 Richtungen zum schiessen				
+	 public void sword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
 	 
 	 	 	if(position==1){																		
 		 		image = dr.getImage();
 				Jay.setImage(image);
-				swords.add(new Sword(Jay.getX() + 2, Jay.getY()));								    // Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
-		 		z = 00;}																			// tot nach 2 Entfernung mit Schwert
+				swords.add(new Sword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
+		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
 		 	if(position==2){			
 		 		image = dl.getImage();
 				Jay.setImage(image);																	
-			 	swords.add(new Sword(Jay.getX(), Jay.getY()));									// z als Flag fuer die Richtungen des Angriffs
+			 	swords.add(new Sword(Jay.getX(), Jay.getY()));					// z als Flag fuer die Richtungen des Angriffs
 			 	z = 01;}
 		 	if(position==3){
 		 		image = du.getImage();
@@ -854,14 +964,17 @@ public class Board extends JPanel implements ActionListener{
 		 	    z = 11;}
 		 	}
 
+	 /**
+	  * Fuehrt die Schuesse aus
+	  */
 	 @Override
-	 public void actionPerformed(ActionEvent e) {													// zeichnet die Schuesse 
+	 public void actionPerformed(ActionEvent e) {
 
      ArrayList<Shot> shots = getShots();
      
      for (int i = 0; i < shots.size(); i++) {
-    	 Shot m = (Shot) shots.get(i);																// falss limit des Boards nicht ueberschritten
-		 																							// wird je nach Blickrichtung in die richtgige Richtungen angegriffen
+    	 Shot m = (Shot) shots.get(i);
+
     	 if(m.isVisible()){	 	
 		 					
 			if(k==00) m.move_r();
@@ -871,7 +984,7 @@ public class Board extends JPanel implements ActionListener{
 			
 			
 		}else shots.remove(i);
-    	 	check_shot_vs_wall();																	// Kollisionabfrage mit Schuss
+    	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
 			if (raum.contains("k")){
@@ -880,7 +993,7 @@ public class Board extends JPanel implements ActionListener{
 	}
 			 ArrayList<Sword> swords = getSwords()
 					 ;
-			 for (int j = 0; j < swords.size(); j++) {												// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+			 for (int j = 0; j < swords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
 				 Sword s = (Sword) swords.get(j);
 				 
 				 		if(s.isVisible()){
@@ -891,7 +1004,7 @@ public class Board extends JPanel implements ActionListener{
 				 			if(z==11) s.move_d_sword();
 							
 						}else swords.remove(j);
-				 			check_sword_vs_wall();													// Kollision mit Schwertangriff 
+				 			check_sword_vs_wall();											// Kollision mit Schwertangriff 
 				 			check_sword_vs_enemy();
 				 			check_sword_vs_coin();
 	 		}	
@@ -902,7 +1015,7 @@ public class Board extends JPanel implements ActionListener{
 			return new Rectangle(Jay.getX(),Jay.getY(),50,50);				
 		}
 
-			public void Dialogue(){																	//definiert die Methode Dialogue genauer, mit Close-Operation, Name, Layout und Position
+		public void Dialogue(){
 
 			JFrame Dialogue = new Dialogue("Weiser Zauberer");
 
@@ -916,20 +1029,23 @@ public class Board extends JPanel implements ActionListener{
 			Dialogue.add(new Dialogue("Weiser Zauberer"));
 		}
 
-		public void DialogueShop(){                                  								//definiert die Methode DialogueShop genauer, mit Close-Operation, Name, Layout und Position      
+		public void DialogueShop(){
 
-		JFrame DialogueShop = new DialogueShop("Ladenbesitzer");
-		DialogueShop.setSize(600,300);
-		DialogueShop.setLocationRelativeTo(null);
-		DialogueShop.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		DialogueShop.setVisible(true);
-		DialogueShop.setFocusable(true);
-		DialogueShop.setLayout(new BorderLayout());     
-		DialogueShop.setLayout(null);
-	    DialogueShop.add(new Dialogue("Ladenbesitzer"));
+			JFrame DialogueShop = new DialogueShop("Ladenbesitzer");
+			DialogueShop.setSize(600,300);
+			DialogueShop.setLocationRelativeTo(null);
+			DialogueShop.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			DialogueShop.setVisible(true);
+			DialogueShop.setFocusable(true);
+			DialogueShop.setLayout(new BorderLayout());     
+			DialogueShop.setLayout(null);
+			DialogueShop.add(new Dialogue("Ladenbesitzer"));
 	    }
 
-		public void check_shot_vs_coin() {															// schiesst nicht durch Coins
+		/**
+		 * Kollisionsabfrage: Schuss vs Gold
+		 */
+		public void check_shot_vs_coin() {
 
 			ArrayList<Shot> shots = getShots();
 
@@ -942,13 +1058,17 @@ public class Board extends JPanel implements ActionListener{
 				        Coin c = (Coin) coins.get(j);
 				        Rectangle r2 = c.getBounds();
 
-			            if (r1.intersects(r2)) {													// Coin bleib sichtbar aber Schuss auf Coin nicht
+			            if (r1.intersects(r2)) {
 			                m.setVisible(false);
 			                c.setVisible(true);
 			            }
 			        }
 			    }
 			}
+		
+		/**
+		 * Kollisionsabfrage: Schwert vs Gold
+		 */
 		public void check_sword_vs_coin() {										
 
 			 ArrayList<Sword> swords = getSwords();
@@ -969,6 +1089,10 @@ public class Board extends JPanel implements ActionListener{
 			        }
 			    }
 			}
+		
+		/**
+		 * Kollisionsabfrage: Schwert vs Mauer
+		 */
 		public void check_sword_vs_wall() {																
 
 			 ArrayList<Sword> swords = getSwords();
@@ -993,6 +1117,9 @@ public class Board extends JPanel implements ActionListener{
 		
 		private int boss_leben;
 		
+		/**
+		 * Kollisionsabfrage: Schuss vs Boss
+		 */
 		public void check_shot_vs_boss() {																
 			ArrayList<Shot> shots = getShots();
 
@@ -1018,7 +1145,10 @@ public class Board extends JPanel implements ActionListener{
 
 		}
 		
-		public void check_shot_vs_wall() {																// Wandkollision
+		/**
+		 * Kollisionsabfrage: Schuss vs Mauer
+		 */
+		public void check_shot_vs_wall() {
 
 			ArrayList<Shot> shots = getShots();
 
@@ -1031,7 +1161,7 @@ public class Board extends JPanel implements ActionListener{
 			        Wall w = (Wall) walls.get(j);
 			        Rectangle r2 = w.getBounds();
 
-		            if (r1.intersects(r2)) {													 		//  schuss ist auf der Wand nicht sichtbar
+		            if (r1.intersects(r2)) {													//Schuss ist auf der Wand nicht sichtbar
 		                m.setVisible(false);
 		                w.setVisible(true);
 
@@ -1040,6 +1170,9 @@ public class Board extends JPanel implements ActionListener{
 		    }
 		}
 
+		/**
+		 * Kollisionsabfrage: Schuss vs Gegner
+		 */
 		public void check_shot_vs_enemy() {								
 
 			for (int i = 0; i < shots.size(); i++) {
@@ -1049,7 +1182,7 @@ public class Board extends JPanel implements ActionListener{
 		   	      	int xx = (int) ((r1.getX())/BLOCK);																	
 	        		int yy=(int)(r1.getY())/BLOCK;
 
-	        		if (raum.charAt(yy*20+xx)=='*') {																		// ersetzt in der txt datei enemy mit ' '																							
+	        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 		        		int xxx = ((Jay.getX())/BLOCK);																	
 		        		int yyy=(Jay.getY())/BLOCK;	
 
@@ -1067,6 +1200,9 @@ public class Board extends JPanel implements ActionListener{
 		        }
 			}
 		
+		/**
+		 * Kollisionsabfrage: Schwert vs Gegner
+		 */
 		public void check_sword_vs_enemy() {	
 			 ArrayList<Sword> swords = getSwords();
 			
@@ -1075,11 +1211,11 @@ public class Board extends JPanel implements ActionListener{
 		        Sword s = (Sword) swords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
-		            int xx = (int) ((r1.getX())/BLOCK);																	//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
+		            int xx = (int) ((r1.getX())/BLOCK);
 	        		int yy=(int)(r1.getY())/BLOCK;
 
-	        		if (raum.charAt(yy*20+xx)=='*') {																	// wenn ein Gegner angeschossen wird wird der Gegner im txt mit ' ' ersetzt	Diggy bleibt dort wo er war															
-		        		int xxx = ((Jay.getX())/BLOCK);																	//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
+	        		if (raum.charAt(yy*20+xx)=='*') {													
+		        		int xxx = ((Jay.getX())/BLOCK);
 		        		int yyy=(Jay.getY())/BLOCK;	
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
@@ -1095,12 +1231,16 @@ public class Board extends JPanel implements ActionListener{
 	        		
 			}
 	}
+		/**
+		 * Ersetzt Manatraenke durch freie Felder
+		 * Egal ob im normalen Level oder im Shop
+		 */
 		public void spend_mana(){
 
-			int xx = (int) ((Jay.getX())/BLOCK);																	//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
+			int xx = (int) ((Jay.getX())/BLOCK);
 	        int yy=(int)(Jay.getY())/BLOCK;
 
-	        	if (raum.charAt(yy*20+xx)=='m'||(raum.charAt(yy*20+xx)=='q')) {										// wenn mana eingesammelt wird, wird mana ' ' ersetzt	Diggy bleibt dort wo er war															
+	        	if (raum.charAt(yy*20+xx)=='m'||(raum.charAt(yy*20+xx)=='q')) {													
 		        		int xxx = ((Jay.getX())/BLOCK);																
 		        		int yyy=(Jay.getY())/BLOCK;	
 
@@ -1116,12 +1256,16 @@ public class Board extends JPanel implements ActionListener{
 	        	}
 		}
 		
+		/**
+		 * Ersetzt Herzen durch freie Felder
+		 * Nur im Shop
+		 */
 		public void spend_herzen(){
 
-			int xx = (int) ((Jay.getX())/BLOCK);											//xx und yy sind die imaginaere Koordinaten innerhalb des Strings Variable (level).
+			int xx = (int) ((Jay.getX())/BLOCK);
 	        int yy=(int)(Jay.getY())/BLOCK;
 
-	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')) {											// wenn herzen eingesammelt werden, werden herzen durch ' ' ersetzt, Diggy bleibt dort wo er war															
+	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')) {														
 		        		int xxx = ((Jay.getX())/BLOCK);																
 		        		int yyy=(Jay.getY())/BLOCK;	
 

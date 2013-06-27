@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Checkpoints fest
+ * @author Tobias
+ *
+ */
 public class checkpoint extends Movement {
 
 	Image image;

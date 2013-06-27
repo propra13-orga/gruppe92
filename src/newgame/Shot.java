@@ -5,6 +5,12 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte die Bedingungen des Schusses fest
+ * So zB das Bild und die return-Variablen
+ * @author Tobias
+ *
+ */
 public class Shot{
 
 	private int x,y;

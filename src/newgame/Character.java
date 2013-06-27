@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Charakters fest
+ * @author Tobias
+ *
+ */
 public class Character extends Movement {
 	
 	Image image;

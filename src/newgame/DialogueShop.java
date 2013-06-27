@@ -8,6 +8,12 @@ import java.awt.*;
 
 import java.io.IOException;
 
+/**
+ * Erstellt einen Dialog fuer den Shop
+ * Im Frame existieren Text und Buttons
+ * @author Tobias
+ *
+ */
 public class DialogueShop extends JFrame implements ActionListener{
 	
 	private JButton weiter;																										//definiert 3 JButtons und 1 JLabel
@@ -15,11 +21,14 @@ public class DialogueShop extends JFrame implements ActionListener{
 	private JLabel text;
 	private JButton weiter2;
 
-
+/**
+ * Bedingungen und Positionen der Bestandteile
+ * @param Title Legt den Titeltext fest
+ */
 public DialogueShop(String Title){
 	super(Title);
 	
-	text = new JLabel("                       Guten Tag. Bitte schaue dich doch in unserem Laden ein wenig um!");				//legt den Text des Ladenbesitzers fest
+	text = new JLabel("                       Guten Tag. Bitte schaue dich doch in unserem Laden ein wenig um!");			//legt den Text des Ladenbesitzers fest
 	text.setFont(new Font("Serif", Font.PLAIN, 14));																		//Legt Schriftgroesse und Font fest
 	getContentPane().add(text);
 

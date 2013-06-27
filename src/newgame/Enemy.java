@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Gegners fest
+ * @author Tobias
+ *
+ */
 public class Enemy extends Movement {
 
 private Image image;

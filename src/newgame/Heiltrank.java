@@ -4,6 +4,11 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Herzens fest
+ * @author Tobias
+ *
+ */
 public class Heiltrank extends Movement {
 
 private Image image;

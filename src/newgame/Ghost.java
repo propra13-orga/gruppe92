@@ -6,6 +6,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse des Geistes fest
+ * @author Tobias
+ *
+ */
 public class Ghost extends Movement  {
 	Image image;
 	private int width;

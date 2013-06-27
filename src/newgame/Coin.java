@@ -4,6 +4,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse der Goldmuenze fest
+ * @author Tobias
+ *
+ */
 public class Coin extends Movement {
 
 private Image image;

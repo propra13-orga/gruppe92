@@ -5,6 +5,12 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte die Bedingungen des Schwertes fest
+ * So zB das Bild und die return-Variablen
+ * @author Tobias
+ *
+ */
 public class Sword{
 
 	private int x,y;
@@ -20,7 +26,7 @@ public class Sword{
 		visible = true;
 		this.x = x;
 		this.y = y;
-        width = img.getWidth(null);													// fuer Kollision Bild
+        width = img.getWidth(null);
         height = img.getHeight(null);
     }
 	
@@ -40,7 +46,7 @@ public class Sword{
 	        this.visible = visible;
 	}
 
-	public Rectangle getBounds() {											// Kollision Detection
+	public Rectangle getBounds() {											// Erkennung der Kollision
 	        return new Rectangle(x, y, width, height);
 	}
 
@@ -49,10 +55,10 @@ public class Sword{
 	}
 	
 	public void move_r_sword(){
-		x += sword_die;							// Schuss nach rechts mit Geschwindigkeit
+		x += sword_die;
 		shot_limit_x1();					
-	}											// dabei wird mit den Funktionen shot_limit_x(bzw.y) darauf
-												// geachtet dass es ueber das Board nicht sichtbar ist
+	}											
+	
 	public void move_l_sword(){	
 		x -= sword_die;
 		shot_limit_x2();
@@ -69,8 +75,8 @@ public class Sword{
 	}
 	
 	public void shot_limit_x1(){
-		if (x >= 100)								// mit entfernung von 20 kann diggy mit s
-	         visible = false;						// Wenn der Schuss ausserhalb des Boards ist -> nicht mehr sichtbar
+		if (x >= 100)
+	         visible = false;
 	}
 	
 	public void shot_limit_y1(){

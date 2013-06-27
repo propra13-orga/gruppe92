@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * In dieser Klasse wird der Boss generiert
+ * Hierbei wird das Bild und die Masse festgelegt
+ *
+ */
 public class Boss extends Movement  {
 	Image image;
 	private int width;

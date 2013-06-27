@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Setzte das Bild und die Masse der Mauern fest
+ * @author Tobias
+ *
+ */
 public class Wall extends Movement{
 	private Image image;
 	private int width;
