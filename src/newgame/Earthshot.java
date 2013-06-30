@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
  * @author Tobias
  *
  */
-public class Shot{
+public class Earthshot{
 
 	private int x,y;
 	Image img;
@@ -20,8 +20,8 @@ public class Shot{
 	private int width, height;
 	private int shot_speed = 50;
 	
-	public Shot(int x, int y){
-		ImageIcon newShoot = new ImageIcon("src/Resources/fireball.png");
+	public Earthshot(int x, int y){
+		ImageIcon newShoot = new ImageIcon("src/Resources/earthball.png");
 		img = newShoot.getImage();
 		visible = true;
 		this.x = x;

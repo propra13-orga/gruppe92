@@ -41,18 +41,24 @@ public class Board extends JPanel implements ActionListener{
 	private String raum="";
 	private String lr,rooms,lrs; 														//lr fuer den Namen der Raumdatei, w:wandbild , h:hintergrundsbild
 	private ArrayList<Shot> shots;
+	private ArrayList<Iceshot> iceshots;
+	private ArrayList<Earthshot> earthshots;
+	private ArrayList<Airshot> airshots;
 	private ArrayList<Sword> swords;
 	private Timer timer;
 	private int BLOCK = 50;
 	private int position;
-	private int need_life;
 	private int ruban=0,xruban;
 	private double life=3.0, xlife;
 	private int magic=0;
 	private int manapoints=0;
 	private int schwertchen = 0;
+	private int feuerchen = 0;
+	private int erdchen = 0;
+	private int eischen = 0;
+	private int luftchen = 0;
 	private int k,z,posX,posY;
-	boolean ingame,mana,failed,get_sword;
+	boolean ingame,mana,failed,get_sword,get_fireball,get_iceball, get_airball, get_earthball;
 	private checkpoint check;
 	private Ghost Geist;
 	private Boss Monster;
@@ -69,18 +75,19 @@ public class Board extends JPanel implements ActionListener{
 	ImageIcon b = new ImageIcon("src/Resources/Character.png");
 	ImageIcon tr = new ImageIcon("src/Resources/trankk.png");
 	ImageIcon h1 = new ImageIcon("src/Resources/herz.png");
-	ImageIcon h2 = new ImageIcon("src/Resources/halbherz.png");
-	ImageIcon s = new ImageIcon("src/Resources/schatz.png");
 	ImageIcon dr = new ImageIcon("src/Resources/digright.png");	
 	ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
 	ImageIcon du = new ImageIcon("src/Resources/digup.png");
 	ImageIcon db = new ImageIcon("src/Resources/digb.png");
 	ImageIcon sw = new ImageIcon("src/Resources/sword.png");
 	ImageIcon co = new ImageIcon("src/Resources/Coin.png");
-	ImageIcon sr = new ImageIcon("src/Resources/missile1.png");
-	ImageIcon sl = new ImageIcon("src/Resources/missile1l.png");
-	ImageIcon su = new ImageIcon("src/Resources/missile1t.png");
-	ImageIcon sd = new ImageIcon("src/Resources/missile1d.png");
+	ImageIcon h2 = new ImageIcon("src/Resources/halbherz.png");
+	ImageIcon s = new ImageIcon("src/Resources/schatz.png");
+	ImageIcon fb = new ImageIcon("src/Resources/fireball.png");
+	ImageIcon ib = new ImageIcon("src/Resources/iceball.png");
+	ImageIcon ab = new ImageIcon("src/Resources/airball.png");
+	ImageIcon eb = new ImageIcon("src/Resources/earthball.png");
+
 	
 	
 	
@@ -98,6 +105,10 @@ public class Board extends JPanel implements ActionListener{
 	java.util.List<Movement> Jays = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> herzen = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> schwerter = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> feuericons = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> eisicons = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> lufticons = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> erdeicons = new java.util.ArrayList<Movement>();
 	
 	/**
 	 * Gibt den Images entsprechende Namen		
@@ -114,11 +125,11 @@ public class Board extends JPanel implements ActionListener{
 	Image image6 = image = dl.getImage();
 	Image image7 = image = du.getImage();
 	Image image8 = image = db.getImage();
-	Image image9 = image = sr.getImage();
-	Image image10 = image = sl.getImage();
-	Image image11 = image = su.getImage();
-	Image image12 = image = sd.getImage();
 	Image sword = image = sw.getImage();
+	Image fireball = image = fb.getImage();
+	Image airball = image = ab.getImage();
+	Image iceball = image = ib.getImage();
+	Image earthball = image = eb.getImage();
 	Image coin = image = co.getImage();
 	
 /**
@@ -137,8 +148,15 @@ public class Board extends JPanel implements ActionListener{
 		ingame = true;
 		mana = false;
 		schwertchen = 0;
+		feuerchen = 0;
+		eischen = 0;
+		luftchen = 0;
+		erdchen = 0;
 		manapoints = 100;
 	    shots = new ArrayList<Shot>();
+	    airshots = new ArrayList<Airshot>();
+	    iceshots = new ArrayList<Iceshot>();
+	    earthshots = new ArrayList<Earthshot>();
 		swords = new ArrayList<Sword>();
 	    timer = new Timer(5, this);
         timer.start();
@@ -159,6 +177,11 @@ public class Board extends JPanel implements ActionListener{
 		herzen.clear();
 		shopkeepers.clear();
 		schwerter.clear();
+		eisicons.clear();
+		feuericons.clear();
+		lufticons.clear();
+		erdeicons.clear();
+		
 		if (b) raum="";
 		if (failed) {
 			if (lr==lrs){
@@ -240,6 +263,22 @@ public class Board extends JPanel implements ActionListener{
 		 */
 		if (raum.charAt(yy*20+xx)=='o'){
 			schwertchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='1'){
+			feuerchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='2'){
+			eischen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='3'){
+			luftchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='4'){
+			erdchen = 5;
 			spend_herzen();
 		}
 		/**
@@ -471,6 +510,10 @@ public class Board extends JPanel implements ActionListener{
 		Mana shopmana;
 		Heiltrank heiltrank;
 		Swordicon schwert;
+		Eisicon eis;
+		Feuericon feuer;
+		Lufticon luft;
+		Erdeicon erde;
 		
 
 		for(int i = 0; i < raum.length(); i++){											// Level durchgehen
@@ -550,6 +593,26 @@ public class Board extends JPanel implements ActionListener{
 				schwerter.add(schwert);
 				x = x + BLOCK;
 			}
+			else if(obj == '1'){
+				feuer = new Feuericon(x,y);
+				feuericons.add(feuer);
+				x = x + BLOCK;
+			}
+			else if(obj == '2'){
+				eis = new Eisicon(x,y);
+				eisicons.add(eis);
+				x = x + BLOCK;
+			}
+			else if(obj == '3'){
+				luft = new Lufticon(x,y);
+				lufticons.add(luft);
+				x = x + BLOCK;
+			}
+			else if(obj == '4'){
+				erde = new Erdeicon(x,y);
+				erdeicons.add(erde);
+				x = x + BLOCK;
+			}
 			else if(obj == 's'){
 					shopkeeper = new Shopkeeper(x,y);
 					shopkeepers.add(shopkeeper);
@@ -576,7 +639,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 			else if(obj == 'r'){																	
 				 ball = new Ball(x,y);
-				x=x+BLOCK;
+				 x=x+BLOCK;
 
 			}	
 			else if(obj == 'm'){
@@ -615,6 +678,10 @@ public class Board extends JPanel implements ActionListener{
 		world.addAll(manas);
 		world.addAll(herzen);
 		world.addAll(schwerter);
+		world.addAll(feuericons);
+		world.addAll(eisicons);
+		world.addAll(lufticons);
+		world.addAll(erdeicons);
 
 		for(int i = 0; i < world.size(); i++){														// Array world durchgehen um objekte zu zeichnen.
 
@@ -626,8 +693,29 @@ public class Board extends JPanel implements ActionListener{
 	       		for (int j = 0; j < shots.size(); j++){
 	       			Shot m = (Shot) shots.get(j);
 	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			
                 }
 	       		
+	       	ArrayList<Airshot> airshots = getAirshots();
+	       		for (int j = 0; j < airshots.size(); j++){
+	       			Airshot m = (Airshot) airshots.get(j);
+	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			
+                }
+	       		
+	       ArrayList<Iceshot> iceshots = getIceshots();
+	       		for (int j = 0; j < iceshots.size(); j++){
+	       			Iceshot m = (Iceshot) iceshots.get(j);
+	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			
+                }
+	       		
+	       	ArrayList<Earthshot> earthshots = getEarthshots();
+	       		for (int j = 0; j < earthshots.size(); j++){
+	       			Earthshot m = (Earthshot) earthshots.get(j);
+	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			
+                }
 	       
 	      ArrayList<Sword> swords = getSwords();
 	       		for (int i = 0; i < swords.size(); i++){
@@ -694,7 +782,7 @@ public class Board extends JPanel implements ActionListener{
 				moveBall();
 			} 
 		int countsmoney= ruban + xruban;
-	        String s,w,l,k,p;
+	        String s,p;
 
 	        g.setFont(smallfont);															// Geldanzeige
 	        g.setColor(new Color(98,150,255));
@@ -719,10 +807,34 @@ public class Board extends JPanel implements ActionListener{
 			}
 			
 			if (schwertchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(sword,1020, 480, this);
+	    		g.drawImage(sword,960, 550, this);
 	    		p = "Du hast ein Schwert!";
-	    		g.drawString(p,970,450);
+	    		g.drawString(p,970,420);
 	    		get_sword=true;
+			}
+			if (feuerchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
+	    		g.drawImage(fireball,1020, 550, this);
+	    		p = "Du hast die Macht des Feuers!";
+	    		g.drawString(p,970,450);
+	    		get_fireball=true;
+			}
+			if (eischen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
+	    		g.drawImage(iceball,1080, 550, this);
+	    		p = "Du hast die Macht des Eises!";
+	    		g.drawString(p,970,480);
+	    		get_iceball=true;
+			}
+			if (luftchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
+	    		g.drawImage(airball,1140, 550, this);
+	    		p = "Du hast die Macht der Luft!";
+	    		g.drawString(p,970,510);
+	    		get_airball=true;
+			}
+			if (erdchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
+	    		g.drawImage(earthball,1200, 550, this);
+	    		p = "Du hast die Macht der Erde!";
+	    		g.drawString(p,970,540);
+	    		get_earthball=true;
 			}
 			
 			if(life==3.0){
@@ -791,6 +903,17 @@ public class Board extends JPanel implements ActionListener{
     public ArrayList<Shot> getShots() {
 	        return shots;
 	    }
+    public ArrayList<Airshot> getAirshots() {
+        return airshots;
+    }
+    
+    public ArrayList<Earthshot> getEarthshots() {
+        return earthshots;
+    }
+    
+    public ArrayList<Iceshot> getIceshots() {
+        return iceshots;
+    }
    
 
     /**
@@ -865,12 +988,66 @@ public class Board extends JPanel implements ActionListener{
 					manapoints = 100;
 				}
 
-			}else if (key == KeyEvent.VK_SPACE) {	
+			}
+			else if(key == KeyEvent.VK_C){
+
+			if(feuerchen ==5){
+				feuerchen=0;
+				luftchen=0;
+				eischen=5;
+				erdchen=0;
+			}
+			else if(eischen==5){
+				eischen=0;
+				feuerchen=0;
+				luftchen=5;
+				erdchen=0;
+			}
+			else if(luftchen==5){
+				eischen=0;
+				feuerchen=0;
+				luftchen=0;
+				erdchen=5;
+			}
+			else if(erdchen==5){
+				eischen=0;
+				feuerchen=5;
+				luftchen=0;
+				erdchen=0;
+			}
+
+			}
+			
+			else if (key == KeyEvent.VK_SPACE && feuerchen==5) {	
 				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
 				fire();
 				manapoints = manapoints - 5;
 				}
-			}else if (key == KeyEvent.VK_V && get_sword==true) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+				
+			}else if (key == KeyEvent.VK_SPACE  && eischen==5) {	
+				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				ice();
+				manapoints = manapoints - 5;
+					}
+
+	
+			}
+			else if (key == KeyEvent.VK_SPACE && luftchen==5) {	
+				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				air();
+				manapoints = manapoints - 5;
+				}
+				
+			}
+			else if (key == KeyEvent.VK_SPACE && erdchen==5) {	
+				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				earth();
+				manapoints = manapoints - 5;
+				}
+				
+			}
+			
+			else if (key == KeyEvent.VK_V && get_sword==true) {									// 2 te Waffe = Schwertkampf in versch Richtungen
 				sword_play();
 			}
 
@@ -940,6 +1117,50 @@ public class Board extends JPanel implements ActionListener{
 		 	    k = 11;}
 	}
 	 
+	 public void air() {
+		 	if(position==1){
+		 		airshots.add(new Airshot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
+		 		k = 00;}
+		 	if(position==2){													// der Schuss soll nicht ueber Diggy gehen 
+		 		airshots.add(new Airshot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
+		 		k = 01;}
+		 	if(position==3){
+		 		airshots.add(new Airshot(Jay.getX(), Jay.getY() - BLOCK));
+		 		k = 10;}
+		 	if(position==4){
+		 		airshots.add(new Airshot(Jay.getX(), Jay.getY() + BLOCK));	
+		 	    k = 11;}
+	}
+	 
+	 public void earth() {
+		 	if(position==1){
+		 		earthshots.add(new Earthshot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
+		 		k = 00;}
+		 	if(position==2){													// der Schuss soll nicht ueber Diggy gehen 
+		 		earthshots.add(new Earthshot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
+		 		k = 01;}
+		 	if(position==3){
+		 		earthshots.add(new Earthshot(Jay.getX(), Jay.getY() - BLOCK));
+		 		k = 10;}
+		 	if(position==4){
+		 		earthshots.add(new Earthshot(Jay.getX(), Jay.getY() + BLOCK));	
+		 	    k = 11;}
+	}
+	 public void ice() {
+		 	if(position==1){
+		 		iceshots.add(new Iceshot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
+		 		k = 00;}
+		 	if(position==2){														// der Schuss soll nicht ueber Diggy gehen 
+		 		iceshots.add(new Iceshot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
+		 		k = 01;}
+		 	if(position==3){
+		 		iceshots.add(new Iceshot(Jay.getX(), Jay.getY() - BLOCK));
+		 		k = 10;}
+		 	if(position==4){
+		 		iceshots.add(new Iceshot(Jay.getX(), Jay.getY() + BLOCK));	
+		 	    k = 11;}
+	}
+	 
 	 public void sword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
 	 
 	 	 	if(position==1){																		
@@ -984,6 +1205,72 @@ public class Board extends JPanel implements ActionListener{
 			
 			
 		}else shots.remove(i);
+    	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
+			check_shot_vs_enemy();
+			check_shot_vs_coin();
+			if (raum.contains("k")){
+				check_shot_vs_boss();
+			}
+	}
+     
+ArrayList<Airshot> airshots = getAirshots();
+     
+     for (int i = 0; i < airshots.size(); i++) {
+    	 Airshot m = (Airshot) airshots.get(i);
+
+    	 if(m.isVisible()){	 	
+		 					
+			if(k==00) m.move_r();
+			if(k==01) m.move_l();
+			if(k==10) m.move_u();
+			if(k==11) m.move_d();
+			
+			
+		}else airshots.remove(i);
+    	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
+			check_shot_vs_enemy();
+			check_shot_vs_coin();
+			if (raum.contains("k")){
+				check_shot_vs_boss();
+			}
+	}
+
+ArrayList<Earthshot> earthshots = getEarthshots();
+     
+     for (int i = 0; i < earthshots.size(); i++) {
+    	 Earthshot m = (Earthshot) earthshots.get(i);
+
+    	 if(m.isVisible()){	 	
+		 					
+			if(k==00) m.move_r();
+			if(k==01) m.move_l();
+			if(k==10) m.move_u();
+			if(k==11) m.move_d();
+			
+			
+		}else earthshots.remove(i);
+    	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
+			check_shot_vs_enemy();
+			check_shot_vs_coin();
+			if (raum.contains("k")){
+				check_shot_vs_boss();
+			}
+	}
+     
+     ArrayList<Iceshot> iceshots = getIceshots();
+     
+     for (int x = 0; x < iceshots.size(); x++) {
+    	 Iceshot d = (Iceshot) iceshots.get(x);
+
+    	 if(d.isVisible()){	 	
+		 					
+			if(k==00) d.move_r();
+			if(k==01) d.move_l();
+			if(k==10) d.move_u();
+			if(k==11) d.move_d();
+			
+			
+		}else iceshots.remove(x);
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
@@ -1048,7 +1335,11 @@ public class Board extends JPanel implements ActionListener{
 		public void check_shot_vs_coin() {
 
 			ArrayList<Shot> shots = getShots();
+			ArrayList<Iceshot> iceshots = getIceshots();
+			ArrayList<Airshot> airshots = getAirshots();
+			ArrayList<Earthshot> earthshots = getEarthshots();
 
+			if(feuerchen==5){
 			    for (int i = 0; i < shots.size(); i++) {
 			        Shot m = (Shot) shots.get(i);
 
@@ -1064,6 +1355,61 @@ public class Board extends JPanel implements ActionListener{
 			            }
 			        }
 			    }
+			    }
+			
+			if(erdchen==5){
+			    for (int i = 0; i < earthshots.size(); i++) {
+			        Earthshot m = (Earthshot) earthshots.get(i);
+
+			        Rectangle r1 = m.getBounds();
+
+			        for (int j = 0; j < coins.size(); j++) {
+				        Coin c = (Coin) coins.get(j);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                m.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+			    }
+			
+			if(luftchen==5){
+			    for (int i = 0; i < airshots.size(); i++) {
+			        Airshot m = (Airshot) airshots.get(i);
+
+			        Rectangle r1 = m.getBounds();
+
+			        for (int j = 0; j < coins.size(); j++) {
+				        Coin c = (Coin) coins.get(j);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                m.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+			    }
+			    
+			if(eischen==5){
+			    for (int i = 0; i < iceshots.size(); i++) {
+			        Iceshot m = (Iceshot) iceshots.get(i);
+
+			        Rectangle r1 = m.getBounds();
+
+			        for (int j = 0; j < coins.size(); j++) {
+				        Coin c = (Coin) coins.get(j);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                m.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+			}
 			}
 		
 		/**
@@ -1122,7 +1468,11 @@ public class Board extends JPanel implements ActionListener{
 		 */
 		public void check_shot_vs_boss() {																
 			ArrayList<Shot> shots = getShots();
+			ArrayList<Iceshot> iceshots = getIceshots();
+			ArrayList<Airshot> airshots = getAirshots();
+			ArrayList<Earthshot> earthshots = getEarthshots();
 
+			if(feuerchen==5){
 		    for (int i = 0; i < shots.size(); i++) {
 		        Shot m = (Shot) shots.get(i);
 		        Rectangle r1 = m.getBounds();
@@ -1142,6 +1492,72 @@ public class Board extends JPanel implements ActionListener{
 		        		}
 		        }
 	        }
+			}
+			if(luftchen==5){
+			    for (int i = 0; i < airshots.size(); i++) {
+			        Airshot m = (Airshot) airshots.get(i);
+			        Rectangle r1 = m.getBounds();
+			        
+			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
+			        		boss_leben=boss_leben-1;
+			        		if (boss_leben==0){
+			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+			        			loeschen(true);
+			        			try {
+			        				initWorld(Jay.getImage());
+			        			} catch (IOException e1) {
+
+			        				e1.printStackTrace();
+			        			}
+			        		}
+			        }
+		        }
+				}
+			
+			if(erdchen==5){
+			    for (int i = 0; i < earthshots.size(); i++) {
+			        Earthshot m = (Earthshot) earthshots.get(i);
+			        Rectangle r1 = m.getBounds();
+			        
+			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
+			        		boss_leben=boss_leben-1;
+			        		if (boss_leben==0){
+			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+			        			loeschen(true);
+			        			try {
+			        				initWorld(Jay.getImage());
+			        			} catch (IOException e1) {
+
+			        				e1.printStackTrace();
+			        			}
+			        		}
+			        }
+		        }
+				}
+			
+			if(eischen==5){
+			    for (int i = 0; i < iceshots.size(); i++) {
+			        Iceshot m = (Iceshot) iceshots.get(i);
+			        Rectangle r1 = m.getBounds();
+			        
+			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
+			        		boss_leben=boss_leben-1;
+			        		if (boss_leben==0){
+			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+			        			loeschen(true);
+			        			try {
+			        				initWorld(Jay.getImage());
+			        			} catch (IOException e1) {
+
+			        				e1.printStackTrace();
+			        			}
+			        		}
+			        }
+		        }
+				}
 
 		}
 		
@@ -1151,7 +1567,11 @@ public class Board extends JPanel implements ActionListener{
 		public void check_shot_vs_wall() {
 
 			ArrayList<Shot> shots = getShots();
+			ArrayList<Iceshot> iceshots = getIceshots();
+			ArrayList<Airshot> airshots = getAirshots();
+			ArrayList<Earthshot> earthshots = getEarthshots();
 
+			if(feuerchen ==5){
 		    for (int i = 0; i < shots.size(); i++) {
 		        Shot m = (Shot) shots.get(i);
 
@@ -1168,13 +1588,72 @@ public class Board extends JPanel implements ActionListener{
 		             }
 		        }
 		    }
+			}
+			
+			if(luftchen ==5){
+			    for (int i = 0; i < airshots.size(); i++) {
+			        Airshot m = (Airshot) airshots.get(i);
+
+			        Rectangle r1 = m.getBounds();
+
+			        for (int j = 0; j < walls.size(); j++) {
+				        Wall w = (Wall) walls.get(j);
+				        Rectangle r2 = w.getBounds();
+
+			            if (r1.intersects(r2)) {													//Schuss ist auf der Wand nicht sichtbar
+			                m.setVisible(false);
+			                w.setVisible(true);
+
+			             }
+			        }
+			    }
+				}
+			
+			if(erdchen ==5){
+			    for (int i = 0; i < earthshots.size(); i++) {
+			        Earthshot m = (Earthshot) earthshots.get(i);
+
+			        Rectangle r1 = m.getBounds();
+
+			        for (int j = 0; j < walls.size(); j++) {
+				        Wall w = (Wall) walls.get(j);
+				        Rectangle r2 = w.getBounds();
+
+			            if (r1.intersects(r2)) {													//Schuss ist auf der Wand nicht sichtbar
+			                m.setVisible(false);
+			                w.setVisible(true);
+
+			             }
+			        }
+			    }
+				}
+			
+			if (eischen == 5){
+		    for (int i = 0; i < iceshots.size(); i++) {
+		        Iceshot m = (Iceshot) iceshots.get(i);
+
+		        Rectangle r1 = m.getBounds();
+
+		        for (int j = 0; j < walls.size(); j++) {
+			        Wall w = (Wall) walls.get(j);
+			        Rectangle r2 = w.getBounds();
+
+		            if (r1.intersects(r2)) {
+		                m.setVisible(false);
+		                w.setVisible(true);
+		            }
+		        }
+		    }
+			}
 		}
+	
 
 		/**
 		 * Kollisionsabfrage: Schuss vs Gegner
 		 */
 		public void check_shot_vs_enemy() {								
 
+			if(feuerchen==5){
 			for (int i = 0; i < shots.size(); i++) {
 		        Shot m = (Shot) shots.get(i);
 		        Rectangle r1 = m.getBounds();
@@ -1198,6 +1677,85 @@ public class Board extends JPanel implements ActionListener{
 	        		}
 		
 		        }
+			}
+			
+			if(luftchen==5){
+				for (int i = 0; i < airshots.size(); i++) {
+			        Airshot m = (Airshot) airshots.get(i);
+			        Rectangle r1 = m.getBounds();
+			  
+			   	      	int xx = (int) ((r1.getX())/BLOCK);																	
+		        		int yy=(int)(r1.getY())/BLOCK;
+
+		        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
+			        		int xxx = ((Jay.getX())/BLOCK);																	
+			        		int yyy=(Jay.getY())/BLOCK;	
+
+			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+			        				int c =raum.lastIndexOf("@");						
+			    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+			    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+			    					try {
+			    						restartLevel(false, (Jay.getImage()));
+			    					} catch (IOException e1) {
+			    						e1.printStackTrace();
+			    					}
+		        		}
+			
+			        }
+				}
+			
+			if(erdchen==5){
+				for (int i = 0; i < earthshots.size(); i++) {
+			        Earthshot m = (Earthshot) earthshots.get(i);
+			        Rectangle r1 = m.getBounds();
+			  
+			   	      	int xx = (int) ((r1.getX())/BLOCK);																	
+		        		int yy=(int)(r1.getY())/BLOCK;
+
+		        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
+			        		int xxx = ((Jay.getX())/BLOCK);																	
+			        		int yyy=(Jay.getY())/BLOCK;	
+
+			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+			        				int c =raum.lastIndexOf("@");						
+			    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+			    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+			    					try {
+			    						restartLevel(false, (Jay.getImage()));
+			    					} catch (IOException e1) {
+			    						e1.printStackTrace();
+			    					}
+		        		}
+			
+			        }
+				}
+			
+			if(eischen==5){
+			for (int i = 0; i < iceshots.size(); i++) {
+		        Iceshot m = (Iceshot) iceshots.get(i);
+		        Rectangle r1 = m.getBounds();
+		  
+		   	      	int xx = (int) ((r1.getX())/BLOCK);																	
+	        		int yy=(int)(r1.getY())/BLOCK;
+
+	        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
+		        		int xxx = ((Jay.getX())/BLOCK);																	
+		        		int yyy=(Jay.getY())/BLOCK;	
+
+		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+		        				int c =raum.lastIndexOf("@");						
+		    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+		    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+		    					try {
+		    						restartLevel(false, (Jay.getImage()));
+		    					} catch (IOException e1) {
+		    						e1.printStackTrace();
+		    					}
+	        		}
+		
+		        }
+			}
 			}
 		
 		/**
@@ -1265,7 +1823,7 @@ public class Board extends JPanel implements ActionListener{
 			int xx = (int) ((Jay.getX())/BLOCK);
 	        int yy=(int)(Jay.getY())/BLOCK;
 
-	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')) {														
+	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')||(raum.charAt(yy*20+xx)=='1')||(raum.charAt(yy*20+xx)=='2')||(raum.charAt(yy*20+xx)=='3')||(raum.charAt(yy*20+xx)=='4')) {														
 		        		int xxx = ((Jay.getX())/BLOCK);																
 		        		int yyy=(Jay.getY())/BLOCK;	
 
