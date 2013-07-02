@@ -39,12 +39,18 @@ public class Board extends JPanel implements ActionListener{
 	Image img;
 	private Character Jay;
 	private String raum="";
-	private String lr,rooms,lrs; 														//lr fuer den Namen der Raumdatei, w:wandbild , h:hintergrundsbild
+	private String lr,rooms,lrs; 											//lr fuer den Namen der Raumdatei, w:wandbild , h:hintergrundsbild
+	
 	private ArrayList<Shot> shots;
 	private ArrayList<Iceshot> iceshots;
 	private ArrayList<Earthshot> earthshots;
 	private ArrayList<Airshot> airshots;
+	
 	private ArrayList<Sword> swords;
+	private ArrayList<Icesword> iceswords;
+	private ArrayList<Earthsword> earthswords;
+	private ArrayList<Airsword> airswords;
+	
 	private Timer timer;
 	private int BLOCK = 50;
 	private int position;
@@ -52,13 +58,21 @@ public class Board extends JPanel implements ActionListener{
 	private double life=3.0, xlife;
 	private int magic=0;
 	private int manapoints=0;
+	
 	private int schwertchen = 0;
+	private int eisschwertchen = 0;
+	private int erdschwertchen = 0;
+	private int luftschwertchen = 0;
+	
 	private int feuerchen = 0;
 	private int erdchen = 0;
 	private int eischen = 0;
 	private int luftchen = 0;
+	
 	private int k,z,posX,posY;
-	boolean ingame,mana,failed,get_sword,get_fireball,get_iceball, get_airball, get_earthball;
+	
+	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball;
+	
 	private checkpoint check;
 	private Ghost Geist;
 	private Boss Monster;
@@ -73,16 +87,44 @@ public class Board extends JPanel implements ActionListener{
 	ImageIcon l = new ImageIcon("src/Resources/l1.png");
 	ImageIcon t = new ImageIcon("src/Resources/Character top.png");
 	ImageIcon b = new ImageIcon("src/Resources/Character.png");
+	
+	ImageIcon fr = new ImageIcon("src/Resources/Character right with firesword.png");
+	ImageIcon fl = new ImageIcon("src/Resources/Character left with firesword.png");
+	ImageIcon ft = new ImageIcon("src/Resources/Character top with firesword.png");
+	ImageIcon fu = new ImageIcon("src/Resources/Character with firesword.png");
+	
+	ImageIcon ir = new ImageIcon("src/Resources/Character right with icesword.png");
+	ImageIcon il = new ImageIcon("src/Resources/Character left with icesword.png");
+	ImageIcon it = new ImageIcon("src/Resources/Character top with icesword.png");
+	ImageIcon iu = new ImageIcon("src/Resources/Character with icesword.png");
+	
+	ImageIcon er = new ImageIcon("src/Resources/Character right with earthsword.png");
+	ImageIcon el = new ImageIcon("src/Resources/Character left with earthsword.png");
+	ImageIcon et = new ImageIcon("src/Resources/Character top with earthsword.png");
+	ImageIcon eu = new ImageIcon("src/Resources/Character with earthsword.png");
+	
+	ImageIcon ar = new ImageIcon("src/Resources/Character right with airsword.png");
+	ImageIcon al = new ImageIcon("src/Resources/Character left with airsword.png");
+	ImageIcon at = new ImageIcon("src/Resources/Character top with airsword.png");
+	ImageIcon au = new ImageIcon("src/Resources/Character with airsword.png");
+	
 	ImageIcon tr = new ImageIcon("src/Resources/trankk.png");
 	ImageIcon h1 = new ImageIcon("src/Resources/herz.png");
+	
 	ImageIcon dr = new ImageIcon("src/Resources/digright.png");	
 	ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
 	ImageIcon du = new ImageIcon("src/Resources/digup.png");
 	ImageIcon db = new ImageIcon("src/Resources/digb.png");
-	ImageIcon sw = new ImageIcon("src/Resources/sword.png");
+	
+	ImageIcon sw = new ImageIcon("src/Resources/firesword.png");
+	ImageIcon is = new ImageIcon("src/Resources/icesword.png");
+	ImageIcon es = new ImageIcon("src/Resources/earthsword.png");
+	ImageIcon as = new ImageIcon("src/Resources/airsword.png");
+	
 	ImageIcon co = new ImageIcon("src/Resources/Coin.png");
 	ImageIcon h2 = new ImageIcon("src/Resources/halbherz.png");
 	ImageIcon s = new ImageIcon("src/Resources/schatz.png");
+	
 	ImageIcon fb = new ImageIcon("src/Resources/fireball.png");
 	ImageIcon ib = new ImageIcon("src/Resources/iceball.png");
 	ImageIcon ab = new ImageIcon("src/Resources/airball.png");
@@ -104,7 +146,12 @@ public class Board extends JPanel implements ActionListener{
 	java.util.List<Movement> manas = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> Jays = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> herzen = new java.util.ArrayList<Movement>();
+	
 	java.util.List<Movement> schwerter = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> eisschwerter = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> erdschwerter = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> luftschwerter = new java.util.ArrayList<Movement>();
+	
 	java.util.List<Movement> feuericons = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> eisicons = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> lufticons = new java.util.ArrayList<Movement>();
@@ -117,20 +164,47 @@ public class Board extends JPanel implements ActionListener{
 	Image image2 = image = l.getImage();
 	Image image3 = image = t.getImage();	
 	Image image4 = image = b.getImage();
+	
+	Image imagef1 = image = fr.getImage();
+	Image imagef2 = image = fl.getImage();
+	Image imagef3 = image = ft.getImage();
+	Image imagef4 = image = fu.getImage();
+	
+	Image imagei1 = image = ir.getImage();
+	Image imagei2 = image = il.getImage();
+	Image imagei3 = image = it.getImage();
+	Image imagei4 = image = iu.getImage();
+	
+	Image imagee1 = image = er.getImage();
+	Image imagee2 = image = el.getImage();
+	Image imagee3 = image = et.getImage();
+	Image imagee4 = image = eu.getImage();
+	
+	Image imagea1 = image = ar.getImage();
+	Image imagea2 = image = al.getImage();
+	Image imagea3 = image = at.getImage();
+	Image imagea4 = image = au.getImage();
+	
 	Image trank = image = tr.getImage();
 	Image herz1 = image = h1.getImage();
 	Image herz2 = image = h2.getImage();
 	Image schatz = image = s.getImage();
+	Image coin = image = co.getImage();
+	
 	Image image5 = image = dr.getImage();
 	Image image6 = image = dl.getImage();
 	Image image7 = image = du.getImage();
 	Image image8 = image = db.getImage();
+	
 	Image sword = image = sw.getImage();
+	Image icesword = image = is.getImage();
+	Image earthsword = image = es.getImage();
+	Image airsword = image = as.getImage();
+	
 	Image fireball = image = fb.getImage();
 	Image airball = image = ab.getImage();
 	Image iceball = image = ib.getImage();
 	Image earthball = image = eb.getImage();
-	Image coin = image = co.getImage();
 	
 /**
  * Gibt den Status des Spiels zu Beginn an
@@ -147,17 +221,28 @@ public class Board extends JPanel implements ActionListener{
 		initWorld(image4);
 		ingame = true;
 		mana = false;
+		
 		schwertchen = 0;
+		eisschwertchen = 0;
+		erdschwertchen = 0;
+		luftschwertchen = 0;
+		
 		feuerchen = 0;
 		eischen = 0;
 		luftchen = 0;
 		erdchen = 0;
 		manapoints = 100;
+		
 	    shots = new ArrayList<Shot>();
 	    airshots = new ArrayList<Airshot>();
 	    iceshots = new ArrayList<Iceshot>();
 	    earthshots = new ArrayList<Earthshot>();
+	    
 		swords = new ArrayList<Sword>();
+		iceswords = new ArrayList<Icesword>();
+		earthswords = new ArrayList<Earthsword>();
+		airswords = new ArrayList<Airsword>();
+		
 	    timer = new Timer(5, this);
         timer.start();
     }
@@ -176,7 +261,12 @@ public class Board extends JPanel implements ActionListener{
 		manas.clear();
 		herzen.clear();
 		shopkeepers.clear();
+		
 		schwerter.clear();
+		eisschwerter.clear();
+		erdschwerter.clear();
+		luftschwerter.clear();
+		
 		eisicons.clear();
 		feuericons.clear();
 		lufticons.clear();
@@ -261,8 +351,20 @@ public class Board extends JPanel implements ActionListener{
 		/**
 		 * Nimmt bei Kollision das Schwert auf
 		 */
-		if (raum.charAt(yy*20+xx)=='o'){
+		if (raum.charAt(yy*20+xx)=='5'){
 			schwertchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='6'){
+			eisschwertchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='7'){
+			erdschwertchen = 5;
+			spend_herzen();
+		}
+		if (raum.charAt(yy*20+xx)=='8'){
+			luftschwertchen = 5;
 			spend_herzen();
 		}
 		if (raum.charAt(yy*20+xx)=='1'){
@@ -509,7 +611,12 @@ public class Board extends JPanel implements ActionListener{
 		Mana mana;
 		Mana shopmana;
 		Heiltrank heiltrank;
+		
 		Swordicon schwert;
+		Iceswordicon eisschwert;
+		Earthswordicon erdschwert;
+		Airswordicon luftschwert;
+		
 		Eisicon eis;
 		Feuericon feuer;
 		Lufticon luft;
@@ -548,7 +655,60 @@ public class Board extends JPanel implements ActionListener{
 						Jay.setImage(image);}
 					if (image==image4){
 						image =	b.getImage();
-						Jay.setImage(image);}	
+						Jay.setImage(image);}
+					
+					if (image==imagef1){
+						image =	fr.getImage();
+						Jay.setImage(image);}
+					if (image==imagef2){
+						image =	fl.getImage();
+						Jay.setImage(image);}
+					if (image==imagef3){
+						image =	ft.getImage();
+						Jay.setImage(image);}
+					if (image==imagef4){
+						image =	fu.getImage();
+						Jay.setImage(image);}
+					
+					if (image==imagei1){
+						image =	ir.getImage();
+						Jay.setImage(image);}
+					if (image==imagei2){
+						image =	il.getImage();
+						Jay.setImage(image);}
+					if (image==imagei3){
+						image =	it.getImage();
+						Jay.setImage(image);}
+					if (image==imagei4){
+						image =	iu.getImage();
+						Jay.setImage(image);}
+					
+					if (image==imagee1){
+						image =	er.getImage();
+						Jay.setImage(image);}
+					if (image==imagee2){
+						image =	el.getImage();
+						Jay.setImage(image);}
+					if (image==imagee3){
+						image =	et.getImage();
+						Jay.setImage(image);}
+					if (image==imagee4){
+						image =	eu.getImage();
+						Jay.setImage(image);}
+					
+					if (image==imagea1){
+						image =	ar.getImage();
+						Jay.setImage(image);}
+					if (image==imagea2){
+						image =	al.getImage();
+						Jay.setImage(image);}
+					if (image==imagea3){
+						image =	at.getImage();
+						Jay.setImage(image);}
+					if (image==imagea4){
+						image =	au.getImage();
+						Jay.setImage(image);}
+					
 					if (image==image5){
 						image =	dr.getImage();
 						Jay.setImage(image);}	
@@ -588,9 +748,24 @@ public class Board extends JPanel implements ActionListener{
 					wizards.add(wizard);
 					x = x + BLOCK;
 			}
-			else if(obj == 'o'){
+			else if(obj == '5'){
 				schwert = new Swordicon(x,y);
 				schwerter.add(schwert);
+				x = x + BLOCK;
+			}
+			else if(obj == '6'){
+				eisschwert = new Iceswordicon(x,y);
+				eisschwerter.add(eisschwert);
+				x = x + BLOCK;
+			}
+			else if(obj == '7'){
+				erdschwert = new Earthswordicon(x,y);
+				erdschwerter.add(erdschwert);
+				x = x + BLOCK;
+			}
+			else if(obj == '8'){
+				luftschwert = new Airswordicon(x,y);
+				luftschwerter.add(luftschwert);
 				x = x + BLOCK;
 			}
 			else if(obj == '1'){
@@ -677,7 +852,12 @@ public class Board extends JPanel implements ActionListener{
 		world.addAll(shopkeepers);
 		world.addAll(manas);
 		world.addAll(herzen);
+		
 		world.addAll(schwerter);
+		world.addAll(eisschwerter);
+		world.addAll(erdschwerter);
+		world.addAll(luftschwerter);
+		
 		world.addAll(feuericons);
 		world.addAll(eisicons);
 		world.addAll(lufticons);
@@ -720,6 +900,24 @@ public class Board extends JPanel implements ActionListener{
 	      ArrayList<Sword> swords = getSwords();
 	       		for (int i = 0; i < swords.size(); i++){
 	       			Sword s = (Sword) swords.get(i);
+	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+               }
+	       
+	      ArrayList<Icesword> iceswords = getIceswords();
+	       		for (int i = 0; i < iceswords.size(); i++){
+	       			Icesword s = (Icesword) iceswords.get(i);
+	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+               }
+	       		
+	     ArrayList<Earthsword> earthswords = getEarthswords();
+	       		for (int i = 0; i < earthswords.size(); i++){
+	       			Earthsword s = (Earthsword) earthswords.get(i);
+	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+               }
+	       		
+	     ArrayList<Airsword> airswords = getAirswords();
+	       		for (int i = 0; i < airswords.size(); i++){
+	       			Airsword s = (Airsword) airswords.get(i);
 	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 
@@ -787,8 +985,8 @@ public class Board extends JPanel implements ActionListener{
 	        g.setFont(smallfont);															// Geldanzeige
 	        g.setColor(new Color(98,150,255));
 	        s = "Money: " + (countsmoney);
-	        g.drawString(s,970,160);
-	    	g.drawImage(schatz,970,180,this);												// zeichnet Welt mit Punktestand..
+	        g.drawString(s,970,130);
+	    	g.drawImage(schatz,970,150,this);												// zeichnet Welt mit Punktestand..
 		
 	    	double lifebar= life;
 	    	
@@ -800,40 +998,58 @@ public class Board extends JPanel implements ActionListener{
 			String m;
 			
 			m = "Mana: " + (manapoints);
-			g.drawString(m,970,280);
+			g.drawString(m,970,240);
 			
 			if(life > 3){
 				life = 3;
 			}
 			
-			if (schwertchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(sword,960, 550, this);
-	    		p = "Du hast ein Schwert!";
-	    		g.drawString(p,970,420);
+			if (schwertchen == 5){    						
+	    		g.drawImage(sword,960, 700, this);
+	    		p = "Du hast ein Feuerschwert!";
+	    		g.drawString(p,970,580);
 	    		get_sword=true;
 			}
-			if (feuerchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(fireball,1020, 550, this);
+			if (eisschwertchen == 5){    						
+	    		g.drawImage(icesword,1020, 700, this);
+	    		p = "Du hast ein Eisschwert!";
+	    		g.drawString(p,970,610);
+	    		get_icesword=true;
+			}
+			if (erdschwertchen == 5){    						
+	    		g.drawImage(earthsword,1080, 700, this);
+	    		p = "Du hast ein Erdschwert!";
+	    		g.drawString(p,970,670);
+	    		get_earthsword=true;
+			}
+			if (luftschwertchen == 5){    						
+	    		g.drawImage(airsword,1140, 700, this);
+	    		p = "Du hast ein Luftschwert!";
+	    		g.drawString(p,970,640);
+	    		get_airsword=true;
+			}
+			if (feuerchen == 5){    									
+	    		g.drawImage(fireball,960, 500, this);
 	    		p = "Du hast die Macht des Feuers!";
-	    		g.drawString(p,970,450);
+	    		g.drawString(p,970,400);
 	    		get_fireball=true;
 			}
-			if (eischen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(iceball,1080, 550, this);
+			if (eischen == 5){    												
+	    		g.drawImage(iceball,1020, 500, this);
 	    		p = "Du hast die Macht des Eises!";
-	    		g.drawString(p,970,480);
+	    		g.drawString(p,970,430);
 	    		get_iceball=true;
 			}
-			if (luftchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(airball,1140, 550, this);
+			if (luftchen == 5){    												
+	    		g.drawImage(airball,1140, 500, this);
 	    		p = "Du hast die Macht der Luft!";
-	    		g.drawString(p,970,510);
+	    		g.drawString(p,970,460);
 	    		get_airball=true;
 			}
-			if (erdchen == 5){    														//startet bei Kollision den Dialog des Ladenbesitzers
-	    		g.drawImage(earthball,1200, 550, this);
+			if (erdchen == 5){    							
+	    		g.drawImage(earthball,1080, 500, this);
 	    		p = "Du hast die Macht der Erde!";
-	    		g.drawString(p,970,540);
+	    		g.drawString(p,970,490);
 	    		get_earthball=true;
 			}
 			
@@ -866,22 +1082,22 @@ public class Board extends JPanel implements ActionListener{
    		        g.setFont(smallfont);																// Manaanzeige
    		        g.setColor(new Color(98,150,255));
    		        mes = "Manatraenke: " + (magic);
-   		        g.drawString(mes,970,350);
+   		        g.drawString(mes,970,300);
    		 
 	        	if(mana==true){
 	        		
 	        		if(magic==1){																	
-	        			g.drawImage(trank, 970, 370, this);
+	        			g.drawImage(trank, 970, 320, this);
 	        		}
 	        		if(magic==2){																
-	        			g.drawImage(trank,970,370,this);
-	        			g.drawImage(trank,1020,370, this);	
+	        			g.drawImage(trank,970,320,this);
+	        			g.drawImage(trank,1020,320, this);	
 	        		}
 	        	
 	        		if(magic==3){																	
-	        			g.drawImage(trank,970,370,this);
-	        			g.drawImage(trank,1020, 370, this);
-	        			g.drawImage(trank,1070, 370, this);				  			
+	        			g.drawImage(trank,970,320,this);
+	        			g.drawImage(trank,1020, 320, this);
+	        			g.drawImage(trank,1070, 320, this);				  			
 	        		}
 	        	 
 	        		if (magic > 3){			
@@ -923,6 +1139,15 @@ public class Board extends JPanel implements ActionListener{
     public ArrayList<Sword> getSwords() {																
 	     return swords;
     }
+    public ArrayList<Icesword> getIceswords() {																
+	     return iceswords;
+   }
+    public ArrayList<Earthsword> getEarthswords() {																
+	     return earthswords;
+  }
+    public ArrayList<Airsword> getAirswords() {																
+	     return airswords;
+  }
 
     /**
      * Fuegt Tastenbefehle hinzu
@@ -945,32 +1170,144 @@ public class Board extends JPanel implements ActionListener{
 
 			if(key == KeyEvent.VK_RIGHT){		
 
+			if(get_sword==false && get_icesword==false && get_earthsword == false && get_airsword==false){
 				Image image1 = image = r.getImage();
 				Jay.setImage(image);
 				position = 1;
-				collision(BLOCK,0, image1);
+				collision(BLOCK,0, image1);}
+			else if(schwertchen==5){
+				Image imagef1 = image = fr.getImage();
+				Jay.setImage(image);
+				position = 1;
+				collision(BLOCK,0, imagef1);
+			}
+			
+			else if(eisschwertchen==5){
+				Image imagei1 = image = ir.getImage();
+				Jay.setImage(image);
+				position = 1;
+				collision(BLOCK,0, imagei1);
+			}
+			
+			else if(erdschwertchen==5){
+				Image imagee1 = image = er.getImage();
+				Jay.setImage(image);
+				position = 1;
+				collision(BLOCK,0, imagee1);
+			}
+			
+			else if(luftschwertchen==5){
+				Image imagea1 = image = ar.getImage();
+				Jay.setImage(image);
+				position = 1;
+				collision(BLOCK,0, imagea1);
+			}
 
 			}else if(key == KeyEvent.VK_LEFT){
 
+			if(get_sword==false && get_icesword==false && get_earthsword == false && get_airsword==false){	
 				Image image2 = image = l.getImage();
 				Jay.setImage(image);
 				position = 2;
-				collision(-BLOCK,0, image2);
+				collision(-BLOCK,0, image2);}
+			else if(schwertchen==5){
+				Image imagef2 = image = fl.getImage();
+				Jay.setImage(image);
+				position = 2;
+				collision(-BLOCK,0, imagef2);
+			}
+			
+			else if(eisschwertchen==5){
+				Image imagei2 = image = il.getImage();
+				Jay.setImage(image);
+				position = 2;
+				collision(-BLOCK,0, imagei2);
+			}
+			
+			else if(erdschwertchen==5){
+				Image imagee2 = image = el.getImage();
+				Jay.setImage(image);
+				position = 2;
+				collision(-BLOCK,0, imagee2);
+			}
+			
+			else if(luftschwertchen==5){
+				Image imagea2 = image = al.getImage();
+				Jay.setImage(image);
+				position = 2;
+				collision(-BLOCK,0, imagea2);
+			}
 
 			}
 			else if(key == KeyEvent.VK_UP){
 
+			if(get_sword==false && get_icesword==false && get_earthsword == false && get_airsword==false){	
 				Image image3= image = t.getImage() ;
 				Jay.setImage(image);
 				position = 3;
-				collision(0,-BLOCK,image3);
+				collision(0,-BLOCK,image3);}
+			else if(schwertchen==5){
+				Image imagef3 = image = ft.getImage();
+				Jay.setImage(image);
+				position = 3;
+				collision(0, -BLOCK, imagef3);
+			}
+			
+			else if(eisschwertchen==5){
+				Image imagei3 = image = it.getImage();
+				Jay.setImage(image);
+				position = 3;
+				collision(0, -BLOCK, imagei3);
+			}
+			
+			else if(erdschwertchen==5){
+				Image imagee3 = image = et.getImage();
+				Jay.setImage(image);
+				position = 3;
+				collision(0, -BLOCK, imagee3);
+			}
+			
+			else if(luftschwertchen==5){
+				Image imagea3 = image = at.getImage();
+				Jay.setImage(image);
+				position = 3;
+				collision(0, -BLOCK, imagea3);
+			}
 
 			}else if(key == KeyEvent.VK_DOWN){
 
+			if(get_sword==false && get_icesword==false && get_earthsword == false && get_airsword==false){	
 				Image image4 = image = b.getImage();
 				Jay.setImage(image);
 				position = 4;
-				collision(0,BLOCK, image4);
+				collision(0,BLOCK, image4);}
+			else if(schwertchen==5){
+				Image imagef4 = image = fu.getImage();
+				Jay.setImage(image);
+				position = 4;
+				collision(0, BLOCK, imagef4);
+			}
+			
+			else if(eisschwertchen==5){
+				Image imagei4 = image = iu.getImage();
+				Jay.setImage(image);
+				position = 4;
+				collision(0, BLOCK, imagei4);
+			}
+			
+			else if(erdschwertchen==5){
+				Image imagee4 = image = eu.getImage();
+				Jay.setImage(image);
+				position = 4;
+				collision(0, BLOCK, imagee4);
+			}
+			
+			else if(luftschwertchen==5){
+				Image imagea4 = image = au.getImage();
+				Jay.setImage(image);
+				position = 4;
+				collision(0, BLOCK, imagea4);
+			}
 
 			}
 			else if(key == KeyEvent.VK_B){
@@ -991,32 +1328,301 @@ public class Board extends JPanel implements ActionListener{
 			}
 			else if(key == KeyEvent.VK_C){
 
-			if(feuerchen ==5){
+			if(get_fireball==true && get_iceball==false && get_earthball==false && get_airball==false){
+				feuerchen=5;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==false && get_airball==false){
+				eischen=5;
+			}
+			else if(get_fireball==false && get_iceball==false && get_earthball==true && get_airball==false){
+				erdchen=5;
+			}
+			else if(get_fireball==false && get_iceball==false && get_earthball==false && get_airball==true){
+				luftchen=5;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==false && get_airball==false && feuerchen==5){
 				feuerchen=0;
+				eischen=5;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==false && get_airball==false && eischen==5){
+				feuerchen=5;
+				eischen=0;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==true && get_airball==false && feuerchen==5){
+				feuerchen=0;
+				erdchen=5;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==true && get_airball==false && erdchen==5){
+				feuerchen=5;
+				erdchen=0;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==false && get_airball==true && feuerchen==5){
+				feuerchen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==false && get_airball==true && luftchen==5){
+				feuerchen=5;
 				luftchen=0;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==true && get_airball==false && eischen==5){
+				eischen=0;
+				erdchen=5;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==true && get_airball==false && erdchen==5){
 				eischen=5;
 				erdchen=0;
 			}
-			else if(eischen==5){
+			else if(get_fireball==false && get_iceball==true && get_earthball==false && get_airball==true && eischen==5){
 				eischen=0;
-				feuerchen=0;
 				luftchen=5;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==false && get_airball==true && luftchen==5){
+				eischen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==false && get_iceball==false && get_earthball==true && get_airball==true && erdchen==5){
+				erdchen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==false && get_iceball==false && get_earthball==true && get_airball==true && luftchen==5){
+				erdchen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==false && feuerchen==5){
+				feuerchen=0;
+				eischen=5;
 				erdchen=0;
 			}
-			else if(luftchen==5){
-				eischen=0;
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==false && eischen==5){
 				feuerchen=0;
-				luftchen=0;
+				eischen=0;
 				erdchen=5;
 			}
-			else if(erdchen==5){
-				eischen=0;
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==false && erdchen==5){
 				feuerchen=5;
-				luftchen=0;
+				eischen=0;
 				erdchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==false && get_airball==true && feuerchen==5){
+				feuerchen=0;
+				eischen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==false && get_airball==true && eischen==5){
+				feuerchen=0;
+				eischen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==false && get_airball==true && luftchen==5){
+				feuerchen=5;
+				eischen=0;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==true && get_airball==true && feuerchen==5){
+				feuerchen=0;
+				erdchen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==true && get_airball==true && erdchen==5){
+				feuerchen=0;
+				erdchen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==true && get_iceball==false && get_earthball==true && get_airball==true && luftchen==5){
+				feuerchen=5;
+				erdchen=0;
+				luftchen=0;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==true && get_airball==true && eischen==5){
+				eischen=0;
+				erdchen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==true && get_airball==true && erdchen==5){
+				eischen=0;
+				erdchen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==false && get_iceball==true && get_earthball==true && get_airball==true && luftchen==5){
+				eischen=5;
+				erdchen=0;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==true && feuerchen==5){
+				feuerchen=0;
+				eischen=5;
+				erdchen=0;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==true && eischen==5){
+				feuerchen=0;
+				eischen=0;
+				erdchen=5;
+				luftchen=0;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==true && erdchen==5){
+				feuerchen=0;
+				eischen=0;
+				erdchen=0;
+				luftchen=5;
+			}
+			else if(get_fireball==true && get_iceball==true && get_earthball==true && get_airball==true && luftchen==5){
+				feuerchen=5;
+				eischen=0;
+				erdchen=0;
+				luftchen=0;
 			}
 
 			}
+			
+			else if(key == KeyEvent.VK_X){
+
+				if(get_sword==true && get_icesword==false && get_earthsword==false && get_airsword==false){
+					schwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==false && get_airsword==false){
+					eisschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==false && get_earthsword==true && get_airsword==false){
+					erdschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==false && get_earthsword==false && get_airsword==true){
+					luftschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==false && get_airsword==false && schwertchen==5){
+					schwertchen=0;
+					eisschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==false && get_airsword==false && eisschwertchen==5){
+					schwertchen=5;
+					eisschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==true && get_airsword==false && schwertchen==5){
+					schwertchen=0;
+					erdschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==true && get_airsword==false && erdschwertchen==5){
+					schwertchen=5;
+					erdschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==false && get_airsword==true && schwertchen==5){
+					schwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==false && get_airsword==true && luftschwertchen==5){
+					schwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==true && get_airsword==false && eisschwertchen==5){
+					eisschwertchen=0;
+					erdschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==true && get_airsword==false && erdschwertchen==5){
+					eisschwertchen=5;
+					erdschwertchen=0;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==false && get_airsword==true && eisschwertchen==5){
+					eisschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==false && get_airsword==true && luftschwertchen==5){
+					eisschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==false && get_icesword==false && get_earthsword==true && get_airsword==true && erdschwertchen==5){
+					erdschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==false && get_earthsword==true && get_airsword==true && luftschwertchen==5){
+					erdschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==false && schwertchen==5){
+					schwertchen=0;
+					eisschwertchen=5;
+					erdschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==false && eisschwertchen==5){
+					schwertchen=0;
+					eisschwertchen=0;
+					erdschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==false && erdschwertchen==5){
+					schwertchen=5;
+					eisschwertchen=0;
+					erdschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==false && get_airsword==true && schwertchen==5){
+					schwertchen=0;
+					eisschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==false && get_airsword==true && eisschwertchen==5){
+					schwertchen=0;
+					eisschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==false && get_airsword==true && luftschwertchen==5){
+					schwertchen=5;
+					eisschwertchen=0;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==true && get_airsword==true && schwertchen==5){
+					schwertchen=0;
+					erdschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==true && get_airsword==true && erdschwertchen==5){
+					schwertchen=0;
+					erdschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==false && get_earthsword==true && get_airsword==true && luftschwertchen==5){
+					schwertchen=5;
+					erdschwertchen=0;
+					luftschwertchen=0;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==true && get_airsword==true && eisschwertchen==5){
+					eisschwertchen=0;
+					erdschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==true && get_airsword==true && erdschwertchen==5){
+					eisschwertchen=0;
+					erdschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==false && get_icesword==true && get_earthsword==true && get_airsword==true && luftschwertchen==5){
+					eisschwertchen=5;
+					erdschwertchen=0;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==true && schwertchen==5){
+					schwertchen=0;
+					eisschwertchen=5;
+					erdschwertchen=0;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==true && eisschwertchen==5){
+					schwertchen=0;
+					eisschwertchen=0;
+					erdschwertchen=5;
+					luftschwertchen=0;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==true && erdschwertchen==5){
+					schwertchen=0;
+					eisschwertchen=0;
+					erdschwertchen=0;
+					luftschwertchen=5;
+				}
+				else if(get_sword==true && get_icesword==true && get_earthsword==true && get_airsword==true && luftschwertchen==5){
+					schwertchen=5;
+					eisschwertchen=0;
+					erdschwertchen=0;
+					luftschwertchen=0;
+				}
+
+				}
 			
 			else if (key == KeyEvent.VK_SPACE && feuerchen==5) {	
 				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
@@ -1047,8 +1653,20 @@ public class Board extends JPanel implements ActionListener{
 				
 			}
 			
-			else if (key == KeyEvent.VK_V && get_sword==true) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+			else if (key == KeyEvent.VK_V && schwertchen==5) {										// 2 te Waffe = Schwertkampf in versch Richtungen
 				sword_play();
+			}
+			
+			else if (key == KeyEvent.VK_V && eisschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+				icesword_play();
+			}
+			
+			else if (key == KeyEvent.VK_V && erdschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+				earthsword_play();
+			}
+			
+			else if (key == KeyEvent.VK_V && luftschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+				airsword_play();
 			}
 
 			repaint();
@@ -1184,6 +1802,78 @@ public class Board extends JPanel implements ActionListener{
 				swords.add(new Sword(Jay.getX(), Jay.getY() + 2));	
 		 	    z = 11;}
 		 	}
+	 
+	 public void icesword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+		 
+	 	 	if(position==1){																		
+		 		image = dr.getImage();
+				Jay.setImage(image);
+				iceswords.add(new Icesword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
+		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 	if(position==2){			
+		 		image = dl.getImage();
+				Jay.setImage(image);																	
+			 	iceswords.add(new Icesword(Jay.getX(), Jay.getY()));					// z als Flag fuer die Richtungen des Angriffs
+			 	z = 01;}
+		 	if(position==3){
+		 		image = du.getImage();
+				Jay.setImage(image);
+				iceswords.add(new Icesword(Jay.getX(), Jay.getY()));
+		 		z = 10;}
+			if(position==4){
+		 		image = db.getImage();
+				Jay.setImage(image);
+				iceswords.add(new Icesword(Jay.getX(), Jay.getY() + 2));	
+		 	    z = 11;}
+		 	}
+	 
+	 public void earthsword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+		 
+	 	 	if(position==1){																		
+		 		image = dr.getImage();
+				Jay.setImage(image);
+				earthswords.add(new Earthsword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
+		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 	if(position==2){			
+		 		image = dl.getImage();
+				Jay.setImage(image);																	
+			 	earthswords.add(new Earthsword(Jay.getX(), Jay.getY()));					// z als Flag fuer die Richtungen des Angriffs
+			 	z = 01;}
+		 	if(position==3){
+		 		image = du.getImage();
+				Jay.setImage(image);
+				earthswords.add(new Earthsword(Jay.getX(), Jay.getY()));
+		 		z = 10;}
+			if(position==4){
+		 		image = db.getImage();
+				Jay.setImage(image);
+				earthswords.add(new Earthsword(Jay.getX(), Jay.getY() + 2));	
+		 	    z = 11;}
+		 	}
+	 
+	 public void airsword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+		 
+	 	 	if(position==1){																		
+		 		image = dr.getImage();
+				Jay.setImage(image);
+				airswords.add(new Airsword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
+		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 	if(position==2){			
+		 		image = dl.getImage();
+				Jay.setImage(image);																	
+			 	airswords.add(new Airsword(Jay.getX(), Jay.getY()));					// z als Flag fuer die Richtungen des Angriffs
+			 	z = 01;}
+		 	if(position==3){
+		 		image = du.getImage();
+				Jay.setImage(image);
+				airswords.add(new Airsword(Jay.getX(), Jay.getY()));
+		 		z = 10;}
+			if(position==4){
+		 		image = db.getImage();
+				Jay.setImage(image);
+				airswords.add(new Airsword(Jay.getX(), Jay.getY() + 2));	
+		 	    z = 11;}
+		 	}
 
 	 /**
 	  * Fuehrt die Schuesse aus
@@ -1213,7 +1903,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 	}
      
-ArrayList<Airshot> airshots = getAirshots();
+     ArrayList<Airshot> airshots = getAirshots();
      
      for (int i = 0; i < airshots.size(); i++) {
     	 Airshot m = (Airshot) airshots.get(i);
@@ -1235,7 +1925,7 @@ ArrayList<Airshot> airshots = getAirshots();
 			}
 	}
 
-ArrayList<Earthshot> earthshots = getEarthshots();
+     ArrayList<Earthshot> earthshots = getEarthshots();
      
      for (int i = 0; i < earthshots.size(); i++) {
     	 Earthshot m = (Earthshot) earthshots.get(i);
@@ -1278,8 +1968,11 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 				check_shot_vs_boss();
 			}
 	}
-			 ArrayList<Sword> swords = getSwords()
-					 ;
+			 ArrayList<Sword> swords = getSwords();
+			 ArrayList<Icesword> iceswords = getIceswords();
+			 ArrayList<Earthsword> earthswords = getEarthswords();
+			 ArrayList<Airsword> airswords = getAirswords();
+			 
 			 for (int j = 0; j < swords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
 				 Sword s = (Sword) swords.get(j);
 				 
@@ -1295,6 +1988,54 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 				 			check_sword_vs_enemy();
 				 			check_sword_vs_coin();
 	 		}	
+			 
+			 for (int j = 0; j < iceswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+				 Icesword s = (Icesword) iceswords.get(j);
+				 
+				 		if(s.isVisible()){
+							
+				 			if(z==00) s.move_r_sword();
+				 			if(z==01) s.move_l_sword();
+				 			if(z==10) s.move_u_sword();
+				 			if(z==11) s.move_d_sword();
+							
+						}else iceswords.remove(j);
+				 			check_sword_vs_wall();											// Kollision mit Schwertangriff 
+				 			check_sword_vs_enemy();
+				 			check_sword_vs_coin();
+	 		}
+			 
+			 for (int j = 0; j < earthswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+				 Earthsword s = (Earthsword) earthswords.get(j);
+				 
+				 		if(s.isVisible()){
+							
+				 			if(z==00) s.move_r_sword();
+				 			if(z==01) s.move_l_sword();
+				 			if(z==10) s.move_u_sword();
+				 			if(z==11) s.move_d_sword();
+							
+						}else earthswords.remove(j);
+				 			check_sword_vs_wall();											// Kollision mit Schwertangriff 
+				 			check_sword_vs_enemy();
+				 			check_sword_vs_coin();
+	 		}
+			 
+			 for (int j = 0; j < airswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+				 Airsword s = (Airsword) airswords.get(j);
+				 
+				 		if(s.isVisible()){
+							
+				 			if(z==00) s.move_r_sword();
+				 			if(z==01) s.move_l_sword();
+				 			if(z==10) s.move_u_sword();
+				 			if(z==11) s.move_d_sword();
+							
+						}else airswords.remove(j);
+				 			check_sword_vs_wall();											// Kollision mit Schwertangriff 
+				 			check_sword_vs_enemy();
+				 			check_sword_vs_coin();
+	 		}
 			 repaint();	
 	}
 		 
@@ -1418,9 +2159,60 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 		public void check_sword_vs_coin() {										
 
 			 ArrayList<Sword> swords = getSwords();
+			 ArrayList<Icesword> iceswords = getIceswords();
+			 ArrayList<Earthsword> earthswords = getEarthswords();
+			 ArrayList<Airsword> airswords = getAirswords();
 			 
 				for (int j = 0; j < swords.size(); j++) {										
 					Sword s = (Sword) swords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< coins.size(); i++) {
+				        Coin c = (Coin) coins.get(i);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < iceswords.size(); j++) {										
+					Icesword s = (Icesword) iceswords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< coins.size(); i++) {
+				        Coin c = (Coin) coins.get(i);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < earthswords.size(); j++) {										
+					Earthsword s = (Earthsword) earthswords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< coins.size(); i++) {
+				        Coin c = (Coin) coins.get(i);
+				        Rectangle r2 = c.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                c.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < airswords.size(); j++) {										
+					Airsword s = (Airsword) airswords.get(j);
 
 			        Rectangle r1 = s.getBounds();
 
@@ -1442,9 +2234,60 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 		public void check_sword_vs_wall() {																
 
 			 ArrayList<Sword> swords = getSwords();
+			 ArrayList<Icesword> iceswords = getIceswords();
+			 ArrayList<Earthsword> earthswords = getEarthswords();
+			 ArrayList<Airsword> airswords = getAirswords();
 			 
 				for (int j = 0; j < swords.size(); j++) {										
 					Sword s = (Sword) swords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< walls.size(); i++) {
+				        Wall w = (Wall) walls.get(i);
+				        Rectangle r2 = w.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                w.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < iceswords.size(); j++) {										
+					Icesword s = (Icesword) iceswords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< walls.size(); i++) {
+				        Wall w = (Wall) walls.get(i);
+				        Rectangle r2 = w.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                w.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < earthswords.size(); j++) {										
+					Earthsword s = (Earthsword) earthswords.get(j);
+
+			        Rectangle r1 = s.getBounds();
+
+			        for (int i = 0; i< walls.size(); i++) {
+				        Wall w = (Wall) walls.get(i);
+				        Rectangle r2 = w.getBounds();
+
+			            if (r1.intersects(r2)) {
+			                s.setVisible(false);
+			                w.setVisible(true);
+			            }
+			        }
+			    }
+				
+				for (int j = 0; j < airswords.size(); j++) {										
+					Airsword s = (Airsword) airswords.get(j);
 
 			        Rectangle r1 = s.getBounds();
 
@@ -1763,10 +2606,85 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 		 */
 		public void check_sword_vs_enemy() {	
 			 ArrayList<Sword> swords = getSwords();
+			 ArrayList<Icesword> iceswords = getIceswords();
+			 ArrayList<Earthsword> earthswords = getEarthswords();
+			 ArrayList<Airsword> airswords = getAirswords();
 			
 
 			for (int i = 0; i < swords.size(); i++) {
 		        Sword s = (Sword) swords.get(i);
+		        Rectangle r1 = s.getBounds();
+	
+		            int xx = (int) ((r1.getX())/BLOCK);
+	        		int yy=(int)(r1.getY())/BLOCK;
+
+	        		if (raum.charAt(yy*20+xx)=='*') {													
+		        		int xxx = ((Jay.getX())/BLOCK);
+		        		int yyy=(Jay.getY())/BLOCK;	
+
+		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+		        				int c =raum.lastIndexOf("@");						
+		    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+		    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+		    					try {
+		    						restartLevel(false, (Jay.getImage()));
+		    					} catch (IOException e1) {
+		    						e1.printStackTrace();
+		    					}
+	        		}
+	        		
+			}
+			
+			for (int i = 0; i < iceswords.size(); i++) {
+		        Icesword s = (Icesword) iceswords.get(i);
+		        Rectangle r1 = s.getBounds();
+	
+		            int xx = (int) ((r1.getX())/BLOCK);
+	        		int yy=(int)(r1.getY())/BLOCK;
+
+	        		if (raum.charAt(yy*20+xx)=='*') {													
+		        		int xxx = ((Jay.getX())/BLOCK);
+		        		int yyy=(Jay.getY())/BLOCK;	
+
+		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+		        				int c =raum.lastIndexOf("@");						
+		    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+		    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+		    					try {
+		    						restartLevel(false, (Jay.getImage()));
+		    					} catch (IOException e1) {
+		    						e1.printStackTrace();
+		    					}
+	        		}
+	        		
+			}
+			
+			for (int i = 0; i < earthswords.size(); i++) {
+		        Earthsword s = (Earthsword) earthswords.get(i);
+		        Rectangle r1 = s.getBounds();
+	
+		            int xx = (int) ((r1.getX())/BLOCK);
+	        		int yy=(int)(r1.getY())/BLOCK;
+
+	        		if (raum.charAt(yy*20+xx)=='*') {													
+		        		int xxx = ((Jay.getX())/BLOCK);
+		        		int yyy=(Jay.getY())/BLOCK;	
+
+		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
+		        				int c =raum.lastIndexOf("@");						
+		    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
+		    					raum=raum.substring(0,yyy*20+xxx)+'@'+raum.substring(yyy*20+xxx+1);
+		    					try {
+		    						restartLevel(false, (Jay.getImage()));
+		    					} catch (IOException e1) {
+		    						e1.printStackTrace();
+		    					}
+	        		}
+	        		
+			}
+			
+			for (int i = 0; i < airswords.size(); i++) {
+		        Airsword s = (Airsword) airswords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
 		            int xx = (int) ((r1.getX())/BLOCK);
@@ -1823,7 +2741,7 @@ ArrayList<Earthshot> earthshots = getEarthshots();
 			int xx = (int) ((Jay.getX())/BLOCK);
 	        int yy=(int)(Jay.getY())/BLOCK;
 
-	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='o')||(raum.charAt(yy*20+xx)=='1')||(raum.charAt(yy*20+xx)=='2')||(raum.charAt(yy*20+xx)=='3')||(raum.charAt(yy*20+xx)=='4')) {														
+	        	if (raum.charAt(yy*20+xx)=='h'||(raum.charAt(yy*20+xx)=='5')||(raum.charAt(yy*20+xx)=='1')||(raum.charAt(yy*20+xx)=='2')||(raum.charAt(yy*20+xx)=='3')||(raum.charAt(yy*20+xx)=='4'||(raum.charAt(yy*20+xx)=='6')||(raum.charAt(yy*20+xx)=='7')||(raum.charAt(yy*20+xx)=='8'))) {														
 		        		int xxx = ((Jay.getX())/BLOCK);																
 		        		int yyy=(Jay.getY())/BLOCK;	
 

@@ -9,16 +9,16 @@ import javax.swing.ImageIcon;
  * @author Tobias
  *
  */
-public class Swordicon extends Movement {
+public class Airswordicon extends Movement {
 
 private Image image;
 private int width;
 private int height;
 private int x, y;
 
-	public Swordicon(int x, int y){
+	public Airswordicon(int x, int y){
 		super(x,y);
-		ImageIcon i = new ImageIcon("src/Resources/firesword.png");					// holt sich die Grafik fuer das Schwert, das in Board aufgerufen wird
+		ImageIcon i = new ImageIcon("src/Resources/airsword.png");					// holt sich die Grafik fuer das Schwert, das in Board aufgerufen wird
 		image = i.getImage();
 		this.setImage(image);
 		   	width = image.getWidth(null);										// fuer Kollsion mit Schuss
