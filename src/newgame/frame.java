@@ -40,10 +40,12 @@ l1=new JLabel();
 pack();
 setVisible(true);
 
-JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen<br>" +
-"Benutzen Sie die Pfeiltasten um sich zu bewegen<br>" +
-"Benutzen sie die Taste 'V' um mit ihrem Schwert zu schlagen<br>" +
-"Wenn sie einen Manatrank haben koennen sie mit 'B' ihr Mana wieder auffrischen<br></body></html>");
+JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen.<br>" +
+"Benutzen Sie die Pfeiltasten um sich zu bewegen.<br>" +
+"Benutzen Sie die Taste 'V' um mit ihrem Schwert zu schlagen.<br>" +
+"Wenn Sie einen Manatrank haben koennen Sie mit 'B' ihr Mana wieder auffrischen.<br>" +
+"Sollten Sie mehrere Waffen haben, so wechseln Sie diese mit 'X'.<br>" +
+"Sollten Sie mehrere Zaubersprueche haben, so wechseln Sie diese mit 'C'.<br></body></html>");
 optionen = new JButton("Optionen");
 //optionen.setBounds(170,365,150,80);
 //optionen.setIcon(new ImageIcon("src/Resources/Start Screen optionen.png"));

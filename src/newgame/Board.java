@@ -1316,11 +1316,11 @@ public class Board extends JPanel implements ActionListener{
 					magic = 2;
 					manapoints = 100;
 				}
-				if (magic == 2){
+				else if (magic == 2){
 					magic = 1;
 					manapoints = 100;
 				}
-				if (magic == 1){
+				else if (magic == 1){
 					magic = 0;
 					manapoints = 100;
 				}
@@ -2336,7 +2336,7 @@ public class Board extends JPanel implements ActionListener{
 		        }
 	        }
 			}
-			if(luftchen==5){
+			/*if(luftchen==5){
 			    for (int i = 0; i < airshots.size(); i++) {
 			        Airshot m = (Airshot) airshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2356,9 +2356,9 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}
+				}*/
 			
-			if(erdchen==5){
+			/*if(erdchen==5){
 			    for (int i = 0; i < earthshots.size(); i++) {
 			        Earthshot m = (Earthshot) earthshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2378,9 +2378,9 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}
+				}*/
 			
-			if(eischen==5){
+			/*if(eischen==5){
 			    for (int i = 0; i < iceshots.size(); i++) {
 			        Iceshot m = (Iceshot) iceshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2400,7 +2400,7 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}
+				}*/
 
 		}
 		
@@ -2496,7 +2496,7 @@ public class Board extends JPanel implements ActionListener{
 		 */
 		public void check_shot_vs_enemy() {								
 
-			if(feuerchen==5){
+			/*if(feuerchen==5){
 			for (int i = 0; i < shots.size(); i++) {
 		        Shot m = (Shot) shots.get(i);
 		        Rectangle r1 = m.getBounds();
@@ -2520,9 +2520,9 @@ public class Board extends JPanel implements ActionListener{
 	        		}
 		
 		        }
-			}
+			}*/
 			
-			if(luftchen==5){
+			/*if(luftchen==5){
 				for (int i = 0; i < airshots.size(); i++) {
 			        Airshot m = (Airshot) airshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2546,9 +2546,9 @@ public class Board extends JPanel implements ActionListener{
 		        		}
 			
 			        }
-				}
+				}*/
 			
-			if(erdchen==5){
+			/*if(erdchen==5){
 				for (int i = 0; i < earthshots.size(); i++) {
 			        Earthshot m = (Earthshot) earthshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2572,7 +2572,7 @@ public class Board extends JPanel implements ActionListener{
 		        		}
 			
 			        }
-				}
+				}*/
 			
 			if(eischen==5){
 			for (int i = 0; i < iceshots.size(); i++) {
@@ -2611,7 +2611,7 @@ public class Board extends JPanel implements ActionListener{
 			 ArrayList<Airsword> airswords = getAirswords();
 			
 
-			for (int i = 0; i < swords.size(); i++) {
+			/*for (int i = 0; i < swords.size(); i++) {
 		        Sword s = (Sword) swords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2633,7 +2633,7 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}
+			}*/
 			
 			for (int i = 0; i < iceswords.size(); i++) {
 		        Icesword s = (Icesword) iceswords.get(i);
@@ -2659,7 +2659,7 @@ public class Board extends JPanel implements ActionListener{
 	        		
 			}
 			
-			for (int i = 0; i < earthswords.size(); i++) {
+			/*for (int i = 0; i < earthswords.size(); i++) {
 		        Earthsword s = (Earthsword) earthswords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2681,9 +2681,9 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}
+			}*/
 			
-			for (int i = 0; i < airswords.size(); i++) {
+			/*for (int i = 0; i < airswords.size(); i++) {
 		        Airsword s = (Airsword) airswords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2705,7 +2705,7 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}
+			}*/
 	}
 		/**
 		 * Ersetzt Manatraenke durch freie Felder
