@@ -22,6 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import newgame.AudioPlayer;
+
 
 
 /**
@@ -73,6 +75,7 @@ public class Board extends JPanel implements ActionListener{
 	
 	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball;
 	
+	private AudioPlayer bgMusic;
 	private checkpoint check;
 	private Ghost Geist;
 	private Boss Monster;
@@ -252,6 +255,13 @@ public class Board extends JPanel implements ActionListener{
 	 * Geschieht nur wenn in das nachste Level uebergewechselt wird
 	 * @param b
 	 */
+	
+	
+		
+		
+		
+	
+	
 	public void loeschen(boolean b){
 		coins.clear();
 		walls.clear();
@@ -622,6 +632,8 @@ public class Board extends JPanel implements ActionListener{
 		Lufticon luft;
 		Erdeicon erde;
 		
+		bgMusic = new AudioPlayer("src/Resources/1-welcome.wav");
+		bgMusic.play();
 
 		for(int i = 0; i < raum.length(); i++){											// Level durchgehen
 
