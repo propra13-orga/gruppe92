@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import newgame.AudioPlayer;
+import newgame.AudioPlayer;          // importiert den Audioplayer aus der AudioPlayer class
 
 
 
@@ -248,6 +248,10 @@ public class Board extends JPanel implements ActionListener{
 		
 	    timer = new Timer(5, this);
         timer.start();
+        
+        /* Spielt die ganze Zeit die Hintergrundmusik in allen 
+         * Leveln
+         */
         
        backgroundMusic = new AudioPlayer("/Resources/level1-1.mp3");
        backgroundMusic.play();
