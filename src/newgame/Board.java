@@ -75,7 +75,7 @@ public class Board extends JPanel implements ActionListener{
 	
 	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball;
 	
-	private AudioPlayer bgMusic;
+	private AudioPlayer backgroundMusic;
 	private checkpoint check;
 	private Ghost Geist;
 	private Boss Monster;
@@ -248,6 +248,10 @@ public class Board extends JPanel implements ActionListener{
 		
 	    timer = new Timer(5, this);
         timer.start();
+        
+       backgroundMusic = new AudioPlayer("/Resources/level1-1.mp3");
+       backgroundMusic.play();
+
     }
 
 	/**
@@ -622,6 +626,7 @@ public class Board extends JPanel implements ActionListener{
 		Mana shopmana;
 		Heiltrank heiltrank;
 		
+		
 		Swordicon schwert;
 		Iceswordicon eisschwert;
 		Earthswordicon erdschwert;
@@ -631,10 +636,12 @@ public class Board extends JPanel implements ActionListener{
 		Feuericon feuer;
 		Lufticon luft;
 		Erdeicon erde;
+	
 		
-		bgMusic = new AudioPlayer("src/Resources/1-welcome.wav");
-		bgMusic.play();
+		 
 
+		
+		
 		for(int i = 0; i < raum.length(); i++){											// Level durchgehen
 
 			char obj = raum.charAt(i);										
