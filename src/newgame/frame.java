@@ -16,12 +16,21 @@ public class frame extends JFrame implements ActionListener{
 private JButton optionen; 
 private JButton starten; 																// fuegt der Klasse die Buttons und das Label hinzu
 private JButton beenden;
+private JButton multiplayer;
 private JLabel l1;
+public boolean test1 = false;
 
 
 public static void main(String[] args){ 
 
-frame frame = new frame ("DUNGEON CRAWLER");									// Menuetitel
+frame frame = new frame ("DUNGEON CRAWLER");
+try {
+	Diggy_1_Server();
+} catch (IOException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}											// Menuetitel
+
 }
 
 /**
@@ -57,6 +66,11 @@ starten.setFocusPainted(false);
 starten.setIcon(new ImageIcon("src/Resources/Start Screen start.png")); 				// setzt Groesse und Hintergruende fuer die Buttons fest
 starten.addActionListener(this);														// fuegt Aktion dem Buttonklick hinzu
 
+multiplayer = new JButton("Multiplayer");
+multiplayer.setBounds(170, 180, 150, 80);
+multiplayer.setFocusPainted(false);
+multiplayer.addActionListener(this);
+
 beenden = new JButton("Beenden");
 beenden.setBounds(170,265,150,80);
 beenden.setIcon(new ImageIcon("src/Resources/Start Screen end.png"));					// gleiches Verhalten wie beim Button "starten"
@@ -65,7 +79,8 @@ beenden.addActionListener(this);
 add(l1);
 add(optionen);
 add(starten);
-add(beenden);																			// fuegt dem Frame die noetigen Buttons hinzu
+add(beenden);
+add(multiplayer);																						// fuegt dem Frame die noetigen Buttons hinzu
 setSize(499,499);
 setSize(500,500);																		// aktualisiert das Fenster; noetig damit Einstellungen uebernommen werden
 }
@@ -74,31 +89,62 @@ setSize(500,500);																		// aktualisiert das Fenster; noetig damit Ein
 public void actionPerformed(ActionEvent e) {
 // TODO Auto-generated method stub
 
-if (e.getSource()==starten)
+if (e.getSource()==starten){
 	try {
 		game();
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
+}
 
-if (e.getSource()==beenden)																// schliesst Menue
-System.exit(0);
+if (e.getSource()==multiplayer){
+	try{	
+		Diggy_1_Client();
+	} catch (IOException e1){
+		e1.printStackTrace();
+	}
+}
+
+if (e.getSource()==beenden){															// schliesst Menue
+		System.exit(0);
+
+}
 }
 
 /**
  * Startet das Hauptspiel auf Tastendruck
  * @throws IOException
  */
+public static void Diggy_1_Server() throws IOException{
+	Diggy_1_Server Server = new Diggy_1_Server();
+	try {
+		Server.run();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+}
+public static void Diggy_1_Client() throws IOException{
+	Diggy_1_Client Client = new Diggy_1_Client();
+	try {
+		Client.run();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+}
+
 public static void game() throws IOException{											// Fenster fuer's Spiel
 	JFrame game = new JFrame("PLAY DUNGEON CRAWLER");
 	game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	Dimension aufloesung = Toolkit.getDefaultToolkit().getScreenSize();
     game.setSize(aufloesung);
 	game.setVisible(true);
-	//game.getContentPane().setBackground(Color.LIGHT_GRAY);
 	game.setLocationRelativeTo(null);
 	game.add(new Board());																// oeffnet Klasse board (das eigentliche Spiel)
-	//game.removeAll();
+
 	}
 }
