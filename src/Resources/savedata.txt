@@ -1,0 +1,3 @@
+name=Beispiel, Daten aus txt Datei Laden funktioniert
+Leben=2
+mana=75

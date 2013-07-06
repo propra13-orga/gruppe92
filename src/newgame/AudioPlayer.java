@@ -19,6 +19,13 @@ public class AudioPlayer {
 						s
 					)
 				);
+			
+			/* 
+			 Da Java keine anderen Audioformate lesen kann, ist das
+			 hier nötig, ab hier konvertiert Java die Dateien in .mp3.
+			 Außerdem sind die .jar Dateien in den Referenced Libraries wichtig
+			 für die Dateikonvertierung.
+			 */
 			AudioFormat baseFormat = ais.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(
 				AudioFormat.Encoding.PCM_SIGNED,
@@ -40,6 +47,10 @@ public class AudioPlayer {
 		}
 		
 	}
+	/*
+	 Hier sind die einzelnen Methoden, die man im Main (bei uns Board)
+	 braucht um den AudioPlayer zu starten oder zu schließen.
+	 */
 	
 	public void play() {
 		if(clip == null) return;

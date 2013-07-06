@@ -17,6 +17,7 @@ private JButton optionen;
 private JButton starten; 																// fuegt der Klasse die Buttons und das Label hinzu
 private JButton beenden;
 private JButton multiplayer;
+private JButton load;
 private JLabel l1;
 public boolean test1 = false;
 
@@ -71,6 +72,12 @@ multiplayer.setBounds(170, 180, 150, 80);
 multiplayer.setFocusPainted(false);
 multiplayer.addActionListener(this);
 
+load = new JButton("Load");
+load.setBounds(170, 380, 150, 80);
+load.setFocusPainted(false);
+load.addActionListener(this);
+
+
 beenden = new JButton("Beenden");
 beenden.setBounds(170,265,150,80);
 beenden.setIcon(new ImageIcon("src/Resources/Start Screen end.png"));					// gleiches Verhalten wie beim Button "starten"
@@ -78,6 +85,7 @@ beenden.addActionListener(this);
 
 add(l1);
 add(optionen);
+add(load);
 add(starten);
 add(beenden);
 add(multiplayer);																						// fuegt dem Frame die noetigen Buttons hinzu
@@ -90,6 +98,15 @@ public void actionPerformed(ActionEvent e) {
 // TODO Auto-generated method stub
 
 if (e.getSource()==starten){
+	try {
+		game();
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+}
+
+if (e.getSource()==load){
 	try {
 		game();
 	} catch (IOException e1) {

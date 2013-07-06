@@ -255,6 +255,8 @@ public class Board extends JPanel implements ActionListener{
         
        backgroundMusic = new AudioPlayer("/Resources/level1-1.mp3");
        backgroundMusic.play();
+       
+       DataReader.read("src/Resources/savedata.txt");
 
     }
 
