@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 /**
- * Setzte das Bild und die Masse des Schwertes fest
+ * Setzte das Bild und die Masse des Luftschwertes fest
  * @author Tobias
  *
  */

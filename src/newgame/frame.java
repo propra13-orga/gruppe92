@@ -24,13 +24,13 @@ public boolean test1 = false;
 
 public static void main(String[] args){ 
 
-frame frame = new frame ("DUNGEON CRAWLER");
+frame frame = new frame ("DUNGEON CRAWLER");											// Menuetitel
 try {
 	Diggy_1_Server();
 } catch (IOException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();
-}											// Menuetitel
+}											
 
 }
 
@@ -50,7 +50,7 @@ l1=new JLabel();
 pack();
 setVisible(true);
 
-JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen.<br>" +
+JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schieﬂen.<br>" +			//mithilfe von html werden die Hinweise erstellt
 "Benutzen Sie die Pfeiltasten um sich zu bewegen.<br>" +
 "Benutzen Sie die Taste 'V' um mit ihrem Schwert zu schlagen.<br>" +
 "Wenn Sie einen Manatrank haben koennen Sie mit 'B' ihr Mana wieder auffrischen.<br>" +
@@ -88,7 +88,7 @@ add(optionen);
 add(load);
 add(starten);
 add(beenden);
-add(multiplayer);																						// fuegt dem Frame die noetigen Buttons hinzu
+add(multiplayer);																		// fuegt dem Frame die noetigen Buttons hinzu
 setSize(499,499);
 setSize(500,500);																		// aktualisiert das Fenster; noetig damit Einstellungen uebernommen werden
 }
@@ -115,7 +115,7 @@ if (e.getSource()==load){
 	}
 }
 
-if (e.getSource()==multiplayer){
+if (e.getSource()==multiplayer){														//sucht nach dem Client
 	try{	
 		Diggy_1_Client();
 	} catch (IOException e1){
@@ -134,7 +134,7 @@ if (e.getSource()==beenden){															// schliesst Menue
  * @throws IOException
  */
 public static void Diggy_1_Server() throws IOException{
-	Diggy_1_Server Server = new Diggy_1_Server();
+	Diggy_1_Server Server = new Diggy_1_Server();										//startet den Server, unabh‰ngig vom Client
 	try {
 		Server.run();
 	} catch (Exception e) {
@@ -146,7 +146,7 @@ public static void Diggy_1_Server() throws IOException{
 public static void Diggy_1_Client() throws IOException{
 	Diggy_1_Client Client = new Diggy_1_Client();
 	try {
-		Client.run();
+		Client.run();																	//startet den Client
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

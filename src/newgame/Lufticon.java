@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 /**
- * Setzte das Bild und die Masse des Feuericons fest
+ * Setzte das Bild und die Masse des Lufticons fest
  * @author Tobias
  *
  */

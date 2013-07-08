@@ -265,13 +265,7 @@ public class Board extends JPanel implements ActionListener{
 	 * Geschieht nur wenn in das nachste Level uebergewechselt wird
 	 * @param b
 	 */
-	
-	
-		
-		
-		
-	
-	
+
 	public void loeschen(boolean b){
 		coins.clear();
 		walls.clear();
@@ -375,30 +369,51 @@ public class Board extends JPanel implements ActionListener{
 			schwertchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision das Eisschwert auf
+		 */
 		if (raum.charAt(yy*20+xx)=='6'){
 			eisschwertchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision das Erdschwert auf
+		 */
 		if (raum.charAt(yy*20+xx)=='7'){
 			erdschwertchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision das Luftschwert auf
+		 */
 		if (raum.charAt(yy*20+xx)=='8'){
 			luftschwertchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision den Feuerzauber auf
+		 */
 		if (raum.charAt(yy*20+xx)=='1'){
 			feuerchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision den Eiszauber auf
+		 */
 		if (raum.charAt(yy*20+xx)=='2'){
 			eischen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision den Luftzauber auf
+		 */
 		if (raum.charAt(yy*20+xx)=='3'){
 			luftchen = 5;
 			spend_herzen();
 		}
+		/**
+		 * Nimmt bei Kollision den Erdzauber auf
+		 */
 		if (raum.charAt(yy*20+xx)=='4'){
 			erdchen = 5;
 			spend_herzen();
@@ -751,27 +766,27 @@ public class Board extends JPanel implements ActionListener{
 				x = x + BLOCK;}
 			}
 			else if(obj == ' '){										//x erhoeht sich um einen Block(' ':Bereich wo sich der Spieler bewegen kann)
-					x = x + BLOCK;
+				x = x + BLOCK;
 			}
 			else if(obj == '*'){
-					enemy = new Enemy(x,y);
-					enemys.add(enemy);
-					x = x + BLOCK;
+				enemy = new Enemy(x,y);
+				enemys.add(enemy);
+				x = x + BLOCK;
 			}
 			else if(obj == '$'){
-					key = new Key(x,y);	
-					keys.add(key);
-					x = x + BLOCK;
+				key = new Key(x,y);	
+				keys.add(key);
+				x = x + BLOCK;
 			}
 			else if (obj=='a'){
-					coin=new Coin(x,y);
-					coins.add(coin);
-					x=x+BLOCK;
+				coin=new Coin(x,y);
+				coins.add(coin);
+				x=x+BLOCK;
 			}
 			else if(obj == '~'){
-					wizard = new Wizard(x,y);
-					wizards.add(wizard);
-					x = x + BLOCK;
+				wizard = new Wizard(x,y);
+				wizards.add(wizard);
+				x = x + BLOCK;
 			}
 			else if(obj == '5'){
 				schwert = new Swordicon(x,y);
@@ -814,13 +829,13 @@ public class Board extends JPanel implements ActionListener{
 				x = x + BLOCK;
 			}
 			else if(obj == 's'){
-					shopkeeper = new Shopkeeper(x,y);
-					shopkeepers.add(shopkeeper);
-					x = x + BLOCK;
+				shopkeeper = new Shopkeeper(x,y);
+				shopkeepers.add(shopkeeper);
+				x = x + BLOCK;
 			}
 			else if(obj == 'b'){
-					check = new checkpoint(x,y);
-					x=x+BLOCK;
+				check = new checkpoint(x,y);
+				x=x+BLOCK;
 			}
 			else if(obj == 'h'){
 				heiltrank = new Heiltrank(x,y);
@@ -838,19 +853,19 @@ public class Board extends JPanel implements ActionListener{
 				x=x+BLOCK;
 			}
 			else if(obj == 'r'){																	
-				 ball = new Ball(x,y);
-				 x=x+BLOCK;
+				ball = new Ball(x,y);
+				x=x+BLOCK;
 
 			}	
 			else if(obj == 'm'){
-					mana = new Mana(x,y);
-					manas.add(mana);
-					x=x+BLOCK;
+				mana = new Mana(x,y);
+				manas.add(mana);
+				x=x+BLOCK;
 			}
 			else if(obj == 'q'){
-					shopmana = new Mana(x,y);
-					manas.add(shopmana);
-					x=x+BLOCK;
+				shopmana = new Mana(x,y);
+				manas.add(shopmana);
+				x=x+BLOCK;
 					
 					
 			}
@@ -894,7 +909,7 @@ public class Board extends JPanel implements ActionListener{
 			g.drawImage(obj.getImage(), obj.getX(), obj.getY(), this);								// g.drawImage fuer die Grafische Zeichnung
 		}
 		
-	       ArrayList<Shot> shots = getShots();
+	       ArrayList<Shot> shots = getShots();														//definiert die verschiedenen Zauber
 	       		for (int j = 0; j < shots.size(); j++){
 	       			Shot m = (Shot) shots.get(j);
 	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
@@ -922,7 +937,7 @@ public class Board extends JPanel implements ActionListener{
 	       			
                 }
 	       
-	      ArrayList<Sword> swords = getSwords();
+	      ArrayList<Sword> swords = getSwords();													// definiert die verschiedenen Schwerter
 	       		for (int i = 0; i < swords.size(); i++){
 	       			Sword s = (Sword) swords.get(i);
 	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
@@ -1029,7 +1044,7 @@ public class Board extends JPanel implements ActionListener{
 				life = 3;
 			}
 			
-			if (schwertchen == 5){    						
+			if (schwertchen == 5){    														// zeichnet die Schwerter im Inventar
 	    		g.drawImage(sword,960, 700, this);
 	    		p = "Du hast ein Feuerschwert!";
 	    		g.drawString(p,970,580);
@@ -1053,7 +1068,7 @@ public class Board extends JPanel implements ActionListener{
 	    		g.drawString(p,970,640);
 	    		get_airsword=true;
 			}
-			if (feuerchen == 5){    									
+			if (feuerchen == 5){    														// zeichnet die Zauber im Inventar
 	    		g.drawImage(fireball,960, 500, this);
 	    		p = "Du hast die Macht des Feuers!";
 	    		g.drawString(p,970,400);
@@ -1078,7 +1093,7 @@ public class Board extends JPanel implements ActionListener{
 	    		get_earthball=true;
 			}
 			
-			if(life==3.0){
+			if(life==3.0){																	// zeichnet das Leben
 			g.drawImage(herz1,970,60,this);
 			g.drawImage(herz1,1020, 60, this);
 			g.drawImage(herz1,1070, 60, this);
@@ -1104,7 +1119,7 @@ public class Board extends JPanel implements ActionListener{
 			
 		
 			   String mes;
-   		        g.setFont(smallfont);																// Manaanzeige
+   		        g.setFont(smallfont);																// Zeihcnet die Manatraenke
    		        g.setColor(new Color(98,150,255));
    		        mes = "Manatraenke: " + (magic);
    		        g.drawString(mes,970,300);
@@ -1158,8 +1173,8 @@ public class Board extends JPanel implements ActionListener{
    
 
     /**
-     * Gibt das Schwert wieder
-     * @return Anzeige des Schwertes
+     * Gibt die Schwerter wieder
+     * @return Anzeige der Schwerter
      */
     public ArrayList<Sword> getSwords() {																
 	     return swords;
@@ -1183,6 +1198,8 @@ public class Board extends JPanel implements ActionListener{
      * Bei Tastendruck 'V' greift der Spieler mit dem Schwert an und gibt das entsprechende Bild in die richtige Richtung wieder
      * Bei Tastendruck 'Leertaste' schiesst der Spieler und gibt das entsprechende Bild wieder
      * Bei Tastendruck 'B' verbraucht der Spieler einen Manatrank, sofern er einen besitzt
+     * Mit Taste 'X' tauscht er seine Schwerter
+     * Mit Taste 'C' tauscht er seine Zauber
      * @author Tobias
      *
      */
@@ -1351,7 +1368,7 @@ public class Board extends JPanel implements ActionListener{
 				}
 
 			}
-			else if(key == KeyEvent.VK_C){
+			else if(key == KeyEvent.VK_C){								// die vielen Bedingungen geben alle Möglichkeiten wieder Zauber im Inventar zu haben
 
 			if(get_fireball==true && get_iceball==false && get_earthball==false && get_airball==false){
 				feuerchen=5;
@@ -1500,7 +1517,7 @@ public class Board extends JPanel implements ActionListener{
 
 			}
 			
-			else if(key == KeyEvent.VK_X){
+			else if(key == KeyEvent.VK_X){								// die vielen Bedingungen geben alle Möglichkeiten wieder Schwerter im Inventar zu haben
 
 				if(get_sword==true && get_icesword==false && get_earthsword==false && get_airsword==false){
 					schwertchen=5;
@@ -1650,13 +1667,13 @@ public class Board extends JPanel implements ActionListener{
 				}
 			
 			else if (key == KeyEvent.VK_SPACE && feuerchen==5) {	
-				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				if (manapoints >= 5){																// Taste -Space ruft die Schussfunktion auf
 				fire();
 				manapoints = manapoints - 5;
 				}
 				
 			}else if (key == KeyEvent.VK_SPACE  && eischen==5) {	
-				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				if (manapoints >= 5){															
 				ice();
 				manapoints = manapoints - 5;
 					}
@@ -1664,33 +1681,33 @@ public class Board extends JPanel implements ActionListener{
 	
 			}
 			else if (key == KeyEvent.VK_SPACE && luftchen==5) {	
-				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				if (manapoints >= 5){															
 				air();
 				manapoints = manapoints - 5;
 				}
 				
 			}
 			else if (key == KeyEvent.VK_SPACE && erdchen==5) {	
-				if (manapoints >= 5){																// Taste -Space ruft die Funktion fire auf
+				if (manapoints >= 5){															
 				earth();
 				manapoints = manapoints - 5;
 				}
 				
 			}
 			
-			else if (key == KeyEvent.VK_V && schwertchen==5) {										// 2 te Waffe = Schwertkampf in versch Richtungen
+			else if (key == KeyEvent.VK_V && schwertchen==5) {										// Charakter schlaegt mit dem Schwert zu
 				sword_play();
 			}
 			
-			else if (key == KeyEvent.VK_V && eisschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+			else if (key == KeyEvent.VK_V && eisschwertchen==5) {								
 				icesword_play();
 			}
 			
-			else if (key == KeyEvent.VK_V && erdschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+			else if (key == KeyEvent.VK_V && erdschwertchen==5) {								
 				earthsword_play();
 			}
 			
-			else if (key == KeyEvent.VK_V && luftschwertchen==5) {									// 2 te Waffe = Schwertkampf in versch Richtungen
+			else if (key == KeyEvent.VK_V && luftschwertchen==5) {								
 				airsword_play();
 			}
 
@@ -1764,7 +1781,7 @@ public class Board extends JPanel implements ActionListener{
 		 	if(position==1){
 		 		airshots.add(new Airshot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
 		 		k = 00;}
-		 	if(position==2){													// der Schuss soll nicht ueber Diggy gehen 
+		 	if(position==2){														// der Schuss soll nicht ueber Diggy gehen 
 		 		airshots.add(new Airshot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
 		 		k = 01;}
 		 	if(position==3){
@@ -1779,7 +1796,7 @@ public class Board extends JPanel implements ActionListener{
 		 	if(position==1){
 		 		earthshots.add(new Earthshot(Jay.getX() + BLOCK, Jay.getY()));			// Posistion der Schussrichtung, je in welche Richtung Diggy guckt
 		 		k = 00;}
-		 	if(position==2){													// der Schuss soll nicht ueber Diggy gehen 
+		 	if(position==2){															// der Schuss soll nicht ueber Diggy gehen 
 		 		earthshots.add(new Earthshot(Jay.getX() - BLOCK, Jay.getY()));			// k als Flag
 		 		k = 01;}
 		 	if(position==3){
@@ -1804,7 +1821,7 @@ public class Board extends JPanel implements ActionListener{
 		 	    k = 11;}
 	}
 	 
-	 public void sword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+	 public void sword_play(){													// Schwertkampf mit 4 Richtungen zum angreifen				
 	 
 	 	 	if(position==1){																		
 		 		image = dr.getImage();
@@ -1828,13 +1845,13 @@ public class Board extends JPanel implements ActionListener{
 		 	    z = 11;}
 		 	}
 	 
-	 public void icesword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+	 public void icesword_play(){														// Schwertkampf mit 4 Richtungen angreifen				
 		 
 	 	 	if(position==1){																		
 		 		image = dr.getImage();
 				Jay.setImage(image);
 				iceswords.add(new Icesword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
-		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 		z = 00;}																// tot nach 2 Entfernung mit Schwert
 		 	if(position==2){			
 		 		image = dl.getImage();
 				Jay.setImage(image);																	
@@ -1852,13 +1869,13 @@ public class Board extends JPanel implements ActionListener{
 		 	    z = 11;}
 		 	}
 	 
-	 public void earthsword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+	 public void earthsword_play(){															// Schwertkampf mit 4 Richtungen zum angreifen			
 		 
 	 	 	if(position==1){																		
 		 		image = dr.getImage();
 				Jay.setImage(image);
 				earthswords.add(new Earthsword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
-		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 		z = 00;}																	// tot nach 2 Entfernung mit Schwert
 		 	if(position==2){			
 		 		image = dl.getImage();
 				Jay.setImage(image);																	
@@ -1875,14 +1892,14 @@ public class Board extends JPanel implements ActionListener{
 				earthswords.add(new Earthsword(Jay.getX(), Jay.getY() + 2));	
 		 	    z = 11;}
 		 	}
-	 
-	 public void airsword_play(){													// Schwertkampf mit 4 Richtungen zum schiessen				
+	 	
+	 public void airsword_play(){														// Schwertkampf mit 4 Richtungen zum angreifen				
 		 
 	 	 	if(position==1){																		
 		 		image = dr.getImage();
 				Jay.setImage(image);
 				airswords.add(new Airsword(Jay.getX() + 2, Jay.getY()));				// Posistion der Schwertrichtung, je in welche Richtung Diggy guckt
-		 		z = 00;}														// tot nach 2 Entfernung mit Schwert
+		 		z = 00;}																// tot nach 2 Entfernung mit Schwert
 		 	if(position==2){			
 		 		image = dl.getImage();
 				Jay.setImage(image);																	
@@ -2014,7 +2031,7 @@ public class Board extends JPanel implements ActionListener{
 				 			check_sword_vs_coin();
 	 		}	
 			 
-			 for (int j = 0; j < iceswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+			 for (int j = 0; j < iceswords.size(); j++) {									// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
 				 Icesword s = (Icesword) iceswords.get(j);
 				 
 				 		if(s.isVisible()){
@@ -2030,7 +2047,7 @@ public class Board extends JPanel implements ActionListener{
 				 			check_sword_vs_coin();
 	 		}
 			 
-			 for (int j = 0; j < earthswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+			 for (int j = 0; j < earthswords.size(); j++) {									// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
 				 Earthsword s = (Earthsword) earthswords.get(j);
 				 
 				 		if(s.isVisible()){
@@ -2046,7 +2063,7 @@ public class Board extends JPanel implements ActionListener{
 				 			check_sword_vs_coin();
 	 		}
 			 
-			 for (int j = 0; j < airswords.size(); j++) {										// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
+			 for (int j = 0; j < airswords.size(); j++) {									// fuer den Schwertkampf mit versch Bildern und Angriffsrichtungen
 				 Airsword s = (Airsword) airswords.get(j);
 				 
 				 		if(s.isVisible()){
@@ -2068,6 +2085,9 @@ public class Board extends JPanel implements ActionListener{
 			return new Rectangle(Jay.getX(),Jay.getY(),50,50);				
 		}
 
+		/**
+		 * Definiert das Aussehen des Frames fuer den NPC-Dialog
+		 */
 		public void Dialogue(){
 
 			JFrame Dialogue = new Dialogue("Weiser Zauberer");
@@ -2082,6 +2102,9 @@ public class Board extends JPanel implements ActionListener{
 			Dialogue.add(new Dialogue("Weiser Zauberer"));
 		}
 
+		/**
+		 * Definiert das Aussehen des Frames fuer den ShopDialog
+		 */
 		public void DialogueShop(){
 
 			JFrame DialogueShop = new DialogueShop("Ladenbesitzer");
@@ -2758,7 +2781,7 @@ public class Board extends JPanel implements ActionListener{
 		}
 		
 		/**
-		 * Ersetzt Herzen durch freie Felder
+		 * Ersetzt Herzen, Schwerter und Zauber durch freie Felder
 		 * Nur im Shop
 		 */
 		public void spend_herzen(){

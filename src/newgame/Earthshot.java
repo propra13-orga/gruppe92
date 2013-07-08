@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 /**
- * Setzte die Bedingungen des Schusses fest
+ * Setzte die Bedingungen des Erdschusses fest
  * So zB das Bild und die return-Variablen
  * @author Tobias
  *
