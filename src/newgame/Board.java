@@ -18,7 +18,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -32,6 +34,8 @@ import newgame.AudioPlayer;          // importiert den Audioplayer aus der Audio
  *
  */
 public class Board extends JPanel implements ActionListener{
+	
+	
 
 	/**
 	 * Fuegt angegebene Variablen zum Board hinzu, darunter fallen beispielsweise die Gegner, das Mana oder das Geld
@@ -2807,8 +2811,40 @@ public class Board extends JPanel implements ActionListener{
 		    						e1.printStackTrace();
 		    					}
 	        	}
-		}
+		/*
+		 * Hier wird ein neuer Frame geöffnet mit einem Speicher Button
+		 * Man kann das Spiel speichern und dann weiterspielen
+		*/
+		final JFrame frame = new JFrame("Spiel speichern");
+        frame.setLayout(new BorderLayout());
+        JButton save = new JButton("Speichern");
+        save.setBounds(61, 558, 325, 53);
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent p) {
+             
+                JPanel fenster = new Fenster();
+                frame.add(fenster);
+                frame.validate();
+            }
+        });
+        frame.add(save, BorderLayout.NORTH);
+        frame.setBounds(200, 200, 30, 200);
+        frame.setVisible(true);
+    }
 
+ 
+		class Fenster extends JPanel {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public Fenster() {
+        //add(new JLabel("In Panel"), BorderLayout.SOUTH);
+    }
+
+}
 }
 
  
