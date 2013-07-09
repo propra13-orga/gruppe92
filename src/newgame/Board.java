@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -2634,13 +2635,26 @@ public class Board extends JPanel implements ActionListener{
 			for (int i = 0; i < iceshots.size(); i++) {
 		        Iceshot m = (Iceshot) iceshots.get(i);
 		        Rectangle r1 = m.getBounds();
-		  
+		      //  int u = 0;
 		   	      	int xx = (int) ((r1.getX())/BLOCK);																	
 	        		int yy=(int)(r1.getY())/BLOCK;
-
+	        		
 	        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 		        		int xxx = ((Jay.getX())/BLOCK);																	
-		        		int yyy=(Jay.getY())/BLOCK;	
+		        		int yyy=(Jay.getY())/BLOCK;
+		        //		u = u + 1;
+		        //	if (u == 2){
+		        		
+		        	
+		        		
+		        		
+		        		
+		        		 
+		        			
+		        			
+		        		
+		        		//JOptionPane.showMessageDialog(null, "<html><body>LVL UP! Sie bekommen +10 Mana, wenn Sie einen Gegner töten </body></html>");
+		        		manapoints = manapoints + 10;
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2651,12 +2665,64 @@ public class Board extends JPanel implements ActionListener{
 		    					} catch (IOException e1) {
 		    						e1.printStackTrace();
 		    					}
+		    					/*
+		    					 * Hier öffnet sich eine Information, die sagt, dass der Character ein neue Fähigkeit bekommt.
+		    					 * Dies geschiet, wenn er einen Gegner tötet, in diesem Fall mit einem Iceschuss.
+		    					 */
+		    					final JFrame frame = new JFrame("LVL UP");
+		    			       // frame.setLayout(new BorderLayout());
+		    			        frame.setLayout(new BorderLayout());
+		    			     //   frame.setRootPane(new ImageIcon("src/Resources/lvlup.png"));
+		    			  //      frame.setFocusable(false);
+		    			    //    frame.setIcon(new ImageIcon("src/Resources/lvlup.png"));
+		    			        JButton manaleech = new JButton("Manaleech learned");
+		    			        manaleech.setBounds(61, 558, 325, 53);
+		    			        
+		    			        manaleech.addActionListener(new ActionListener() {
+		    			            @Override
+		    			            public void actionPerformed(ActionEvent p) {
+		    			             
+		    			                JPanel fenster = new Fenster();
+		    			                frame.add(fenster);
+		    			                frame.validate();
+		    			            }
+		    			        });
+		    			        
+		    			        frame.add(manaleech, BorderLayout.NORTH);
+		    			        frame.setBounds(200, 200, 200, 200);
+		    			       
+		    			        //frame.setLayout(new BorderLayout());
+		    			        //frame.new frame("/Resources/lvlup.png");
+		    			        //frame.setFocusable(false);
+		    			        //frame.setIcon(new ImageIcon("src/Resources/lvlup.png"));
+		    			        
+		    			        frame.setVisible(true);
+		    			        
+		    			       
+		    			    }
+
+		    			 
+		    					class Fenster extends JPanel {
+		    						/**
+		    						 * 
+		    						 */
+		    						private static final long serialVersionUID = 1L;
+
+		    						public Fenster() {
+		    			       
+		    			    }
+
 	        		}
 		
 		        }
-			}
+			}//}
 			}
 		
+		private void setContentPane(ImageIcon imageIcon) {
+			// TODO Auto-generated method stub
+			
+		}
+
 		/**
 		 * Kollisionsabfrage: Schwert vs Gegner
 		 */
@@ -2701,6 +2767,7 @@ public class Board extends JPanel implements ActionListener{
 	        		if (raum.charAt(yy*20+xx)=='*') {													
 		        		int xxx = ((Jay.getX())/BLOCK);
 		        		int yyy=(Jay.getY())/BLOCK;	
+		        		
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
