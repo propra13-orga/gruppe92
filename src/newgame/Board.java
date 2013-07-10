@@ -259,7 +259,7 @@ public class Board extends JPanel implements ActionListener{
          * Leveln
          */
         
-       backgroundMusic = new AudioPlayer("/Resources/level1-1.mp3");
+       backgroundMusic = new AudioPlayer("/Resources/BGMusic.mp3");
        backgroundMusic.play();
        
        /*
