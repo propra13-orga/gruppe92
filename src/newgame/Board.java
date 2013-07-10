@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -1218,6 +1219,30 @@ public class Board extends JPanel implements ActionListener{
 		public  void keyPressed(KeyEvent e){
 
 			int key = e.getKeyCode();
+			
+			
+
+			if(key == KeyEvent.VK_F1){
+			
+				
+			final JFrame frame = new JFrame("Spiel speichern");
+	        frame.setLayout(new BorderLayout());
+	        JButton save = new JButton("Speichern");
+	        save.setBounds(61, 558, 325, 53);
+	        save.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent p) {
+	             
+	                JPanel fenster = new JPanel();
+	                frame.add(fenster);
+	                frame.validate();
+	            }
+	        });
+	        frame.add(save, BorderLayout.NORTH);
+	        frame.setBounds(200, 200, 30, 200);
+	        frame.setVisible(true);
+				}
+				
 
 			if(key == KeyEvent.VK_RIGHT){		
 
@@ -2682,7 +2707,7 @@ public class Board extends JPanel implements ActionListener{
 		    			            @Override
 		    			            public void actionPerformed(ActionEvent p) {
 		    			             
-		    			                JPanel fenster = new Fenster();
+		    			                JPanel fenster = new JPanel();
 		    			                frame.add(fenster);
 		    			                frame.validate();
 		    			            }
@@ -2878,40 +2903,11 @@ public class Board extends JPanel implements ActionListener{
 		    						e1.printStackTrace();
 		    					}
 	        	}
+		}}
 		/*
 		 * Hier wird ein neuer Frame geöffnet mit einem Speicher Button
 		 * Man kann das Spiel speichern und dann weiterspielen
 		*/
-		final JFrame frame = new JFrame("Spiel speichern");
-        frame.setLayout(new BorderLayout());
-        JButton save = new JButton("Speichern");
-        save.setBounds(61, 558, 325, 53);
-        save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent p) {
-             
-                JPanel fenster = new Fenster();
-                frame.add(fenster);
-                frame.validate();
-            }
-        });
-        frame.add(save, BorderLayout.NORTH);
-        frame.setBounds(200, 200, 30, 200);
-        frame.setVisible(true);
-    }
+		//private class KlickZumSpeichern extends KeyAdapter{
 
- 
-		class Fenster extends JPanel {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public Fenster() {
-        //add(new JLabel("In Panel"), BorderLayout.SOUTH);
-    }
-
-}
-}
-
- 
+		
