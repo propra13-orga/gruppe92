@@ -1220,26 +1220,28 @@ public class Board extends JPanel implements ActionListener{
 
 			int key = e.getKeyCode();
 			
-			
+			/*
+			 * Hier wird ein Speicherbutton im Spiel aufgerufen, durch das Klicken auf 'F1'
+			 */
 
 			if(key == KeyEvent.VK_F1){
 			
 				
-			final JFrame frame = new JFrame("Spiel speichern");
+			final JFrame frame = new JFrame("Spiel speichern"); // Hier wird die Frame erstellt
 	        frame.setLayout(new BorderLayout());
-	        JButton save = new JButton("Speichern");
+	        JButton save = new JButton("Speichern"); // Ab hier wird der Button an sich angezeigt, drunter kann man die Groeﬂe veraendern
 	        save.setBounds(61, 558, 325, 53);
 	        save.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent p) {
 	             
-	                JPanel fenster = new JPanel();
+	                JPanel fenster = new JPanel(); // Ab hier kann man auf den Button klicken
 	                frame.add(fenster);
 	                frame.validate();
 	            }
 	        });
 	        frame.add(save, BorderLayout.NORTH);
-	        frame.setBounds(200, 200, 30, 200);
+	        frame.setBounds(0, 0, 200, 62);   // Das regelt die Groeﬂe des Frames
 	        frame.setVisible(true);
 				}
 				

@@ -53,6 +53,7 @@ setVisible(true);
 JOptionPane.showMessageDialog(optionen, "<html><body>Benutzen Sie die Leertaste zum schießen.<br>" +			//mithilfe von html werden die Hinweise erstellt
 "Benutzen Sie die Pfeiltasten um sich zu bewegen.<br>" +
 "Benutzen Sie die Taste 'V' um mit ihrem Schwert zu schlagen.<br>" +
+"Wenn Sie das Spiel speichern möchten, drücken Sie 'F1'.<br>" +
 "Wenn Sie einen Manatrank haben koennen Sie mit 'B' ihr Mana wieder auffrischen.<br>" +
 "Sollten Sie mehrere Waffen haben, so wechseln Sie diese mit 'X'.<br>" +
 "Sollten Sie mehrere Zaubersprueche haben, so wechseln Sie diese mit 'C'.<br></body></html>");
