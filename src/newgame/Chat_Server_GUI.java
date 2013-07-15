@@ -48,7 +48,7 @@ public class Chat_Server_GUI
 		try
 		{
 			final int PORT = 323;
-			final String HOST = "Tobias";
+			final String HOST = "10.84.23.93";
 			Socket SOCK = new Socket(HOST,PORT);
 			System.out.println("Verbunden mit: " + HOST);
 			

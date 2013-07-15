@@ -69,7 +69,7 @@ starten.setIcon(new ImageIcon("src/Resources/Start Screen start.png")); 				// s
 starten.addActionListener(this);														// fuegt Aktion dem Buttonklick hinzu
 
 multiplayer = new JButton("Multiplayer");
-multiplayer.setBounds(170, 180, 150, 80);
+multiplayer.setBounds(170, 190, 150, 80);
 multiplayer.setFocusPainted(false);
 multiplayer.addActionListener(this);
 
@@ -80,7 +80,7 @@ load.addActionListener(this);
 
 
 beenden = new JButton("Beenden");
-beenden.setBounds(170,265,150,80);
+beenden.setBounds(170,285,150,80);
 beenden.setIcon(new ImageIcon("src/Resources/Start Screen end.png"));					// gleiches Verhalten wie beim Button "starten"
 beenden.addActionListener(this);
 

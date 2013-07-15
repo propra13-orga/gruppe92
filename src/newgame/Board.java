@@ -79,7 +79,11 @@ public class Board extends JPanel implements ActionListener{
 	
 	private int k,z,posX,posY;
 	
+	public static int exp;
+	
 	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball;
+	
+	public static boolean elementarmeister, manaleech, lifeleech;
 	
 	private AudioPlayer backgroundMusic;
 	private checkpoint check;
@@ -230,6 +234,9 @@ public class Board extends JPanel implements ActionListener{
 		initWorld(image4);
 		ingame = true;
 		mana = false;
+		elementarmeister = false;
+		manaleech = false;
+		lifeleech = false;
 		
 		schwertchen = 0;
 		eisschwertchen = 0;
@@ -975,6 +982,7 @@ public class Board extends JPanel implements ActionListener{
 	       				Enemy e = (Enemy) enemys.get(i);
 	       				if (e.isVisible())
 	       				g.drawImage(e.getImage(), e.getX(), e.getY(), this);
+
 	       			}
 
 	       			for (int i = 0; i < walls.size(); i++){											//  NICHT LOESCHEN FUER DAS TESTEN DER WAENDE 
@@ -1030,7 +1038,7 @@ public class Board extends JPanel implements ActionListener{
 				moveBall();
 			} 
 		int countsmoney= ruban + xruban;
-	        String s,p;
+	        String s,p,z;
 
 	        g.setFont(smallfont);															// Geldanzeige
 	        g.setColor(new Color(98,150,255));
@@ -1038,12 +1046,22 @@ public class Board extends JPanel implements ActionListener{
 	        g.drawString(s,970,130);
 	    	g.drawImage(schatz,970,150,this);												// zeichnet Welt mit Punktestand..
 		
-	    	double lifebar= life;
+	    	z = "EXP: " + exp;
+	    	g.drawString(z, 970, 270);
+	    	
 	    	
 			String t;
-																							// Lebensanzeige
-			t = "Leben: " + (lifebar);
-			g.drawString(t,970,40);
+			if(manaleech == true){	
+				t = "Du beherrscht Manaentzug";
+				g.drawString(t,970,800);}
+			
+			if(lifeleech == true){	
+				t = "Du beherrscht Lebensentzug";
+				g.drawString(t,970,830);}
+			
+			if(elementarmeister == true){	
+				t = "Du beherrscht alle Elemente";
+				g.drawString(t,970,860);}
 			
 			String m;
 			
@@ -1104,28 +1122,28 @@ public class Board extends JPanel implements ActionListener{
 			}
 			
 			if(life==3.0){																	// zeichnet das Leben
-			g.drawImage(herz1,970,60,this);
-			g.drawImage(herz1,1020, 60, this);
-			g.drawImage(herz1,1070, 60, this);
+			g.drawImage(herz1,970,30,this);
+			g.drawImage(herz1,1020, 30, this);
+			g.drawImage(herz1,1070, 30, this);
 			}
 			if(life==2.5){
-				g.drawImage(herz1,970,60,this);
-				g.drawImage(herz1,1020, 60, this);
-				g.drawImage(herz2,1070, 60, this);}
+				g.drawImage(herz1,970,30,this);
+				g.drawImage(herz1,1020, 30, this);
+				g.drawImage(herz2,1070, 30, this);}
 			
 			if(life==2.0){						
-				g.drawImage(herz1,970,60,this);
-				g.drawImage(herz1,1020, 60, this);
+				g.drawImage(herz1,970,30,this);
+				g.drawImage(herz1,1020, 30, this);
 			}
 			if(life==1.5){
-				g.drawImage(herz1,970,60,this);
-				g.drawImage(herz2,1020, 60, this);}
+				g.drawImage(herz1,970,30,this);
+				g.drawImage(herz2,1020, 30, this);}
 			
 			if(life==1.0){
-				g.drawImage(herz1,970,60,this);
+				g.drawImage(herz1,970,30,this);
 			}
 			if(life==0.5){
-				g.drawImage(herz2,970,60,this);}
+				g.drawImage(herz2,970,30,this);}
 			
 		
 			   String mes;
@@ -1163,7 +1181,7 @@ public class Board extends JPanel implements ActionListener{
 
 
     /**
-     * Giebt die Schuesse wieder
+     * Gibt die Schuesse wieder
      * @return Anzeige der Schuesse
      */
     public ArrayList<Shot> getShots() {
@@ -1246,6 +1264,10 @@ public class Board extends JPanel implements ActionListener{
 				}
 				
 
+			if(key == KeyEvent.VK_N){
+				faehigkeiten();
+			}
+			
 			if(key == KeyEvent.VK_RIGHT){		
 
 			if(get_sword==false && get_icesword==false && get_earthsword == false && get_airsword==false){
@@ -2137,6 +2159,19 @@ public class Board extends JPanel implements ActionListener{
 			Dialogue.setLayout(null);
 			Dialogue.add(new Dialogue("Weiser Zauberer"));
 		}
+		
+		public void faehigkeiten(){
+			JFrame Faehigkeiten = new Faehigkeiten("Faehigkeiten");
+			
+			Faehigkeiten.setSize(600, 600);
+			Faehigkeiten.setLocationRelativeTo(null);
+			Faehigkeiten.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			Faehigkeiten.setVisible(true);
+			Faehigkeiten.setFocusable(true);
+			Faehigkeiten.setLayout(new BorderLayout());
+			Faehigkeiten.setLayout(null);
+			Faehigkeiten.add(new Dialogue("Faehigkeiten"));
+		}
 
 		/**
 		 * Definiert das Aussehen des Frames fuer den ShopDialog
@@ -2407,6 +2442,9 @@ public class Board extends JPanel implements ActionListener{
 		        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
 		        		boss_leben=boss_leben-1;
 		        		if (boss_leben==0){
+		        			exp = exp + 20;
+		        			if(manaleech == true)manapoints = manapoints + 3;
+		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 		        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 		        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 		        			loeschen(true);
@@ -2420,7 +2458,9 @@ public class Board extends JPanel implements ActionListener{
 		        }
 	        }
 			}
-			/*if(luftchen==5){
+			
+			if(elementarmeister==true){
+			if(luftchen==5){
 			    for (int i = 0; i < airshots.size(); i++) {
 			        Airshot m = (Airshot) airshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2428,6 +2468,9 @@ public class Board extends JPanel implements ActionListener{
 			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
 			        		boss_leben=boss_leben-1;
 			        		if (boss_leben==0){
+			        			exp = exp + 20;
+			        			if(manaleech == true)manapoints = manapoints + 3;
+			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2440,9 +2483,11 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}*/
+				}}
 			
-			/*if(erdchen==5){
+			
+			if(elementarmeister==true){
+			if(erdchen==5){
 			    for (int i = 0; i < earthshots.size(); i++) {
 			        Earthshot m = (Earthshot) earthshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2450,6 +2495,9 @@ public class Board extends JPanel implements ActionListener{
 			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
 			        		boss_leben=boss_leben-1;
 			        		if (boss_leben==0){
+			        			exp = exp + 20;
+			        			if(manaleech == true)manapoints = manapoints + 3;
+			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2462,9 +2510,11 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}*/
+				}}
 			
-			/*if(eischen==5){
+			
+			if(elementarmeister==true){
+			if(eischen==5){
 			    for (int i = 0; i < iceshots.size(); i++) {
 			        Iceshot m = (Iceshot) iceshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2472,6 +2522,9 @@ public class Board extends JPanel implements ActionListener{
 			        if ((Math.abs(r1.x-Monster.getX())<50)&&(Math.abs(r1.y-Monster.getY())<50)) {													 		
 			        		boss_leben=boss_leben-1;
 			        		if (boss_leben==0){
+			        			exp = exp +20;
+			        			if(manaleech == true)manapoints = manapoints + 3;
+			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2484,7 +2537,7 @@ public class Board extends JPanel implements ActionListener{
 			        		}
 			        }
 		        }
-				}*/
+				}}
 
 		}
 		
@@ -2580,7 +2633,8 @@ public class Board extends JPanel implements ActionListener{
 		 */
 		public void check_shot_vs_enemy() {								
 
-			/*if(feuerchen==5){
+			if(elementarmeister==true){
+			if(feuerchen==5){
 			for (int i = 0; i < shots.size(); i++) {
 		        Shot m = (Shot) shots.get(i);
 		        Rectangle r1 = m.getBounds();
@@ -2591,6 +2645,9 @@ public class Board extends JPanel implements ActionListener{
 	        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 		        		int xxx = ((Jay.getX())/BLOCK);																	
 		        		int yyy=(Jay.getY())/BLOCK;	
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2604,9 +2661,11 @@ public class Board extends JPanel implements ActionListener{
 	        		}
 		
 		        }
-			}*/
+			}}
 			
-			/*if(luftchen==5){
+			
+			if(elementarmeister==true){
+			if(luftchen==5){
 				for (int i = 0; i < airshots.size(); i++) {
 			        Airshot m = (Airshot) airshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2617,6 +2676,9 @@ public class Board extends JPanel implements ActionListener{
 		        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 			        		int xxx = ((Jay.getX())/BLOCK);																	
 			        		int yyy=(Jay.getY())/BLOCK;	
+			        		exp = exp+1;
+			        		if(manaleech == true)manapoints = manapoints + 3;
+		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 
 			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 			        				int c =raum.lastIndexOf("@");						
@@ -2630,9 +2692,10 @@ public class Board extends JPanel implements ActionListener{
 		        		}
 			
 			        }
-				}*/
+				}}
 			
-			/*if(erdchen==5){
+			if(elementarmeister==true){
+			if(erdchen==5){
 				for (int i = 0; i < earthshots.size(); i++) {
 			        Earthshot m = (Earthshot) earthshots.get(i);
 			        Rectangle r1 = m.getBounds();
@@ -2643,6 +2706,9 @@ public class Board extends JPanel implements ActionListener{
 		        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 			        		int xxx = ((Jay.getX())/BLOCK);																	
 			        		int yyy=(Jay.getY())/BLOCK;	
+			        		exp = exp + 1;
+			        		if(manaleech == true)manapoints = manapoints + 3;
+		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 
 			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 			        				int c =raum.lastIndexOf("@");						
@@ -2656,33 +2722,23 @@ public class Board extends JPanel implements ActionListener{
 		        		}
 			
 			        }
-				}*/
+				}}
 			
 			if(eischen==5){
 			for (int i = 0; i < iceshots.size(); i++) {
 		        Iceshot m = (Iceshot) iceshots.get(i);
 		        Rectangle r1 = m.getBounds();
-		      //  int u = 0;
+
 		   	      	int xx = (int) ((r1.getX())/BLOCK);																	
 	        		int yy=(int)(r1.getY())/BLOCK;
 	        		
 	        		if (raum.charAt(yy*20+xx)=='*') {										// Ersetzt in der .txt datei enemy mit ' '																							
 		        		int xxx = ((Jay.getX())/BLOCK);																	
 		        		int yyy=(Jay.getY())/BLOCK;
-		        //		u = u + 1;
-		        //	if (u == 2){
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 		        		
-		        	
-		        		
-		        		
-		        		
-		        		 
-		        			
-		        			
-		        		
-		        		//JOptionPane.showMessageDialog(null, "<html><body>LVL UP! Sie bekommen +10 Mana, wenn Sie einen Gegner töten </body></html>");
-		        		manapoints = manapoints + 10;
-
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
 		    					raum=raum.substring(0,c)+' '+raum.substring(c+1);
@@ -2692,58 +2748,11 @@ public class Board extends JPanel implements ActionListener{
 		    					} catch (IOException e1) {
 		    						e1.printStackTrace();
 		    					}
-		    					/*
-		    					 * Hier öffnet sich eine Information, die sagt, dass der Character ein neue Fähigkeit bekommt.
-		    					 * Dies geschiet, wenn er einen Gegner tötet, in diesem Fall mit einem Iceschuss.
-		    					 */
-		    					final JFrame frame = new JFrame("LVL UP");
-		    			       // frame.setLayout(new BorderLayout());
-		    			        frame.setLayout(new BorderLayout());
-		    			     //   frame.setRootPane(new ImageIcon("src/Resources/lvlup.png"));
-		    			  //      frame.setFocusable(false);
-		    			    //    frame.setIcon(new ImageIcon("src/Resources/lvlup.png"));
-		    			        JButton manaleech = new JButton("Manaleech learned");
-		    			        manaleech.setBounds(61, 558, 325, 53);
-		    			        
-		    			        manaleech.addActionListener(new ActionListener() {
-		    			            @Override
-		    			            public void actionPerformed(ActionEvent p) {
-		    			             
-		    			                JPanel fenster = new JPanel();
-		    			                frame.add(fenster);
-		    			                frame.validate();
-		    			            }
-		    			        });
-		    			        
-		    			        frame.add(manaleech, BorderLayout.NORTH);
-		    			        frame.setBounds(200, 200, 200, 200);
-		    			       
-		    			        //frame.setLayout(new BorderLayout());
-		    			        //frame.new frame("/Resources/lvlup.png");
-		    			        //frame.setFocusable(false);
-		    			        //frame.setIcon(new ImageIcon("src/Resources/lvlup.png"));
-		    			        
-		    			        frame.setVisible(true);
-		    			        
-		    			       
-		    			    }
-
-		    			 
-		    					class Fenster extends JPanel {
-		    						/**
-		    						 * 
-		    						 */
-		    						private static final long serialVersionUID = 1L;
-
-		    						public Fenster() {
-		    			       
-		    			    }
-
 	        		}
-		
-		        }
-			}//}
 			}
+			}
+		    			
+		}
 		
 		private void setContentPane(ImageIcon imageIcon) {
 			// TODO Auto-generated method stub
@@ -2759,8 +2768,8 @@ public class Board extends JPanel implements ActionListener{
 			 ArrayList<Earthsword> earthswords = getEarthswords();
 			 ArrayList<Airsword> airswords = getAirswords();
 			
-
-			/*for (int i = 0; i < swords.size(); i++) {
+		if(elementarmeister==true){
+			for (int i = 0; i < swords.size(); i++) {
 		        Sword s = (Sword) swords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2769,7 +2778,10 @@ public class Board extends JPanel implements ActionListener{
 
 	        		if (raum.charAt(yy*20+xx)=='*') {													
 		        		int xxx = ((Jay.getX())/BLOCK);
-		        		int yyy=(Jay.getY())/BLOCK;	
+		        		int yyy=(Jay.getY())/BLOCK;
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2782,7 +2794,7 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}*/
+			}}
 			
 			for (int i = 0; i < iceswords.size(); i++) {
 		        Icesword s = (Icesword) iceswords.get(i);
@@ -2793,7 +2805,10 @@ public class Board extends JPanel implements ActionListener{
 
 	        		if (raum.charAt(yy*20+xx)=='*') {													
 		        		int xxx = ((Jay.getX())/BLOCK);
-		        		int yyy=(Jay.getY())/BLOCK;	
+		        		int yyy=(Jay.getY())/BLOCK;
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
 		        		
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
@@ -2809,7 +2824,9 @@ public class Board extends JPanel implements ActionListener{
 	        		
 			}
 			
-			/*for (int i = 0; i < earthswords.size(); i++) {
+			
+			if(elementarmeister==true){
+			for (int i = 0; i < earthswords.size(); i++) {
 		        Earthsword s = (Earthsword) earthswords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2818,7 +2835,10 @@ public class Board extends JPanel implements ActionListener{
 
 	        		if (raum.charAt(yy*20+xx)=='*') {													
 		        		int xxx = ((Jay.getX())/BLOCK);
-		        		int yyy=(Jay.getY())/BLOCK;	
+		        		int yyy=(Jay.getY())/BLOCK;
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;	
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2831,9 +2851,11 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}*/
+			}}
 			
-			/*for (int i = 0; i < airswords.size(); i++) {
+			
+			if(elementarmeister==true){
+			for (int i = 0; i < airswords.size(); i++) {
 		        Airsword s = (Airsword) airswords.get(i);
 		        Rectangle r1 = s.getBounds();
 	
@@ -2842,7 +2864,10 @@ public class Board extends JPanel implements ActionListener{
 
 	        		if (raum.charAt(yy*20+xx)=='*') {													
 		        		int xxx = ((Jay.getX())/BLOCK);
-		        		int yyy=(Jay.getY())/BLOCK;	
+		        		int yyy=(Jay.getY())/BLOCK;
+		        		exp = exp +1;
+		        		if(manaleech == true)manapoints = manapoints + 3;
+	        			if(lifeleech == true && life >=2.5)life = life + 0.5;	
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2855,7 +2880,7 @@ public class Board extends JPanel implements ActionListener{
 		    					}
 	        		}
 	        		
-			}*/
+			}}
 	}
 		/**
 		 * Ersetzt Manatraenke durch freie Felder
