@@ -274,7 +274,7 @@ public class Board extends JPanel implements ActionListener{
         Diese eine Zeile ist die Methode, die die savedata.txt ausliest
         */
        
-       DataReader.read("src/Resources/savedata.txt");
+       //DataReader.read("src/Resources/savedata.txt");
 
     }
 

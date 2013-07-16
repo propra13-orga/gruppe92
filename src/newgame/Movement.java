@@ -2,15 +2,20 @@ package newgame;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 /**
  * Setzt die Bedingungen fuer die Bewegung fest
  * @author Tobias
  *
  */
-public class Movement {
+public class Movement implements Serializable {
 
-	private Image image;
+	/**
+	 * 
+	 */
+	//private static final long serialVersionUID = 1L;
+	private transient Image image;
 	protected boolean visible;
 	private int width;
 	private int height;
@@ -55,5 +60,5 @@ public class Movement {
 	public Rectangle getBounds() {
 			return new Rectangle(x, y, width, height);
 	    }
-	 
 }
+

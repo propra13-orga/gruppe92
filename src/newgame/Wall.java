@@ -2,6 +2,7 @@ package newgame;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
@@ -10,7 +11,11 @@ import javax.swing.ImageIcon;
  * @author Tobias
  *
  */
-public class Wall extends Movement{
+public class Wall extends Movement implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image image;
 	private int width;
 	private int height;

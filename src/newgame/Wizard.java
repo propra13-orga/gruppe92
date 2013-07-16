@@ -1,6 +1,7 @@
 package newgame;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
@@ -9,8 +10,12 @@ import javax.swing.ImageIcon;
  * @author Tobias
  *
  */
-public class Wizard extends Movement {
+public class Wizard extends Movement implements Serializable {
 
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 private Image image;
 
 	public Wizard(int x, int y){	

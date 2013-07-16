@@ -2,6 +2,7 @@ package newgame;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
@@ -10,18 +11,19 @@ import javax.swing.ImageIcon;
  * @author Tobias
  *
  */
-public class Character extends Movement {
+public class Character extends Movement implements Serializable {
 	
-	Image image;
+	private static final long serialVersionUID = 1L;	
+	static Image image;
     private int width;
     private int height;
     private int x,y;
 
-	ImageIcon u = new ImageIcon("src/Resources/Character.png");			// holt sich die noetigen Grafiken fuer den Charakter
-	ImageIcon dr = new ImageIcon("src/Resources/digright.png");
-	ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
-	ImageIcon du = new ImageIcon("src/Resources/digup.png");
-	ImageIcon db = new ImageIcon("src/Resources/digb.png");
+	static ImageIcon u = new ImageIcon("src/Resources/Character.png");			// holt sich die noetigen Grafiken fuer den Charakter
+	static ImageIcon dr = new ImageIcon("src/Resources/digright.png");
+	static ImageIcon dl = new ImageIcon("src/Resources/digleft.png");
+	static ImageIcon du = new ImageIcon("src/Resources/digup.png");
+	static ImageIcon db = new ImageIcon("src/Resources/digb.png");
 	public Character(int x, int y){
 		super(x,y);
 		image = u.getImage();

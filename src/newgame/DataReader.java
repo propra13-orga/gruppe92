@@ -1,64 +1,32 @@
 package newgame;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
-public class DataReader {
+public class DataReader  {
+    
+    public static void main(String args[]) throws IOException, ClassNotFoundException{
 
-	public static void read(String where) {
-		File save = new File(where);
-		
-		/*
-		 * Hier gibt er eine Fehlermeldung aus, falls etwas nicht stimmt.
-		 * Dies macht er damit das System nicht kompeltt abstürzt.
-		 */
-		
-		if(!save.exists()){
-			System.err.println("Sorry but " + where + "is not found in " + save.getParent());
-		return;
-		}
-		if(!(save.toString().contains("txt"))){
-			System.err.println("Sorry but " + where + "does not have" + "file extenstion of .txt");
-		return;
-		}
-		
-		/*
-		 *Ab hier wird aus der Datei gelesen und zwar sucht er sich den Schlüssel
-		 *aus, der in der Datei (savedata.txt) vor dem = Zeichen steht.
-		 */
-		
-		try{
-		FileReader reader = new FileReader(save);
-		BufferedReader bufr = new BufferedReader(reader);
-		
-		String name = translateKey(bufr.readLine(), "name");
-		String Leben = translateKey(bufr.readLine(), "Leben");
-		String mana = translateKey(bufr.readLine(), "mana");
-		//String cl = translateKey(bufr.readLine(), "class");
-		
-		int actLeben = Integer.parseInt(Leben);
-		int actMana = Integer.parseInt(mana);
-		
-		/*
-		 * Hier werden die Daten die hinter dem = Zeichen stehen
-		 * in der Konsole angezeigt.
-		 */
-		
-		System.out.println("Das ist das " + name + "\n" +
-				"HP: " + actLeben + "\n" + "Mana: " + actMana);
-		
-	} catch (FileNotFoundException e) {
-		System.err.println("Sorry but " + where + "is not found in " + save.getParent());
+FileInputStream ifstream = new FileInputStream("src/Resources/savedata.txt");
+ObjectInputStream iostream = new ObjectInputStream(ifstream);
 
-	} catch (IOException e){
-		System.err.println("An IOException has occured!");
-	}
-		
-}	
-	public static String translateKey(String input, String key){
-		return input.substring(key.length() + 1);
-	}
+Character[] arr =  new Character[2]; //to store the objects
+
+System.out.println("Starting reading!");
+
+for(int i = 0; i < 2; i++) {
+    arr[i] = ((Character) iostream.readObject()); //read in the object
+    System.out.print("The contents of TesterObject " + i + " are: ");
+    System.out.print(arr[i].getImage() + " "); //display the fields 
+    System.out.print(arr[i].getBounds() + " ");
+    //System.out.print(arr[i].getChar());
+    System.out.println();
 }
+
+System.out.println("Done reading!");
+
+iostream.close();
+ifstream.close();
+
+}}
