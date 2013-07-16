@@ -339,7 +339,7 @@ public class Board extends JPanel implements ActionListener{
 		int xx = ((Jay.getX()+movx)/BLOCK);																	 							
 		int yy=(Jay.getY()+movy)/BLOCK;	
 			
-		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='m')&&(raum.charAt(yy*20+xx)!='n')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))
+		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='Y')&&(raum.charAt(yy*20+xx)!='n')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))
 		{																							        							
 			Jay.move(movx,movy);
 			if (raum.charAt(yy*20+xx)=='a'){
@@ -401,7 +401,7 @@ public class Board extends JPanel implements ActionListener{
 		if (raum.charAt(yy*20+xx)=='s'){
 			DialogueShop();
 		}
-		if (raum.charAt(yy*20+xx)=='m'){
+		if (raum.charAt(yy*20+xx)=='Y'){
 			Dialogueschild();
 		}
 		if (raum.charAt(yy*20+xx)=='n'){
@@ -825,7 +825,7 @@ public class Board extends JPanel implements ActionListener{
 				keys.add(key);
 				x = x + BLOCK;
 			}
-			else if(obj == 'm'){
+			else if(obj == 'Y'){
 				schild = new Schild(x,y);
 				Schilders.add(schild);
 				x = x + BLOCK;
