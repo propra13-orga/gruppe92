@@ -8,11 +8,11 @@ import javax.swing.ImageIcon;
  * Setzte das Bild und die Masse des Rätselblock fest
  *
  */
-public class Rätselblock extends Movement {
+public class Raetselblock extends Movement {
 
 private Image image;
 
-  public Rätselblock(int x, int y){	
+  public Raetselblock(int x, int y){	
 		
 		super(x,y);
 
