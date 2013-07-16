@@ -62,7 +62,6 @@ public Faehigkeiten(String Title){
 
 @Override
 public void actionPerformed(ActionEvent e) {
-// TODO Auto-generated method stub
 
 if (e.getSource()==nummer1)																									//schliesst das Fenster auf Druck
 	if(Board.exp >= 5){

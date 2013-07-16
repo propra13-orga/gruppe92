@@ -1,6 +1,10 @@
 package newgame;
 
 import javax.swing.*;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.*;
 
@@ -48,7 +52,7 @@ public class Chat_Server_GUI
 		try
 		{
 			final int PORT = 323;
-			final String HOST = "10.84.23.93";
+			final String HOST = "192.168.0.194";
 			Socket SOCK = new Socket(HOST,PORT);
 			System.out.println("Verbunden mit: " + HOST);
 			
@@ -129,7 +133,7 @@ public class Chat_Server_GUI
 		
 		B_HELP.setBackground(new java.awt.Color(0, 0, 255));
 		B_HELP.setForeground(new java.awt.Color(255, 255, 255));
-		B_HELP.setText("Hilfe");
+		B_HELP.setText("Start");
 		MainWindow.getContentPane().add(B_HELP);
 		B_HELP.setBounds(420, 40, 70, 25);
 		
@@ -251,7 +255,7 @@ public class Chat_Server_GUI
 		B_HELP.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{ACTION_B_HELP();}
+			{ACTION_B_START();}
 		}
 		);
 		
@@ -289,6 +293,21 @@ public class Chat_Server_GUI
 	public static void ACTION_B_HELP()
 	{
 		JOptionPane.showMessageDialog(null, "Diggy's Quest Chatprogramm\nTobias Freymann");
+	}
+	
+	public static void ACTION_B_START()
+	{
+		JFrame game = new JFrame("Diggy's Quest");
+		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		Dimension aufloesung = Toolkit.getDefaultToolkit().getScreenSize();
+	    game.setSize(aufloesung);
+		game.setVisible(true);
+		game.setLocationRelativeTo(null);
+		try {
+			game.add(new Board());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

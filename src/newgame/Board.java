@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -895,7 +896,10 @@ public class Board extends JPanel implements ActionListener{
 	ArrayList<Movement> world = new ArrayList<Movement>();
 	public void buildWorld( Graphics g){
 
+		Graphics2D g2;
 		g.drawImage(img, 0, 0, null);
+		g2 = (Graphics2D)g.create();
+		g2.scale(0.8, 0.8);
 		ArrayList<Movement> world = new ArrayList<Movement>();
 
 		if (raum.contains("b")==true)world.add(check);
@@ -923,65 +927,65 @@ public class Board extends JPanel implements ActionListener{
 		for(int i = 0; i < world.size(); i++){														// Array world durchgehen um objekte zu zeichnen.
 
 			Movement obj = (Movement) world.get(i);
-			g.drawImage(obj.getImage(), obj.getX(), obj.getY(), this);								// g.drawImage fuer die Grafische Zeichnung
+			g2.drawImage(obj.getImage(), obj.getX(), obj.getY(), this);								// g.drawImage fuer die Grafische Zeichnung
 		}
 		
 	       ArrayList<Shot> shots = getShots();														//definiert die verschiedenen Zauber
 	       		for (int j = 0; j < shots.size(); j++){
 	       			Shot m = (Shot) shots.get(j);
-	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			g2.drawImage(m.getImage(), m.getX(), m.getY(), this);
 	       			
                 }
 	       		
 	       	ArrayList<Airshot> airshots = getAirshots();
 	       		for (int j = 0; j < airshots.size(); j++){
 	       			Airshot m = (Airshot) airshots.get(j);
-	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			g2.drawImage(m.getImage(), m.getX(), m.getY(), this);
 	       			
                 }
 	       		
 	       ArrayList<Iceshot> iceshots = getIceshots();
 	       		for (int j = 0; j < iceshots.size(); j++){
 	       			Iceshot m = (Iceshot) iceshots.get(j);
-	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			g2.drawImage(m.getImage(), m.getX(), m.getY(), this);
 	       			
                 }
 	       		
 	       	ArrayList<Earthshot> earthshots = getEarthshots();
 	       		for (int j = 0; j < earthshots.size(); j++){
 	       			Earthshot m = (Earthshot) earthshots.get(j);
-	       			g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+	       			g2.drawImage(m.getImage(), m.getX(), m.getY(), this);
 	       			
                 }
 	       
 	      ArrayList<Sword> swords = getSwords();													// definiert die verschiedenen Schwerter
 	       		for (int i = 0; i < swords.size(); i++){
 	       			Sword s = (Sword) swords.get(i);
-	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+	       			g2.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 	       
 	      ArrayList<Icesword> iceswords = getIceswords();
 	       		for (int i = 0; i < iceswords.size(); i++){
 	       			Icesword s = (Icesword) iceswords.get(i);
-	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+	       			g2.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 	       		
 	     ArrayList<Earthsword> earthswords = getEarthswords();
 	       		for (int i = 0; i < earthswords.size(); i++){
 	       			Earthsword s = (Earthsword) earthswords.get(i);
-	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+	       			g2.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 	       		
 	     ArrayList<Airsword> airswords = getAirswords();
 	       		for (int i = 0; i < airswords.size(); i++){
 	       			Airsword s = (Airsword) airswords.get(i);
-	       			g.drawImage(s.getImage(), s.getX(), s.getY(), this);
+	       			g2.drawImage(s.getImage(), s.getX(), s.getY(), this);
                }
 
 	       			for (int i = 0; i < enemys.size(); i++){										// Gegner soll nur zu sehen sein, wenn er nicht besiegt wurde 
 	       				Enemy e = (Enemy) enemys.get(i);
 	       				if (e.isVisible())
-	       				g.drawImage(e.getImage(), e.getX(), e.getY(), this);
+	       				g2.drawImage(e.getImage(), e.getX(), e.getY(), this);
 
 	       			}
 
@@ -989,14 +993,14 @@ public class Board extends JPanel implements ActionListener{
 
 	       				Wall w = (Wall) walls.get(i);
 	       				if (w.isVisible())
-	       				g.drawImage(w.getImage(), w.getX(), w.getY(), this);
+	       				g2.drawImage(w.getImage(), w.getX(), w.getY(), this);
 	       			}
 
 	       			for (int i = 0; i < coins.size(); i++){											// Muenzen sollen gezeichnet werden bei Tod
 
 	       				Coin c = (Coin) coins.get(i);
 	       				if (c.isVisible())
-	       				g.drawImage(c.getImage(), c.getX(), c.getY(), this);
+	       				g2.drawImage(c.getImage(), c.getX(), c.getY(), this);
 	       			}
 	       			 			
 	}
@@ -1007,6 +1011,9 @@ public class Board extends JPanel implements ActionListener{
 	 */
     public void paint(Graphics g){
 	super.paint(g);
+	Graphics2D g2;
+	g2 = (Graphics2D)g.create();
+	g2.scale(0.8, 0.8);
 	
 	if(ingame){	
 		buildWorld(g);
@@ -1040,132 +1047,132 @@ public class Board extends JPanel implements ActionListener{
 		int countsmoney= ruban + xruban;
 	        String s,p,z;
 
-	        g.setFont(smallfont);															// Geldanzeige
-	        g.setColor(new Color(98,150,255));
+	        g2.setFont(smallfont);															// Geldanzeige
+	        g2.setColor(new Color(98,150,255));
 	        s = "Money: " + (countsmoney);
-	        g.drawString(s,970,130);
-	    	g.drawImage(schatz,970,150,this);												// zeichnet Welt mit Punktestand..
+	        g2.drawString(s,970,130);
+	    	g2.drawImage(schatz,970,150,this);												// zeichnet Welt mit Punktestand..
 		
 	    	z = "EXP: " + exp;
-	    	g.drawString(z, 970, 270);
+	    	g2.drawString(z, 970, 270);
 	    	
 	    	
 			String t;
 			if(manaleech == true){	
 				t = "Du beherrscht Manaentzug";
-				g.drawString(t,970,800);}
+				g2.drawString(t,970,800);}
 			
 			if(lifeleech == true){	
 				t = "Du beherrscht Lebensentzug";
-				g.drawString(t,970,830);}
+				g2.drawString(t,970,830);}
 			
 			if(elementarmeister == true){	
 				t = "Du beherrscht alle Elemente";
-				g.drawString(t,970,860);}
+				g2.drawString(t,970,860);}
 			
 			String m;
 			
 			m = "Mana: " + (manapoints);
-			g.drawString(m,970,240);
+			g2.drawString(m,970,240);
 			
 			if(life > 3){
 				life = 3;
 			}
 			
 			if (schwertchen == 5){    														// zeichnet die Schwerter im Inventar
-	    		g.drawImage(sword,960, 700, this);
+	    		g2.drawImage(sword,960, 700, this);
 	    		p = "Du hast ein Feuerschwert!";
-	    		g.drawString(p,970,580);
+	    		g2.drawString(p,970,580);
 	    		get_sword=true;
 			}
 			if (eisschwertchen == 5){    						
-	    		g.drawImage(icesword,1020, 700, this);
+	    		g2.drawImage(icesword,1020, 700, this);
 	    		p = "Du hast ein Eisschwert!";
-	    		g.drawString(p,970,610);
+	    		g2.drawString(p,970,610);
 	    		get_icesword=true;
 			}
 			if (erdschwertchen == 5){    						
-	    		g.drawImage(earthsword,1080, 700, this);
+	    		g2.drawImage(earthsword,1080, 700, this);
 	    		p = "Du hast ein Erdschwert!";
-	    		g.drawString(p,970,670);
+	    		g2.drawString(p,970,670);
 	    		get_earthsword=true;
 			}
 			if (luftschwertchen == 5){    						
-	    		g.drawImage(airsword,1140, 700, this);
+	    		g2.drawImage(airsword,1140, 700, this);
 	    		p = "Du hast ein Luftschwert!";
-	    		g.drawString(p,970,640);
+	    		g2.drawString(p,970,640);
 	    		get_airsword=true;
 			}
 			if (feuerchen == 5){    														// zeichnet die Zauber im Inventar
-	    		g.drawImage(fireball,960, 500, this);
+	    		g2.drawImage(fireball,960, 500, this);
 	    		p = "Du hast die Macht des Feuers!";
-	    		g.drawString(p,970,400);
+	    		g2.drawString(p,970,400);
 	    		get_fireball=true;
 			}
 			if (eischen == 5){    												
-	    		g.drawImage(iceball,1020, 500, this);
+	    		g2.drawImage(iceball,1020, 500, this);
 	    		p = "Du hast die Macht des Eises!";
-	    		g.drawString(p,970,430);
+	    		g2.drawString(p,970,430);
 	    		get_iceball=true;
 			}
 			if (luftchen == 5){    												
-	    		g.drawImage(airball,1140, 500, this);
+	    		g2.drawImage(airball,1140, 500, this);
 	    		p = "Du hast die Macht der Luft!";
-	    		g.drawString(p,970,460);
+	    		g2.drawString(p,970,460);
 	    		get_airball=true;
 			}
 			if (erdchen == 5){    							
-	    		g.drawImage(earthball,1080, 500, this);
+	    		g2.drawImage(earthball,1080, 500, this);
 	    		p = "Du hast die Macht der Erde!";
-	    		g.drawString(p,970,490);
+	    		g2.drawString(p,970,490);
 	    		get_earthball=true;
 			}
 			
 			if(life==3.0){																	// zeichnet das Leben
-			g.drawImage(herz1,970,30,this);
-			g.drawImage(herz1,1020, 30, this);
-			g.drawImage(herz1,1070, 30, this);
+			g2.drawImage(herz1,970,30,this);
+			g2.drawImage(herz1,1020, 30, this);
+			g2.drawImage(herz1,1070, 30, this);
 			}
 			if(life==2.5){
-				g.drawImage(herz1,970,30,this);
-				g.drawImage(herz1,1020, 30, this);
-				g.drawImage(herz2,1070, 30, this);}
+				g2.drawImage(herz1,970,30,this);
+				g2.drawImage(herz1,1020, 30, this);
+				g2.drawImage(herz2,1070, 30, this);}
 			
 			if(life==2.0){						
-				g.drawImage(herz1,970,30,this);
-				g.drawImage(herz1,1020, 30, this);
+				g2.drawImage(herz1,970,30,this);
+				g2.drawImage(herz1,1020, 30, this);
 			}
 			if(life==1.5){
-				g.drawImage(herz1,970,30,this);
-				g.drawImage(herz2,1020, 30, this);}
+				g2.drawImage(herz1,970,30,this);
+				g2.drawImage(herz2,1020, 30, this);}
 			
 			if(life==1.0){
-				g.drawImage(herz1,970,30,this);
+				g2.drawImage(herz1,970,30,this);
 			}
 			if(life==0.5){
-				g.drawImage(herz2,970,30,this);}
+				g2.drawImage(herz2,970,30,this);}
 			
 		
 			   String mes;
-   		        g.setFont(smallfont);																// Zeihcnet die Manatraenke
-   		        g.setColor(new Color(98,150,255));
+   		        g2.setFont(smallfont);																// Zeihcnet die Manatraenke
+   		        g2.setColor(new Color(98,150,255));
    		        mes = "Manatraenke: " + (magic);
-   		        g.drawString(mes,970,300);
+   		        g2.drawString(mes,970,300);
    		 
 	        	if(mana==true){
 	        		
 	        		if(magic==1){																	
-	        			g.drawImage(trank, 970, 320, this);
+	        			g2.drawImage(trank, 970, 320, this);
 	        		}
 	        		if(magic==2){																
-	        			g.drawImage(trank,970,320,this);
-	        			g.drawImage(trank,1020,320, this);	
+	        			g2.drawImage(trank,970,320,this);
+	        			g2.drawImage(trank,1020,320, this);	
 	        		}
 	        	
 	        		if(magic==3){																	
-	        			g.drawImage(trank,970,320,this);
-	        			g.drawImage(trank,1020, 320, this);
-	        			g.drawImage(trank,1070, 320, this);				  			
+	        			g2.drawImage(trank,970,320,this);
+	        			g2.drawImage(trank,1020, 320, this);
+	        			g2.drawImage(trank,1070, 320, this);				  			
 	        		}
 	        	 
 	        		if (magic > 3){			
@@ -1175,7 +1182,7 @@ public class Board extends JPanel implements ActionListener{
 	}else{
 	}    
     Toolkit.getDefaultToolkit().sync();
-    g.dispose();
+    g2.dispose();
     }
 
 
@@ -2444,7 +2451,7 @@ public class Board extends JPanel implements ActionListener{
 		        		if (boss_leben==0){
 		        			exp = exp + 20;
 		        			if(manaleech == true)manapoints = manapoints + 3;
-		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+		        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 		        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 		        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 		        			loeschen(true);
@@ -2470,7 +2477,7 @@ public class Board extends JPanel implements ActionListener{
 			        		if (boss_leben==0){
 			        			exp = exp + 20;
 			        			if(manaleech == true)manapoints = manapoints + 3;
-			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+			        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2497,7 +2504,7 @@ public class Board extends JPanel implements ActionListener{
 			        		if (boss_leben==0){
 			        			exp = exp + 20;
 			        			if(manaleech == true)manapoints = manapoints + 3;
-			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+			        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2524,7 +2531,7 @@ public class Board extends JPanel implements ActionListener{
 			        		if (boss_leben==0){
 			        			exp = exp +20;
 			        			if(manaleech == true)manapoints = manapoints + 3;
-			        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+			        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 			        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
 			        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
 			        			loeschen(true);
@@ -2647,7 +2654,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;	
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2678,7 +2685,7 @@ public class Board extends JPanel implements ActionListener{
 			        		int yyy=(Jay.getY())/BLOCK;	
 			        		exp = exp+1;
 			        		if(manaleech == true)manapoints = manapoints + 3;
-		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+		        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 
 			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 			        				int c =raum.lastIndexOf("@");						
@@ -2708,7 +2715,7 @@ public class Board extends JPanel implements ActionListener{
 			        		int yyy=(Jay.getY())/BLOCK;	
 			        		exp = exp + 1;
 			        		if(manaleech == true)manapoints = manapoints + 3;
-		        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+		        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 
 			        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 			        				int c =raum.lastIndexOf("@");						
@@ -2737,7 +2744,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 		        		
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2781,7 +2788,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2808,7 +2815,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;
 		        		
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
@@ -2838,7 +2845,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;	
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;	
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
@@ -2867,7 +2874,7 @@ public class Board extends JPanel implements ActionListener{
 		        		int yyy=(Jay.getY())/BLOCK;
 		        		exp = exp +1;
 		        		if(manaleech == true)manapoints = manapoints + 3;
-	        			if(lifeleech == true && life >=2.5)life = life + 0.5;	
+	        			if(lifeleech == true && life <=2.5)life = life + 0.5;	
 
 		        		raum=raum.substring(0,yy*20+xx)+' '+raum.substring(yy*20+xx+1);	
 		        				int c =raum.lastIndexOf("@");						
