@@ -339,7 +339,7 @@ public class Board extends JPanel implements ActionListener{
 		int xx = ((Jay.getX()+movx)/BLOCK);																	 							
 		int yy=(Jay.getY()+movy)/BLOCK;	
 			
-		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))
+		if ((raum.charAt(yy*20+xx)!='#')&&(raum.charAt(yy*20+xx)!='~')&&(raum.charAt(yy*20+xx)!='m')&&(raum.charAt(yy*20+xx)!='n')&&(raum.charAt(yy*20+xx)!='s')&&(xx>=0)||(Jay.getY()<0))
 		{																							        							
 			Jay.move(movx,movy);
 			if (raum.charAt(yy*20+xx)=='a'){
