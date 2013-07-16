@@ -88,7 +88,7 @@ public class Board extends JPanel implements ActionListener{
 	
 	private AudioPlayer backgroundMusic;
 	private checkpoint check;
-	private Rätselweg Weg;
+	private Raetselweg Weg;
 	private Todesfeld Feld;
 	private Ghost Geist;
 	private Boss Monster;
@@ -401,10 +401,10 @@ public class Board extends JPanel implements ActionListener{
 		if (raum.charAt(yy*20+xx)=='s'){
 			DialogueShop();
 		}
-		if (raum.charAt(yy*20+xx)=='Ü'){
+		if (raum.charAt(yy*20+xx)=='m'){
 			Dialogueschild();
 		}
-		if (raum.charAt(yy*20+xx)=='Ä'){
+		if (raum.charAt(yy*20+xx)=='n'){
 			DialogueRätsel();
 		}
 		/**
@@ -692,7 +692,7 @@ public class Board extends JPanel implements ActionListener{
 		Mana shopmana;
 		Heiltrank heiltrank;
 		Schild schild;
-		Rätselblock rätselblock;
+		Raetselblock raetselblock;
 		
 		
 		Swordicon schwert;
@@ -825,14 +825,14 @@ public class Board extends JPanel implements ActionListener{
 				keys.add(key);
 				x = x + BLOCK;
 			}
-			else if(obj == 'Ü'){
+			else if(obj == 'm'){
 				schild = new Schild(x,y);
 				Schilders.add(schild);
 				x = x + BLOCK;
 			}
-			else if(obj == 'Ä'){
-				rätselblock = new Rätselblock(x,y);
-				Rätselblocks.add(rätselblock);
+			else if(obj == 'n'){
+				raetselblock = new Raetselblock(x,y);
+				Rätselblocks.add(raetselblock);
 				x = x + BLOCK;
 			}
 			else if (obj=='a'){
@@ -841,7 +841,7 @@ public class Board extends JPanel implements ActionListener{
 				x=x+BLOCK;
 			}
 			else if(obj == '-'){
-				Weg = new Rätselweg(x,y);
+				Weg = new Raetselweg(x,y);
 				Wegs.add(Weg);
 				x=x+BLOCK;
 			}
@@ -2263,15 +2263,15 @@ public class Board extends JPanel implements ActionListener{
 
 		public void DialogueRätsel(){
 
-			JFrame DialogueRätsel = new DialogueRätsel("Rätsel");
-			DialogueRätsel.setSize(600,300);
-			DialogueRätsel.setLocationRelativeTo(null);
-			DialogueRätsel.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			DialogueRätsel.setVisible(true);
-			DialogueRätsel.setFocusable(true);
-			DialogueRätsel.setLayout(new BorderLayout());     
-			DialogueRätsel.setLayout(null);
-			DialogueRätsel.add(new Dialogue("Rätsel"));
+			JFrame DialogueRaetsel = new DialogueRaetsel("Raetsel");
+			DialogueRaetsel.setSize(600,300);
+			DialogueRaetsel.setLocationRelativeTo(null);
+			DialogueRaetsel.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			DialogueRaetsel.setVisible(true);
+			DialogueRaetsel.setFocusable(true);
+			DialogueRaetsel.setLayout(new BorderLayout());     
+			DialogueRaetsel.setLayout(null);
+			DialogueRaetsel.add(new Dialogue("Rätsel"));
 	    }
 
 		/**

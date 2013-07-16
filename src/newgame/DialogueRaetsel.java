@@ -14,8 +14,12 @@ import java.io.IOException;
  * @author Tobias
  *
  */
-public class DialogueRätsel extends JFrame implements ActionListener{
+public class DialogueRaetsel extends JFrame implements ActionListener{
   
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton weiter;																										//definiert 3 JButtons und 1 JLabel
 	private JButton schliessen;
 	private JLabel text;
@@ -25,7 +29,7 @@ public class DialogueRätsel extends JFrame implements ActionListener{
  * Bedingungen und Positionen der Bestandteile
  * @param Title Legt den Titeltext fest
  */
-public DialogueRätsel(String Title){
+public DialogueRaetsel(String Title){
 	super(Title);
 	
 	text = new JLabel("                      Diggy:'Oh, dort an der Wand steht was!' ");			//legt den Text des Schild fest

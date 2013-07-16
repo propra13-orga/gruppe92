@@ -12,7 +12,7 @@ public class Todesfeld extends Movement {
 
   Image image;
 
-	ImageIcon u = new ImageIcon("src/Resources/wand1.png");			// holt sich die noetigen Grafiken fuer das Todesfeld
+	ImageIcon u = new ImageIcon("src/Resources/grünerboden1.png");			// holt sich die noetigen Grafiken fuer das Todesfeld
 	
 	public Todesfeld(int x, int y){
 		super(x,y);
