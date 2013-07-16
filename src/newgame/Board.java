@@ -88,6 +88,8 @@ public class Board extends JPanel implements ActionListener{
 	
 	private AudioPlayer backgroundMusic;
 	private checkpoint check;
+	private Rätselweg Weg;
+	private Todesfeld Feld;
 	private Ghost Geist;
 	private Boss Monster;
 	private Ball ball;
@@ -160,6 +162,10 @@ public class Board extends JPanel implements ActionListener{
 	java.util.List<Movement> manas = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> Jays = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> herzen = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> Wegs = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> Felds = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> Schilders = new java.util.ArrayList<Movement>();
+	java.util.List<Movement> Rätselblocks = new java.util.ArrayList<Movement>();
 	
 	java.util.List<Movement> schwerter = new java.util.ArrayList<Movement>();
 	java.util.List<Movement> eisschwerter = new java.util.ArrayList<Movement>();
@@ -293,6 +299,9 @@ public class Board extends JPanel implements ActionListener{
 		manas.clear();
 		herzen.clear();
 		shopkeepers.clear();
+		Schilders.clear();
+		Rätselblocks.clear();
+		
 		
 		schwerter.clear();
 		eisschwerter.clear();
@@ -368,6 +377,18 @@ public class Board extends JPanel implements ActionListener{
 			else{
 			}
 	   }
+	   	if (raum.charAt(yy*20+xx)=='_'){
+				failed=true;
+				try {
+				
+					restartLevel(true,Jay.getImage());
+				} catch (IOException e1) {
+				
+					e1.printStackTrace();
+				}
+			}
+			else{
+			}
 		/**
 		 * Startet den Dialog des NPC
 		 */
@@ -379,6 +400,12 @@ public class Board extends JPanel implements ActionListener{
 		 */
 		if (raum.charAt(yy*20+xx)=='s'){
 			DialogueShop();
+		}
+		if (raum.charAt(yy*20+xx)=='Ü'){
+			Dialogueschild();
+		}
+		if (raum.charAt(yy*20+xx)=='Ä'){
+			DialogueRätsel();
 		}
 		/**
 		 * Nimmt bei Kollision das Schwert auf
@@ -664,6 +691,8 @@ public class Board extends JPanel implements ActionListener{
 		Mana mana;
 		Mana shopmana;
 		Heiltrank heiltrank;
+		Schild schild;
+		Rätselblock rätselblock;
 		
 		
 		Swordicon schwert;
@@ -796,9 +825,29 @@ public class Board extends JPanel implements ActionListener{
 				keys.add(key);
 				x = x + BLOCK;
 			}
+			else if(obj == 'Ü'){
+				schild = new Schild(x,y);
+				Schilders.add(schild);
+				x = x + BLOCK;
+			}
+			else if(obj == 'Ä'){
+				rätselblock = new Rätselblock(x,y);
+				Rätselblocks.add(rätselblock);
+				x = x + BLOCK;
+			}
 			else if (obj=='a'){
 				coin=new Coin(x,y);
 				coins.add(coin);
+				x=x+BLOCK;
+			}
+			else if(obj == '-'){
+				Weg = new Rätselweg(x,y);
+				Wegs.add(Weg);
+				x=x+BLOCK;
+			}
+			else if(obj == '_'){
+				Feld = new Todesfeld(x,y);
+				Felds.add(Feld);
 				x=x+BLOCK;
 			}
 			else if(obj == '~'){
@@ -903,6 +952,8 @@ public class Board extends JPanel implements ActionListener{
 		ArrayList<Movement> world = new ArrayList<Movement>();
 
 		if (raum.contains("b")==true)world.add(check);
+		if (raum.contains("-")==true)world.addAll(Wegs);
+		if (raum.contains("_")==true)world.addAll(Felds);
 		if (lr!="l3r6")world.add(Jay);
 		if (raum.contains("k")) world.add(Monster);
 		if (raum.contains("r")) world.add(ball);
@@ -913,6 +964,8 @@ public class Board extends JPanel implements ActionListener{
 		world.addAll(shopkeepers);
 		world.addAll(manas);
 		world.addAll(herzen);
+		world.addAll(Schilders);
+		world.addAll(Rätselblocks);
 		
 		world.addAll(schwerter);
 		world.addAll(eisschwerter);
@@ -1254,7 +1307,7 @@ public class Board extends JPanel implements ActionListener{
 				
 			final JFrame frame = new JFrame("Spiel speichern"); // Hier wird die Frame erstellt
 	        frame.setLayout(new BorderLayout());
-	        JButton save = new JButton("Speichern"); // Ab hier wird der Button an sich angezeigt, drunter kann man die Groe�e veraendern
+	        JButton save = new JButton("Speichern"); // Ab hier wird der Button an sich angezeigt, drunter kann man die Groe�e veraendern
 	        save.setBounds(61, 558, 325, 53);
 	        save.addActionListener(new ActionListener() {
 	            @Override
@@ -1266,7 +1319,7 @@ public class Board extends JPanel implements ActionListener{
 	            }
 	        });
 	        frame.add(save, BorderLayout.NORTH);
-	        frame.setBounds(0, 0, 200, 62);   // Das regelt die Groe�e des Frames
+	        frame.setBounds(0, 0, 200, 62);   // Das regelt die Groe�e des Frames
 	        frame.setVisible(true);
 				}
 				
@@ -1433,7 +1486,7 @@ public class Board extends JPanel implements ActionListener{
 				}
 
 			}
-			else if(key == KeyEvent.VK_C){								// die vielen Bedingungen geben alle M�glichkeiten wieder Zauber im Inventar zu haben
+			else if(key == KeyEvent.VK_C){								// die vielen Bedingungen geben alle M�glichkeiten wieder Zauber im Inventar zu haben
 
 			if(get_fireball==true && get_iceball==false && get_earthball==false && get_airball==false){
 				feuerchen=5;
@@ -1582,7 +1635,7 @@ public class Board extends JPanel implements ActionListener{
 
 			}
 			
-			else if(key == KeyEvent.VK_X){								// die vielen Bedingungen geben alle M�glichkeiten wieder Schwerter im Inventar zu haben
+			else if(key == KeyEvent.VK_X){								// die vielen Bedingungen geben alle M�glichkeiten wieder Schwerter im Inventar zu haben
 
 				if(get_sword==true && get_icesword==false && get_earthsword==false && get_airsword==false){
 					schwertchen=5;
@@ -2194,6 +2247,31 @@ public class Board extends JPanel implements ActionListener{
 			DialogueShop.setLayout(new BorderLayout());     
 			DialogueShop.setLayout(null);
 			DialogueShop.add(new Dialogue("Ladenbesitzer"));
+	    }
+	    public void Dialogueschild(){
+
+			JFrame Dialogueschild = new Dialogueschild("Schild");
+			Dialogueschild.setSize(600,300);
+			Dialogueschild.setLocationRelativeTo(null);
+			Dialogueschild.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			Dialogueschild.setVisible(true);
+			Dialogueschild.setFocusable(true);
+			Dialogueschild.setLayout(new BorderLayout());     
+			Dialogueschild.setLayout(null);
+			Dialogueschild.add(new Dialogue("Schild"));
+	    }
+
+		public void DialogueRätsel(){
+
+			JFrame DialogueRätsel = new DialogueRätsel("Rätsel");
+			DialogueRätsel.setSize(600,300);
+			DialogueRätsel.setLocationRelativeTo(null);
+			DialogueRätsel.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			DialogueRätsel.setVisible(true);
+			DialogueRätsel.setFocusable(true);
+			DialogueRätsel.setLayout(new BorderLayout());     
+			DialogueRätsel.setLayout(null);
+			DialogueRätsel.add(new Dialogue("Rätsel"));
 	    }
 
 		/**
@@ -2939,7 +3017,7 @@ public class Board extends JPanel implements ActionListener{
 	        	}
 		}}
 		/*
-		 * Hier wird ein neuer Frame ge�ffnet mit einem Speicher Button
+		 * Hier wird ein neuer Frame ge�ffnet mit einem Speicher Button
 		 * Man kann das Spiel speichern und dann weiterspielen
 		*/
 		//private class KlickZumSpeichern extends KeyAdapter{
