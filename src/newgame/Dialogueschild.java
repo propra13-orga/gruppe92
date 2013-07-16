@@ -28,7 +28,7 @@ public class Dialogueschild extends JFrame implements ActionListener{
 public Dialogueschild(String Title){
 	super(Title);
 	
-	text = new JLabel("                      !STOP! TODESFELD !STOP! Ein falscher Schritt führt zum Tod ");			//legt den Text des Schild fest
+	text = new JLabel("                      !STOP! TODESFELD !STOP! Ein falscher Schritt fuehrt zum Tod ");			//legt den Text des Schild fest
 	text.setFont(new Font("Serif", Font.PLAIN, 14));																		//Legt Schriftgroesse und Font fest
 	getContentPane().add(text);
 
