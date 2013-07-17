@@ -577,15 +577,15 @@ public class Board extends JPanel implements ActionListener{
 		 * genau Definition
 		 */
 		
-		kollision_ghost_spieler();
+		//kollision_ghost_spieler();
 		
-		if (counter % 150==0){
+		//if (counter % 150==0){
 			
-			Geist.setX(Geist.getX()); // Zusätzlich selbe Kollision, wie mit dem ball vom Boss
-			Geist.setX(Geist.getX());
-			mx=0;my=0;
+			//Geist.setX(Geist.getX()); // Zusätzlich selbe Kollision, wie mit dem ball vom Boss
+			//Geist.setX(Geist.getX());
+			//mx=0;my=0;
 		}
-	}
+	
 		
 		
 		
@@ -648,7 +648,7 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 	
-	private void kollision_ghost_spieler() {
+	/*private void kollision_ghost_spieler() {
 		if ((Math.abs(Jay.getX()-Geist.getX())<50)&&(Math.abs(Jay.getY()-Geist.getY())<50)){
 			if(life==0){
 				
@@ -664,7 +664,7 @@ public class Board extends JPanel implements ActionListener{
 				life=life-1;
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * Definiert die Methode, die den Spielern Leben verlieren laesst
@@ -2155,7 +2155,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
-			check_shot_vs_ghost();
+			//check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2178,7 +2178,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
-			check_shot_vs_ghost();
+			//check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2201,7 +2201,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
-			check_shot_vs_ghost();
+			//check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2224,7 +2224,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
-			check_shot_vs_ghost();
+			//check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2616,7 +2616,7 @@ public class Board extends JPanel implements ActionListener{
 		 * Kollisionsabfrage: Schuss vs Boss
 		 */
 		
-		public void check_shot_vs_ghost() {																
+		/*public void check_shot_vs_ghost() {																
 			ArrayList<Shot> shots = getShots();
 			//ArrayList<Iceshot> iceshots = getIceshots();
 			ArrayList<Airshot> airshots = getAirshots();
@@ -2670,7 +2670,7 @@ public class Board extends JPanel implements ActionListener{
 				        }
 			        }
 					}}
-		}
+		}*/
 		
 		public void check_shot_vs_boss() {																
 			ArrayList<Shot> shots = getShots();
