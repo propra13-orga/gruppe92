@@ -571,7 +571,25 @@ public class Board extends JPanel implements ActionListener{
 			Geist.move(-Geist_speed,0);
 		}
 		
+		/*
+		 * Hier findet die Kollision mit Geist statt und weiter unten ist die
+		 * genau Definition
+		 */
+		
+		kollision_ghost_spieler();
+		
+		if (counter % 150==0){
+			
+			Geist.setX(Geist.getX()); // Zusätzlich selbe Kollision, wie mit dem ball vom Boss
+			Geist.setX(Geist.getX());
+			mx=0;my=0;
+		}
 	}
+		
+		
+		
+		
+	
 	/**
 	 * Fuegt folgende Integer-Variablen hinzu
 	 */
@@ -600,6 +618,8 @@ public class Board extends JPanel implements ActionListener{
 		if (counter % 150==0){
 			ball.setX(Monster.getX());
 			ball.setY(Monster.getY());
+			//Geist.setX(Geist.getX()); // Zusätzlich selbe Kollision, wie mit dem ball vom Boss
+		//	Geist.setX(Geist.getX());
 			mx=0;my=0;
 		}
 	}
@@ -611,6 +631,24 @@ public class Board extends JPanel implements ActionListener{
 	 */
 	private void kollision_ball_spieler() {
 		if ((Math.abs(Jay.getX()-ball.getX())<50)&&(Math.abs(Jay.getY()-ball.getY())<50)){
+			if(life==0){
+				
+				failed=true;
+				try {
+					restartLevel(true,Jay.getImage());
+				} catch (IOException e1) {
+
+					e1.printStackTrace();
+				}
+			}
+			else{
+				life=life-1;
+			}
+		}
+	}
+	
+	private void kollision_ghost_spieler() {
+		if ((Math.abs(Jay.getX()-Geist.getX())<50)&&(Math.abs(Jay.getY()-Geist.getY())<50)){
 			if(life==0){
 				
 				failed=true;
@@ -920,6 +958,7 @@ public class Board extends JPanel implements ActionListener{
 			}
 			else if(obj == 'w'){
 				Geist = new Ghost(x,y);
+				ghost_leben=1;  // Gibt die Leben des Geistes an, nachher bei der Kollision von Schuss mit Geist, werden diese abgezogen
 				x=x+BLOCK;
 			}
 			else if(obj == 'r'){																	
@@ -2115,6 +2154,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
+			check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2137,6 +2177,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
+			check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2159,6 +2200,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
+			check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2181,6 +2223,7 @@ public class Board extends JPanel implements ActionListener{
     	 	check_shot_vs_wall();															// Kollisionabfrage mit Schuss
 			check_shot_vs_enemy();
 			check_shot_vs_coin();
+			check_shot_vs_ghost();
 			if (raum.contains("k")){
 				check_shot_vs_boss();
 			}
@@ -2566,10 +2609,69 @@ public class Board extends JPanel implements ActionListener{
 
 		
 		private int boss_leben;
+		private int ghost_leben;  //Ghost Kollision
 		
 		/**
 		 * Kollisionsabfrage: Schuss vs Boss
 		 */
+		
+		public void check_shot_vs_ghost() {																
+			ArrayList<Shot> shots = getShots();
+			//ArrayList<Iceshot> iceshots = getIceshots();
+			ArrayList<Airshot> airshots = getAirshots();
+			//ArrayList<Earthshot> earthshots = getEarthshots();
+
+			if(feuerchen==5){
+		    for (int i = 0; i < shots.size(); i++) {
+		        Shot m = (Shot) shots.get(i);
+		        Rectangle r1 = m.getBounds();
+		        
+		        if ((Math.abs(r1.x-Geist.getX())<50)&&(Math.abs(r1.y-Geist.getY())<50)) {													 		
+		        	ghost_leben=ghost_leben-1;
+		        		if (ghost_leben==0){
+		        			exp = exp + 5;
+		        			if(manaleech == true)manapoints = manapoints + 3;
+		        			if(lifeleech == true && life <=2.5)life = life + 0.5;
+		        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+		        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+		        			loeschen(true);
+		        			try {
+		        				initWorld(Jay.getImage());
+		        			} catch (IOException e1) {
+
+		        				e1.printStackTrace();
+		        			}
+		        		}
+		        }
+		    }
+			}	
+			if(elementarmeister==true){
+				if(luftchen==5){
+				    for (int i = 0; i < airshots.size(); i++) {
+				        Airshot m = (Airshot) airshots.get(i);
+				        Rectangle r1 = m.getBounds();
+				        
+				        if ((Math.abs(r1.x-Geist.getX())<50)&&(Math.abs(r1.y-Geist.getY())<50)) {													 		
+				        	ghost_leben=ghost_leben-1;
+				        		if (ghost_leben==0){
+				        			exp = exp + 20;
+				        			if(manaleech == true)manapoints = manapoints + 3;
+				        			if(lifeleech == true && life <=2.5)life = life + 0.5;
+				        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+				        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+				        			loeschen(true);
+				        			try {
+				        				initWorld(Jay.getImage());
+				        			} catch (IOException e1) {
+
+				        				e1.printStackTrace();
+				        			}
+				        		}
+				        }
+			        }
+					}}
+		}
+		
 		public void check_shot_vs_boss() {																
 			ArrayList<Shot> shots = getShots();
 			ArrayList<Iceshot> iceshots = getIceshots();
