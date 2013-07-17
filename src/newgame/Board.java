@@ -679,8 +679,8 @@ public class Board extends JPanel implements ActionListener{
 	 */
 	public final void initWorld(Image image) throws IOException{
 
-		//ImageIcon ii= new ImageIcon ("src/Resources/back"+lr.charAt(1)+".png");
-		//img=ii.getImage();		//Image importieren.	
+		ImageIcon ii= new ImageIcon ("src/Resources/back"+lr.charAt(1)+".png");
+		img=ii.getImage();		//Image importieren.	
 		setBackground(Color.BLACK);
 		if (raum=="") raum=raumeinlesen();
 		int x = 0;
