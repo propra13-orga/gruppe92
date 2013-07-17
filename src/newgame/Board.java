@@ -15,9 +15,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -1303,6 +1306,60 @@ public class Board extends JPanel implements ActionListener{
 			 */
 
 			if(key == KeyEvent.VK_F1){
+				/*
+				
+		        FileOutputStream fos = null;
+				try {
+					fos = new FileOutputStream("src/Resources/savedata.txt");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        ObjectOutputStream oos = null;
+				try {
+					oos = new ObjectOutputStream(fos);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        
+		        Character one = new Character(1, '1'); // Die Elemente, die auf den constructor in Character zugreiffen
+		        Character two = new Character(2, '2');
+		       // Character three = new Character(3, '3');
+		        
+		        System.out.println("Speichern startet"); 
+		        
+		        try {
+					oos.writeObject(one);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} //Hier werde die Objekte gespeichert
+		        try {
+					oos.writeObject(two);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    
+		        
+		        System.out.println("Speichern beendet"); 
+		        
+		        
+		        
+		        try {
+					oos.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        try {
+					fos.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+		        */
 			
 				
 			final JFrame frame = new JFrame("Spiel speichern"); // Hier wird die Frame erstellt
