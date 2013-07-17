@@ -85,11 +85,11 @@ public class Board extends JPanel implements ActionListener{
 	
 	public static int exp;
 	
-	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball;
+	boolean ingame,mana,failed,get_sword,get_icesword,get_earthsword,get_airsword,get_fireball,get_iceball, get_airball, get_earthball, test;
 	
 	public static boolean elementarmeister, manaleech, lifeleech;
 	
-	private AudioPlayer backgroundMusic;
+	//private AudioPlayer backgroundMusic;
 	private checkpoint check;
 	private Raetselweg Weg;
 	private Todesfeld Feld;
@@ -247,6 +247,7 @@ public class Board extends JPanel implements ActionListener{
 		elementarmeister = false;
 		manaleech = false;
 		lifeleech = false;
+		test = false;
 		
 		schwertchen = 0;
 		eisschwertchen = 0;
@@ -276,8 +277,8 @@ public class Board extends JPanel implements ActionListener{
          * Leveln
          */
         
-       backgroundMusic = new AudioPlayer("/Resources/BGMusic.mp3");
-       backgroundMusic.play();
+       //backgroundMusic = new AudioPlayer("/Resources/BGMusic.mp3");
+       //backgroundMusic.play();
        
        /*
         Diese eine Zeile ist die Methode, die die savedata.txt ausliest
@@ -1117,7 +1118,7 @@ public class Board extends JPanel implements ActionListener{
 			else Monster_speed=1;
 			movemonster();
 		}
-		if (raum.contains("w")){
+		if (raum.contains("w")&&(test==false)){
 			if (lr=="l1r1") Geist_speed=1;
 			else Geist_speed=1;
 			movegeist();
@@ -2627,20 +2628,19 @@ public class Board extends JPanel implements ActionListener{
 		        Rectangle r1 = m.getBounds();
 		        
 		        if ((Math.abs(r1.x-Geist.getX())<50)&&(Math.abs(r1.y-Geist.getY())<50)) {													 		
+		        	world.remove(Geist);
 		        	ghost_leben=ghost_leben-1;
 		        		if (ghost_leben==0){
-		        			exp = exp + 5;
-		        			if(manaleech == true)manapoints = manapoints + 3;
-		        			if(lifeleech == true && life <=2.5)life = life + 0.5;
-		        			if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
-		        			else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
-		        			loeschen(true);
-		        			try {
-		        				initWorld(Jay.getImage());
-		        			} catch (IOException e1) {
-
-		        				e1.printStackTrace();
-		        			}
+		        			
+		        			//exp = exp + 5;
+		        			//if(manaleech == true)manapoints = manapoints + 3;
+		        			//if(lifeleech == true && life <=2.5)life = life + 0.5;
+		        			//if (lr.charAt(3)=='5')lr=lr.substring(0,3)+'6';
+		        			//else if (lr.charAt(3)=='4')lr=lr.substring(0, 3)+'5';
+		        			test = true;
+		        			world.remove(Geist);
+		        			
+		        			
 		        		}
 		        }
 		    }
