@@ -73,11 +73,13 @@ starten.addActionListener(this);														// fuegt Aktion dem Buttonklick hi
 multiplayer = new JButton("Mehrspieler");
 multiplayer.setBounds(170, 190, 150, 80);
 multiplayer.setFocusPainted(false);
+multiplayer.setIcon(new ImageIcon("src/Resources/Start Screen multi.png"));
 multiplayer.addActionListener(this);
 
 load = new JButton("Laden");
 load.setBounds(170, 380, 150, 80);
 load.setFocusPainted(false);
+load.setIcon(new ImageIcon("src/Resources/Start Screen load.png"));
 load.addActionListener(this);
 
 
