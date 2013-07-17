@@ -2,7 +2,7 @@ package newgame;
 import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import newgame.SaveObject;
 import javax.swing.*; //JButton, JFrame..
 
 import java.awt.*;

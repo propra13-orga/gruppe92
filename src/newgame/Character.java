@@ -9,12 +9,13 @@ import javax.swing.ImageIcon;
 /**
  * Setzte das Bild und die Masse des Charakters fest
  * @author Tobias
+ * Die Klasse muss "Serializable" implementieren, damit sie speicherbar wird
  *
  */
 public class Character extends Movement implements Serializable {
 	
-	private static final long serialVersionUID = 1L;	
-	static Image image;
+	private static final long serialVersionUID = 1L; // weist der Character eine ID zu damit er geladen werden kann
+	static Image image; // Bilder sind static, damit sie nicht neu geladen werden müssen
     private int width;
     private int height;
     private int x,y;
